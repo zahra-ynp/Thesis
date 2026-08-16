@@ -1,0 +1,8 @@
+CREATE SCHEMA core;
+GO
+
+CREATE SCHEMA analytics;
+GO
+
+CREATE SCHEMA auth;
+GO

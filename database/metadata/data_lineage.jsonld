@@ -1,0 +1,471 @@
+{
+  "@context": {
+    "schema": "https://schema.org/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "dcat": "http://www.w3.org/ns/dcat#"
+  },
+  "@type": "prov:Bundle",
+  "schema:name": "Macroeconomic Sentiment and Inflation Database — Data Lineage",
+  "schema:version": "2.0",
+  "schema:dateCreated": "2026-07-28",
+  "schema:creator": {
+    "@type": "schema:Person",
+    "schema:name": "Zahra Younes Pour Langaroudi"
+  },
+  "dataSources": [
+    {
+      "@id": "source:kaggle-finsen",
+      "@type": "prov:Entity",
+      "schema:name": "Kaggle FinSen Dataset",
+      "schema:url": "https://www.kaggle.com/datasets/eaglewhl/finsen-financial-sentiment-dataset",
+      "dcat:mediaType": "text/csv"
+    },
+    {
+      "@id": "source:huggingface-multisource",
+      "@type": "prov:Entity",
+      "schema:name": "HuggingFace Financial News Multisource",
+      "schema:url": "https://huggingface.co/datasets/Brianferrell787/financial-news-multisource",
+      "dcat:mediaType": "application/vnd.apache.parquet"
+    },
+    {
+      "@id": "source:fred-api",
+      "@type": "prov:Entity",
+      "schema:name": "FRED API",
+      "schema:url": "https://api.stlouisfed.org/fred/series/observations",
+      "dcat:mediaType": "application/json"
+    },
+    {
+      "@id": "source:eurostat-api",
+      "@type": "prov:Entity",
+      "schema:name": "Eurostat SDMX API",
+      "schema:url": "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/",
+      "dcat:mediaType": "application/json"
+    },
+    {
+      "@id": "source:finbert-model",
+      "@type": "prov:SoftwareAgent",
+      "schema:name": "FinBERT (ProsusAI/finbert)",
+      "schema:url": "https://huggingface.co/ProsusAI/finbert"
+    }
+  ],
+  "intermediateArtifacts": [
+    {
+      "@id": "artifact:raw-news-csv",
+      "@type": "prov:Entity",
+      "schema:name": "FinSen_US_Categorized_Timestamp.csv",
+      "filePath": "data/raw/news/FinSen_US_Categorized_Timestamp.csv",
+      "prov:wasDerivedFrom": {
+        "@id": "source:kaggle-finsen"
+      }
+    },
+    {
+      "@id": "artifact:finbert-scores-csv",
+      "@type": "prov:Entity",
+      "schema:name": "finbert_article_scores.csv",
+      "filePath": "data/processed/finbert_article_scores.csv",
+      "prov:wasDerivedFrom": {
+        "@id": "artifact:raw-news-csv"
+      },
+      "prov:wasGeneratedBy": {
+        "@id": "activity:finbert-inference"
+      }
+    }
+  ],
+  "databaseTargets": [
+    {
+      "@id": "target:source-regions",
+      "@type": "prov:Entity",
+      "schema:name": "core.source_regions",
+      "prov:wasGeneratedBy": {
+        "@id": "activity:create-schema"
+      }
+    },
+    {
+      "@id": "target:source-agencies",
+      "@type": "prov:Entity",
+      "schema:name": "core.source_agencies",
+      "prov:wasDerivedFrom": {
+        "@id": "target:source-regions"
+      }
+    },
+    {
+      "@id": "target:indicators",
+      "@type": "prov:Entity",
+      "schema:name": "core.indicators",
+      "prov:wasGeneratedBy": {
+        "@id": "activity:create-schema"
+      }
+    },
+    {
+      "@id": "target:daily-news",
+      "@type": "prov:Entity",
+      "schema:name": "core.daily_news",
+      "prov:wasDerivedFrom": [
+        {
+          "@id": "artifact:finbert-scores-csv"
+        },
+        {
+          "@id": "target:source-regions"
+        }
+      ]
+    },
+    {
+      "@id": "target:monthly-macro",
+      "@type": "prov:Entity",
+      "schema:name": "core.monthly_macro_indicators",
+      "prov:wasDerivedFrom": [
+        {
+          "@id": "source:fred-api"
+        },
+        {
+          "@id": "source:eurostat-api"
+        },
+        {
+          "@id": "target:source-agencies"
+        },
+        {
+          "@id": "target:indicators"
+        }
+      ]
+    },
+    {
+      "@id": "target:assets",
+      "@type": "prov:Entity",
+      "schema:name": "core.assets",
+      "prov:wasDerivedFrom": [
+        {
+          "@id": "target:source-regions"
+        },
+        {
+          "@id": "target:auth-companies"
+        }
+      ]
+    },
+    {
+      "@id": "target:auth-roles",
+      "@type": "prov:Entity",
+      "schema:name": "auth.roles",
+      "prov:wasGeneratedBy": {
+        "@id": "activity:create-auth"
+      }
+    },
+    {
+      "@id": "target:auth-users",
+      "@type": "prov:Entity",
+      "schema:name": "auth.users",
+      "prov:wasGeneratedBy": {
+        "@id": "activity:create-auth"
+      }
+    },
+    {
+      "@id": "target:auth-companies",
+      "@type": "prov:Entity",
+      "schema:name": "auth.companies",
+      "prov:wasGeneratedBy": {
+        "@id": "activity:create-auth"
+      }
+    },
+    {
+      "@id": "target:auth-user-access",
+      "@type": "prov:Entity",
+      "schema:name": "auth.user_access",
+      "prov:wasDerivedFrom": [
+        {
+          "@id": "target:auth-users"
+        },
+        {
+          "@id": "target:auth-roles"
+        },
+        {
+          "@id": "target:auth-companies"
+        },
+        {
+          "@id": "target:source-regions"
+        }
+      ]
+    },
+    {
+      "@id": "target:analytics-monthly-view",
+      "@type": "prov:Entity",
+      "schema:name": "analytics.Monthly_View",
+      "prov:wasDerivedFrom": [
+        {
+          "@id": "target:daily-news"
+        },
+        {
+          "@id": "target:monthly-macro"
+        }
+      ]
+    },
+    {
+      "@id": "target:analytics-region-wide-view",
+      "@type": "prov:Entity",
+      "schema:name": "analytics.Monthly_Region_Wide_View",
+      "prov:wasDerivedFrom": [
+        {
+          "@id": "target:daily-news"
+        },
+        {
+          "@id": "target:monthly-macro"
+        }
+      ]
+    },
+    {
+      "@id": "target:auth-vw-user-permissions",
+      "@type": "prov:Entity",
+      "schema:name": "auth.vw_user_permissions",
+      "prov:wasDerivedFrom": {
+        "@id": "target:auth-user-access"
+      }
+    },
+    {
+      "@id": "target:auth-vw-user-access-summary",
+      "@type": "prov:Entity",
+      "schema:name": "auth.vw_user_access_summary",
+      "prov:wasDerivedFrom": {
+        "@id": "target:auth-user-access"
+      }
+    },
+    {
+      "@id": "target:auth-vw-user-login",
+      "@type": "prov:Entity",
+      "schema:name": "auth.vw_user_login",
+      "prov:wasDerivedFrom": {
+        "@id": "target:auth-users"
+      }
+    }
+  ],
+  "activities": [
+    {
+      "@id": "activity:data-download",
+      "@type": "prov:Activity",
+      "schema:name": "Raw Data Acquisition",
+      "prov:used": [
+        {
+          "@id": "source:kaggle-finsen"
+        },
+        {
+          "@id": "source:huggingface-multisource"
+        }
+      ],
+      "prov:generated": {
+        "@id": "artifact:raw-news-csv"
+      },
+      "executionMethod": "Manual download"
+    },
+    {
+      "@id": "activity:finbert-inference",
+      "@type": "prov:Activity",
+      "schema:name": "FinBERT Sentiment Scoring",
+      "prov:used": [
+        {
+          "@id": "artifact:raw-news-csv"
+        },
+        {
+          "@id": "source:finbert-model"
+        }
+      ],
+      "prov:generated": {
+        "@id": "artifact:finbert-scores-csv"
+      },
+      "executionMethod": "scripts/data_prep.ipynb"
+    },
+    {
+      "@id": "activity:create-schema",
+      "@type": "prov:Activity",
+      "schema:name": "Create Schemas and Reference Tables",
+      "prov:generated": [
+        {
+          "@id": "target:source-regions"
+        },
+        {
+          "@id": "target:source-agencies"
+        },
+        {
+          "@id": "target:indicators"
+        }
+      ],
+      "executionMethod": "scripts/01_create_schemas.sql → 02a → 02b"
+    },
+    {
+      "@id": "activity:load-news-to-db",
+      "@type": "prov:Activity",
+      "schema:name": "Load News into Database",
+      "prov:used": {
+        "@id": "artifact:finbert-scores-csv"
+      },
+      "prov:generated": {
+        "@id": "target:daily-news"
+      },
+      "executionMethod": "scripts/data_prep.ipynb"
+    },
+    {
+      "@id": "activity:load-macro-to-db",
+      "@type": "prov:Activity",
+      "schema:name": "Load Macro Indicators into Database",
+      "prov:used": [
+        {
+          "@id": "source:fred-api"
+        },
+        {
+          "@id": "source:eurostat-api"
+        }
+      ],
+      "prov:generated": {
+        "@id": "target:monthly-macro"
+      },
+      "executionMethod": "scripts/data_prep.ipynb"
+    },
+    {
+      "@id": "activity:create-analytics-views",
+      "@type": "prov:Activity",
+      "schema:name": "Create Analytics Views",
+      "prov:used": [
+        {
+          "@id": "target:daily-news"
+        },
+        {
+          "@id": "target:monthly-macro"
+        }
+      ],
+      "prov:generated": [
+        {
+          "@id": "target:analytics-monthly-view"
+        },
+        {
+          "@id": "target:analytics-region-wide-view"
+        }
+      ],
+      "executionMethod": "scripts/03_create_analytics_view.sql, 03b_create_monthly_region_wide_view.sql"
+    },
+    {
+      "@id": "activity:create-auth",
+      "@type": "prov:Activity",
+      "schema:name": "Create Auth Layer",
+      "prov:generated": [
+        {
+          "@id": "target:auth-roles"
+        },
+        {
+          "@id": "target:auth-users"
+        },
+        {
+          "@id": "target:auth-companies"
+        },
+        {
+          "@id": "target:auth-user-access"
+        }
+      ],
+      "executionMethod": "scripts/04_create_auth_tables.sql, 05_create_access_views.sql"
+    },
+    {
+      "@id": "activity:create-assets",
+      "@type": "prov:Activity",
+      "schema:name": "Create Assets Table",
+      "prov:used": [
+        {
+          "@id": "target:source-regions"
+        },
+        {
+          "@id": "target:auth-companies"
+        }
+      ],
+      "prov:generated": {
+        "@id": "target:assets"
+      },
+      "executionMethod": "scripts/06_create_assets_table.sql"
+    }
+  ],
+  "lineageSummary": {
+    "pipeline": [
+      {
+        "stage": 1,
+        "name": "Acquisition",
+        "inputs": [
+          "Kaggle FinSen CSV",
+          "HuggingFace Parquet",
+          "FRED API",
+          "Eurostat SDMX API"
+        ],
+        "outputs": [
+          "data/raw/news/FinSen_US_Categorized_Timestamp.csv",
+          "In-memory DataFrames"
+        ]
+      },
+      {
+        "stage": 2,
+        "name": "NLP Transformation",
+        "inputs": [
+          "Raw news CSV",
+          "FinBERT model"
+        ],
+        "outputs": [
+          "data/processed/finbert_article_scores.csv"
+        ]
+      },
+      {
+        "stage": 3,
+        "name": "Schema & Reference Data",
+        "inputs": [
+          "SQL DDL scripts"
+        ],
+        "outputs": [
+          "core.source_regions",
+          "core.source_agencies",
+          "core.indicators"
+        ]
+      },
+      {
+        "stage": 4,
+        "name": "ETL Loading",
+        "inputs": [
+          "finbert_article_scores.csv",
+          "FRED DataFrames",
+          "Eurostat DataFrames"
+        ],
+        "outputs": [
+          "core.daily_news",
+          "core.monthly_macro_indicators"
+        ]
+      },
+      {
+        "stage": 5,
+        "name": "Analytics Views",
+        "inputs": [
+          "core.daily_news",
+          "core.monthly_macro_indicators"
+        ],
+        "outputs": [
+          "analytics.Monthly_View",
+          "analytics.Monthly_Region_Wide_View"
+        ]
+      },
+      {
+        "stage": 6,
+        "name": "Auth & Access Control",
+        "inputs": [
+          "SQL DDL scripts"
+        ],
+        "outputs": [
+          "auth.roles",
+          "auth.users",
+          "auth.companies",
+          "auth.user_access",
+          "auth views"
+        ]
+      },
+      {
+        "stage": 7,
+        "name": "Assets",
+        "inputs": [
+          "core.source_regions",
+          "auth.companies",
+          "SQL DDL scripts"
+        ],
+        "outputs": [
+          "core.assets"
+        ]
+      }
+    ]
+  }
+}

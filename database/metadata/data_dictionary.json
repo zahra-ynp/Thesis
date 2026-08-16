@@ -1,0 +1,568 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Macroeconomic Sentiment and Inflation Database — Data Dictionary",
+  "version": "2.0",
+  "lastUpdated": "2026-07-27",
+  "author": "Zahra Younes Pour Langaroudi",
+  "databaseName": "MacroSentimentDB",
+  "databaseEngine": "Microsoft SQL Server",
+  "schemas": [
+    {
+      "schemaName": "core",
+      "description": "Normalized source data: regions, agencies, indicators, news, macro observations, and assets."
+    },
+    {
+      "schemaName": "analytics",
+      "description": "Derived views that aggregate core tables for analysis."
+    },
+    {
+      "schemaName": "auth",
+      "description": "Authentication and role-based access control: users, roles, companies."
+    }
+  ],
+  "tables": [
+    {
+      "objectType": "TABLE",
+      "schema": "core",
+      "name": "source_regions",
+      "description": "Reference table of geographic regions used across news, agencies, assets, and access control.",
+      "primaryKey": "region_id",
+      "columns": [
+        {
+          "name": "region_id",
+          "sqlType": "INT IDENTITY(1,1)",
+          "nullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "region_code",
+          "sqlType": "VARCHAR(10)",
+          "nullable": false,
+          "constraint": "UNIQUE"
+        },
+        {
+          "name": "region_name",
+          "sqlType": "VARCHAR(100)",
+          "nullable": false
+        },
+        {
+          "name": "region_type",
+          "sqlType": "VARCHAR(20)",
+          "nullable": false,
+          "constraint": "CHECK IN ('country','continent')"
+        },
+        {
+          "name": "created_at",
+          "sqlType": "DATE",
+          "nullable": false,
+          "default": "GETDATE()"
+        }
+      ]
+    },
+    {
+      "objectType": "TABLE",
+      "schema": "core",
+      "name": "source_agencies",
+      "description": "Data-provider agencies (FRED, Eurostat), each linked to a region.",
+      "primaryKey": "agency_id",
+      "foreignKeys": [
+        "region_id → core.source_regions"
+      ],
+      "columns": [
+        {
+          "name": "agency_id",
+          "sqlType": "INT IDENTITY(1,1)",
+          "nullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "agency_code",
+          "sqlType": "VARCHAR(50)",
+          "nullable": false,
+          "constraint": "UNIQUE"
+        },
+        {
+          "name": "agency_name",
+          "sqlType": "VARCHAR(200)",
+          "nullable": false
+        },
+        {
+          "name": "region_id",
+          "sqlType": "INT",
+          "nullable": false,
+          "foreignKey": "core.source_regions.region_id"
+        }
+      ]
+    },
+    {
+      "objectType": "TABLE",
+      "schema": "core",
+      "name": "indicators",
+      "description": "Lookup table of macroeconomic indicator definitions (CPI, UNRATE, FEDFUNDS, INDPRO).",
+      "primaryKey": "indicator_id",
+      "columns": [
+        {
+          "name": "indicator_id",
+          "sqlType": "INT IDENTITY(1,1)",
+          "nullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "indicator_code",
+          "sqlType": "VARCHAR(100)",
+          "nullable": false,
+          "constraint": "UNIQUE"
+        },
+        {
+          "name": "indicator_name",
+          "sqlType": "VARCHAR(200)",
+          "nullable": false
+        },
+        {
+          "name": "unit",
+          "sqlType": "VARCHAR(50)",
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "objectType": "TABLE",
+      "schema": "core",
+      "name": "daily_news",
+      "description": "FinBERT-scored financial news articles, one row per article.",
+      "primaryKey": "article_id",
+      "foreignKeys": [
+        "region_id → core.source_regions"
+      ],
+      "columns": [
+        {
+          "name": "article_id",
+          "sqlType": "INT IDENTITY(1,1)",
+          "nullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "news_date",
+          "sqlType": "DATE",
+          "nullable": false
+        },
+        {
+          "name": "title",
+          "sqlType": "VARCHAR(500)",
+          "nullable": true
+        },
+        {
+          "name": "source_name",
+          "sqlType": "VARCHAR(100)",
+          "nullable": true
+        },
+        {
+          "name": "region_id",
+          "sqlType": "INT",
+          "nullable": true,
+          "foreignKey": "core.source_regions.region_id"
+        },
+        {
+          "name": "sentiment_score",
+          "sqlType": "FLOAT",
+          "nullable": true
+        },
+        {
+          "name": "sentiment_label",
+          "sqlType": "VARCHAR(50)",
+          "nullable": true
+        },
+        {
+          "name": "lake_pointer_url",
+          "sqlType": "VARCHAR(500)",
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "objectType": "TABLE",
+      "schema": "core",
+      "name": "monthly_macro_indicators",
+      "description": "Monthly macroeconomic observations, one row per agency + indicator + month.",
+      "primaryKey": "record_id",
+      "foreignKeys": [
+        "agency_id → core.source_agencies",
+        "indicator_id → core.indicators"
+      ],
+      "uniqueConstraint": [
+        "month_date",
+        "agency_id",
+        "indicator_id"
+      ],
+      "columns": [
+        {
+          "name": "record_id",
+          "sqlType": "INT IDENTITY(1,1)",
+          "nullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "month_date",
+          "sqlType": "DATE",
+          "nullable": false
+        },
+        {
+          "name": "agency_id",
+          "sqlType": "INT",
+          "nullable": false,
+          "foreignKey": "core.source_agencies.agency_id"
+        },
+        {
+          "name": "indicator_id",
+          "sqlType": "INT",
+          "nullable": false,
+          "foreignKey": "core.indicators.indicator_id"
+        },
+        {
+          "name": "indicator_value",
+          "sqlType": "FLOAT",
+          "nullable": true
+        }
+      ]
+    },
+    {
+      "objectType": "TABLE",
+      "schema": "core",
+      "name": "assets",
+      "description": "Company asset holdings with market value, region, and date.",
+      "primaryKey": "asset_id",
+      "foreignKeys": [
+        "region_id → core.source_regions",
+        "company_id → auth.companies"
+      ],
+      "columns": [
+        {
+          "name": "asset_id",
+          "sqlType": "INT IDENTITY(1,1)",
+          "nullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "asset_name",
+          "sqlType": "VARCHAR(200)",
+          "nullable": false
+        },
+        {
+          "name": "asset_class",
+          "sqlType": "VARCHAR(100)",
+          "nullable": false
+        },
+        {
+          "name": "region_id",
+          "sqlType": "INT",
+          "nullable": true,
+          "foreignKey": "core.source_regions.region_id"
+        },
+        {
+          "name": "company_id",
+          "sqlType": "INT",
+          "nullable": true,
+          "foreignKey": "auth.companies.company_id"
+        },
+        {
+          "name": "market_value",
+          "sqlType": "DECIMAL(18,2)",
+          "nullable": true
+        },
+        {
+          "name": "currency_code",
+          "sqlType": "CHAR(3)",
+          "nullable": true
+        },
+        {
+          "name": "as_of_date",
+          "sqlType": "DATE",
+          "nullable": false
+        },
+        {
+          "name": "notes",
+          "sqlType": "VARCHAR(500)",
+          "nullable": true
+        },
+        {
+          "name": "created_at",
+          "sqlType": "DATETIME2",
+          "nullable": false,
+          "default": "SYSUTCDATETIME()"
+        }
+      ]
+    },
+    {
+      "objectType": "TABLE",
+      "schema": "auth",
+      "name": "roles",
+      "description": "Application roles: admin, general, company.",
+      "primaryKey": "role_id",
+      "columns": [
+        {
+          "name": "role_id",
+          "sqlType": "INT IDENTITY(1,1)",
+          "nullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "role_name",
+          "sqlType": "VARCHAR(50)",
+          "nullable": false,
+          "constraint": "UNIQUE"
+        },
+        {
+          "name": "description",
+          "sqlType": "VARCHAR(255)",
+          "nullable": true
+        },
+        {
+          "name": "created_at",
+          "sqlType": "DATE",
+          "nullable": false,
+          "default": "GETDATE()"
+        }
+      ]
+    },
+    {
+      "objectType": "TABLE",
+      "schema": "auth",
+      "name": "users",
+      "description": "Registered application users with hashed credentials.",
+      "primaryKey": "user_id",
+      "columns": [
+        {
+          "name": "user_id",
+          "sqlType": "INT IDENTITY(1,1)",
+          "nullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "username",
+          "sqlType": "VARCHAR(100)",
+          "nullable": false,
+          "constraint": "UNIQUE"
+        },
+        {
+          "name": "password_hash",
+          "sqlType": "VARCHAR(255)",
+          "nullable": false
+        },
+        {
+          "name": "salt",
+          "sqlType": "VARCHAR(255)",
+          "nullable": false
+        },
+        {
+          "name": "email",
+          "sqlType": "VARCHAR(255)",
+          "nullable": false,
+          "constraint": "UNIQUE"
+        },
+        {
+          "name": "first_name",
+          "sqlType": "VARCHAR(100)",
+          "nullable": true
+        },
+        {
+          "name": "last_name",
+          "sqlType": "VARCHAR(100)",
+          "nullable": true
+        },
+        {
+          "name": "is_active",
+          "sqlType": "BIT",
+          "nullable": false,
+          "default": "1"
+        },
+        {
+          "name": "created_at",
+          "sqlType": "DATE",
+          "nullable": false,
+          "default": "GETDATE()"
+        },
+        {
+          "name": "updated_at",
+          "sqlType": "DATE",
+          "nullable": false,
+          "default": "GETDATE()"
+        }
+      ]
+    },
+    {
+      "objectType": "TABLE",
+      "schema": "auth",
+      "name": "companies",
+      "description": "Companies whose users can view scoped assets and analytics.",
+      "primaryKey": "company_id",
+      "columns": [
+        {
+          "name": "company_id",
+          "sqlType": "INT IDENTITY(1,1)",
+          "nullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "company_name",
+          "sqlType": "VARCHAR(200)",
+          "nullable": false,
+          "constraint": "UNIQUE"
+        },
+        {
+          "name": "created_at",
+          "sqlType": "DATE",
+          "nullable": false,
+          "default": "GETDATE()"
+        }
+      ]
+    },
+    {
+      "objectType": "TABLE",
+      "schema": "auth",
+      "name": "user_access",
+      "description": "Junction table granting a user a role, optionally scoped to a company and/or region.",
+      "primaryKey": "access_id",
+      "foreignKeys": [
+        "user_id → auth.users",
+        "role_id → auth.roles",
+        "company_id → auth.companies",
+        "region_id → core.source_regions"
+      ],
+      "uniqueConstraint": [
+        "user_id",
+        "role_id",
+        "company_id",
+        "region_id"
+      ],
+      "columns": [
+        {
+          "name": "access_id",
+          "sqlType": "INT IDENTITY(1,1)",
+          "nullable": false,
+          "isPrimaryKey": true
+        },
+        {
+          "name": "user_id",
+          "sqlType": "INT",
+          "nullable": false,
+          "foreignKey": "auth.users.user_id"
+        },
+        {
+          "name": "role_id",
+          "sqlType": "INT",
+          "nullable": false,
+          "foreignKey": "auth.roles.role_id"
+        },
+        {
+          "name": "company_id",
+          "sqlType": "INT",
+          "nullable": true,
+          "foreignKey": "auth.companies.company_id"
+        },
+        {
+          "name": "region_id",
+          "sqlType": "INT",
+          "nullable": true,
+          "foreignKey": "core.source_regions.region_id"
+        },
+        {
+          "name": "created_at",
+          "sqlType": "DATE",
+          "nullable": false,
+          "default": "GETDATE()"
+        }
+      ]
+    },
+    {
+      "objectType": "VIEW",
+      "schema": "analytics",
+      "name": "Monthly_View",
+      "description": "Joins monthly-averaged sentiment with macro indicators via shared region, includes MoM changes.",
+      "baseTables": [
+        "core.daily_news",
+        "core.monthly_macro_indicators",
+        "core.source_agencies",
+        "core.source_regions",
+        "core.indicators"
+      ]
+    },
+    {
+      "objectType": "VIEW",
+      "schema": "analytics",
+      "name": "Monthly_Region_Wide_View",
+      "description": "Pivoted wide-format view with one row per region per month; indicators and MoM as separate columns.",
+      "baseTables": [
+        "core.daily_news",
+        "core.monthly_macro_indicators",
+        "core.source_agencies",
+        "core.source_regions",
+        "core.indicators"
+      ]
+    },
+    {
+      "objectType": "VIEW",
+      "schema": "auth",
+      "name": "vw_user_permissions",
+      "description": "Flattened view of every access grant with user, role, company, and region details.",
+      "baseTables": [
+        "auth.user_access",
+        "auth.users",
+        "auth.roles",
+        "auth.companies",
+        "core.source_regions"
+      ]
+    },
+    {
+      "objectType": "VIEW",
+      "schema": "auth",
+      "name": "vw_user_access_summary",
+      "description": "One row per user with aggregated role, company, and region lists.",
+      "baseTables": [
+        "auth.users",
+        "auth.user_access",
+        "auth.roles",
+        "auth.companies",
+        "core.source_regions"
+      ]
+    },
+    {
+      "objectType": "VIEW",
+      "schema": "auth",
+      "name": "vw_user_login",
+      "description": "Minimal projection of user credentials for the login flow.",
+      "baseTables": [
+        "auth.users"
+      ]
+    }
+  ],
+  "fileDatasets": [
+    {
+      "layer": "raw",
+      "name": "FinSen_US_Categorized_Timestamp.csv",
+      "path": "data/raw/news/FinSen_US_Categorized_Timestamp.csv",
+      "format": "CSV",
+      "source": "Kaggle — FinSen Financial Sentiment Dataset",
+      "sourceUrl": "https://www.kaggle.com/datasets/eaglewhl/finsen-financial-sentiment-dataset",
+      "columns": [
+        "article_id",
+        "Title",
+        "Tag",
+        "Time",
+        "Content"
+      ]
+    },
+    {
+      "layer": "processed",
+      "name": "finbert_article_scores.csv",
+      "path": "data/processed/finbert_article_scores.csv",
+      "format": "CSV",
+      "columns": [
+        "article_id",
+        "Date",
+        "Title",
+        "Sentiment_Score",
+        "Label"
+      ]
+    }
+  ]
+}

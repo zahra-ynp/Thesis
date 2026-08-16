@@ -1,0 +1,97 @@
+{
+  "@context": "https://schema.org/",
+  "@type": "Dataset",
+  "name": "Macroeconomic Sentiment and Inflation Database",
+  "description": "Macroeconomic indicators (FRED, Eurostat) combined with FinBERT-scored financial news sentiment (2007–2023), served through a role-based Streamlit dashboard backed by SQL Server.",
+  "creator": {
+    "@type": "Person",
+    "name": "Zahra Younes Pour Langaroudi"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "University of Trieste - Data Science and Artificial Intelligence"
+  },
+  "dateCreated": "2026-07-18",
+  "dateModified": "2026-07-27",
+  "version": "2.0",
+  "isAccessibleForFree": true,
+  "license": "https://creativecommons.org/licenses/by-nc/4.0/",
+  "identifier": "https://github.com/zahra-ynp/Advanced-Data-Management",
+  "url": "https://github.com/zahra-ynp/Advanced-Data-Management",
+  "temporalCoverage": "2007-01-01/2023-12-31",
+  "spatialCoverage": [
+    {
+      "@type": "Place",
+      "name": "United States"
+    },
+    {
+      "@type": "Place",
+      "name": "European Union"
+    }
+  ],
+  "keywords": [
+    "macroeconomics",
+    "inflation",
+    "financial news",
+    "sentiment analysis",
+    "FRED",
+    "Eurostat",
+    "asset management"
+  ],
+  "variableMeasured": [
+    {
+      "@type": "PropertyValue",
+      "name": "Consumer Price Index (CPI)"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Industrial Production Index"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Unemployment Rate"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Federal Funds Rate"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "FinBERT Sentiment Score"
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Asset Market Value"
+    }
+  ],
+  "distribution": [
+    {
+      "@type": "DataDownload",
+      "name": "Phase 1: Kaggle Financial News Data Lake",
+      "description": "Raw financial news headlines and text from 2007-2023.",
+      "encodingFormat": "text/csv",
+      "contentUrl": "https://www.kaggle.com/datasets/eaglewhl/finsen-financial-sentiment-dataset"
+    },
+    {
+      "@type": "DataDownload",
+      "name": "Phase 2: Hugging Face Multisource News Data Lake",
+      "description": "Extended multisource financial news corpus stored in Parquet.",
+      "encodingFormat": "application/vnd.apache.parquet",
+      "contentUrl": "https://huggingface.co/datasets/Brianferrell787/financial-news-multisource"
+    },
+    {
+      "@type": "DataDownload",
+      "name": "Phase 1: FRED Macroeconomic API Base Endpoint",
+      "description": "Live JSON endpoint for US macroeconomic indicators.",
+      "encodingFormat": "application/json",
+      "contentUrl": "https://api.stlouisfed.org/fred/series/observations"
+    },
+    {
+      "@type": "DataDownload",
+      "name": "Phase 2: Eurostat SDMX API Base Endpoint",
+      "description": "Live JSON endpoint for European macroeconomic indicators.",
+      "encodingFormat": "application/json",
+      "contentUrl": "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/"
+    }
+  ]
+}
