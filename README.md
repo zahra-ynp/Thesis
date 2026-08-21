@@ -55,6 +55,7 @@ Thesis/
 │
 ├── README.md                       ← This file
 ├── .gitignore
+├── .env.example                    ← Safe API and database configuration template
 ├── requirements.txt                ← Merged Python dependencies
 │
 ├── database/                       ← Data infrastructure & schema definitions
@@ -68,6 +69,7 @@ Thesis/
 │       └── dataset_metadata.jsonld ← Descriptive dataset metadata
 │
 ├── modelling/                      ← Data pipeline, NLP, and probabilistic models
+│   ├── config.py                   ← Central `.env` loader and SQL connection builder
 │   ├── news_pipeline.py            ← Reusable NYT filtering, FinBERT & database helpers
 │   ├── streamlit_app.py            ← Interactive analytics dashboard
 │   └── notebooks/
@@ -209,7 +211,7 @@ database/scripts/07_upgrade_news_sources.sql
 
 ### Step 2 — Configure the Environment
 
-Create a project-root `.env` file as needed:
+Copy `.env.example` to a project-root `.env` file and replace the placeholders with local values:
 
 ```text
 FRED_API_KEY=your-fred-key
@@ -217,7 +219,6 @@ NYT_API_KEY=your-nyt-key
 DB_SERVER=your-server
 DB_DATABASE=MacroSentimentDB
 DB_DRIVER=ODBC Driver 17 for SQL Server
-```
 
 ### Step 3 — Prepare the News Source
 
@@ -234,13 +235,7 @@ Begin with:
 
 ### Step 5 — Launch the Dashboard
 
-Configure the database connection if the defaults do not match your environment:
-
-```text
-DB_SERVER=your-server
-DB_DATABASE=MacroSentimentDB
-DB_DRIVER=ODBC Driver 17 for SQL Server
-```
+The dashboard reads its database connection from the same project-root `.env` file.
 
 ```bash
 streamlit run modelling/streamlit_app.py

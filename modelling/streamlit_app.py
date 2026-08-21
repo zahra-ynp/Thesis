@@ -1,13 +1,13 @@
 import hashlib
 import hmac
-import os
-import urllib.parse
 from pathlib import Path
 
 import pandas as pd
 import plotly.express as px
 import streamlit as st
-from sqlalchemy import create_engine, text
+from sqlalchemy import text
+
+from modelling.config import get_sqlalchemy_engine
 
 
 st.set_page_config(page_title="Macro & News Dashboard", page_icon="📊", layout="wide")
@@ -19,17 +19,7 @@ DEFAULT_NEWS_FILE = DATA_ROOT / "raw" / "news" / "FinSen_US_Categorized_Timestam
 
 @st.cache_resource
 def get_engine():
-    server = os.getenv("DB_SERVER", r"Lara")
-    database = os.getenv("DB_DATABASE", "MacroSentimentDB")
-    driver = os.getenv("DB_DRIVER", "ODBC Driver 17 for SQL Server")
-    conn = (
-        f"DRIVER={{{driver}}};SERVER={server};DATABASE={database};"
-        "Trusted_Connection=yes;TrustServerCertificate=yes;"
-    )
-    return create_engine(
-        f"mssql+pyodbc:///?odbc_connect={urllib.parse.quote_plus(conn)}",
-        pool_pre_ping=True,
-    )
+    return get_sqlalchemy_engine(pool_pre_ping=True)
 
 
 def verify_password(password: str, stored_hash: str, salt: str) -> bool:
