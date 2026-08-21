@@ -6,7 +6,7 @@
 
 ## Abstract
 
-Development and implementation of an advanced probabilistic model (Autoregressive Hidden Markov Model) for forecasting macroeconomic scenarios, with a specific focus on inflation regimes. The project integrates the analysis of historical macroeconomic data with Natural Language Processing (NLP) techniques applied to financial news in order to extract real-time sentiment indicators.
+This thesis develops a step-by-step framework for forecasting inflation and, in later stages, identifying inflation regimes with an Autoregressive Hidden Markov Model. The current implementation covers data preparation, an AR(1) forecasting baseline, and an ARX model with lagged FinBERT news sentiment. US macroeconomic data, two alternative US news sources, and a normalized SQL Server database form the supporting data pipeline.
 
 **Author:** Zahra Younes Pour Langaroudi
 
@@ -20,54 +20,30 @@ This thesis builds an end-to-end pipeline that connects three complementary area
 
 1. **Data Infrastructure** — A normalized SQL Server database that ingests macroeconomic indicators from FRED and financial news from public datasets, scores articles with FinBERT, and exposes analytics-ready views through a Streamlit dashboard.
 2. **NLP Sentiment Extraction** — FinBERT (a BERT model fine-tuned on financial text) classifies each news article as positive, negative, or neutral. Article-level scores are aggregated into a monthly sentiment signal.
-3. **Regime Detection** — Hidden Markov Models (HMM) and Autoregressive HMMs (AR-HMM) identify latent inflation regimes from the combined macroeconomic and sentiment features, using incremental BIC-guided feature selection.
+3. **Forecasting and Regime Modelling** — The current learning workflow is implemented through AR(1) and ARX. HMM and AR-HMM are the next thesis stages; the older US regime notebook is retained only as historical reference.
+
 
 ### Pipeline Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                         DATA SOURCES                                    │
-│  ┌──────────┐  ┌─────────────────┐  ┌───────────┐  ┌──────────────┐   │
-│  │ FRED API │  │ Kaggle (FinSen) │  │ HuggingFace│  │   Eurostat   │   │
-│  └────┬─────┘  └───────┬─────────┘  └─────┬──────┘  └──────┬───────┘   │
-└───────┼────────────────┼──────────────────┼──────────────────┼──────────┘
-        │                │                  │                  │
-        ▼                ▼                  ▼                  ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│                    DATABASE LAYER  (database/)                          │
-│  ┌──────────────┐  ┌────────────────────────────────────────────────┐  │
-│  │  SQL Scripts  │  │          SQL Server Database                   │  │
-│  │  (schemas,    │  │  ┌──────┐  ┌──────────┐  ┌──────┐            │  │
-│  │   tables,     │  │  │ core │  │ analytics│  │ auth │            │  │
-│  │   views)      │  │  └──────┘  └──────────┘  └──────┘            │  │
-│  └──────────────┘  └────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────────────┘
-        │
-        ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│              NLP & FEATURE ENGINEERING  (modelling/)                    │
-│  ┌─────────────────────────┐     ┌────────────────────────────────┐    │
-│  │  01_Data_Prep.ipynb     │     │   FinBERT Sentiment Scoring    │    │
-│  │  • Data cleaning & ETL  │────▶│   score = P(pos) - P(neg)      │    │
-│  │  • DB ingestion         │     │   Monthly aggregation          │    │
-│  └─────────────────────────┘     └────────────────────────────────┘    │
-│                                     ┌────────────────────────────────┐ │
-│                                     │   Streamlit Dashboard          │ │
-│                                     │   streamlit_app.py             │ │
-│                                     └────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────────────────┘
-        │
-        ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│                    REGIME DETECTION  (modelling/)                       │
-│  ┌─────────────────────────────────────────────────────────────────┐   │
-│  │  02_AR_HMM_and_Evaluation.ipynb                                 │   │
-│  │  • HMM baseline on Inflation_MoM                               │   │
-│  │  • AR-HMM with autoregressive dynamics                         │   │
-│  │  • Incremental feature selection (BIC-guided)                   │   │
-│  │  • Regime probability estimation & visualization                │   │
-│  └─────────────────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────────────────┘
+FRED macro data ───────────────────────────────┐
+                                               │
+FinSen CSV ──┐                                 ▼
+             ├─ FinBERT ─ monthly sentiment ─ SQL Server
+NYT API ─────┘                                 │
+                                               ├─ Streamlit dashboard
+                                               │
+                                               ▼
+                           01 Data and Inflation
+                                      │
+                                      ▼
+                              02 AR(1) baseline
+                                      │
+                                      ▼
+                         03 ARX with lagged news
+                                      │
+                                      ▼
+                              RMSE comparison
 ```
 
 ---
@@ -82,7 +58,7 @@ Thesis/
 ├── requirements.txt                ← Merged Python dependencies
 │
 ├── database/                       ← Data infrastructure & schema definitions
-│   ├── scripts/                    ← SQL schema & setup (01–06_*.sql)
+│   ├── scripts/                    ← SQL schema, views, security & news-source upgrade (01–07)
 │   ├── docs/
 │   │   └── ER.png                  ← Entity-Relationship diagram
 │   └── metadata/
@@ -92,21 +68,30 @@ Thesis/
 │       └── dataset_metadata.jsonld ← Descriptive dataset metadata
 │
 ├── modelling/                      ← Data pipeline, NLP, and probabilistic models
+│   ├── news_pipeline.py            ← Reusable NYT filtering, FinBERT & database helpers
 │   ├── streamlit_app.py            ← Interactive analytics dashboard
 │   └── notebooks/
+│       ├── learning/
+│       │   ├── 00_NYT_News_FinBERT_and_DB.ipynb
+│       │   │                                ← NYT acquisition and scoring pipeline
+│       │   ├── 01_Data_and_Inflation.ipynb ←  Data and inflation
+│       │   ├── 02_AR1_Baseline.ipynb        ← Simple AR(1) forecast
+│       │   └── 03_ARX_with_News.ipynb       ← Add lagged sentiment
 │       └── US/
 │           ├── 01_Data_Prep.ipynb              ← Data cleaning, ETL & FinBERT scoring
 │           └── 02_AR_HMM_and_Evaluation.ipynb  ← HMM & AR-HMM regime detection
 │
 ├── data/                           ← Shared data layer
 │   ├── raw/
-│   │   └── news/                   ← FinSen_US_Categorized_Timestamp.csv
+│   │   └── news/                   ← FinSen CSV and generated NYT monthly cache
 │   └── processed/
-│       ├── US/                     ← us_macro_2007_2023.csv
-│       └── finbert_article_scores.csv  ← Precomputed FinBERT checkpoint
+│       ├── US/                     ← US macro data and generated NYT monthly sentiment
+│       ├── finbert_article_scores.csv  ← FinSen FinBERT scores
+│       └── nyt_finbert_article_scores.csv ← Generated NYT FinBERT scores
 │
-└── plots/                          ← Model output visualisations
-    └── US/                         ← Regime probabilities, BIC comparisons, etc.
+└── plots/                          ← Exploratory notebook visualisations
+    └── US/                         ← Historical regimes and BIC comparisons
+
 ```
 
 ---
@@ -117,11 +102,11 @@ Thesis/
 |---|---|---|---|
 | CPI (`CPIAUCSL`) | FRED | Consumer Price Index for All Urban Consumers | 2007–2023 |
 | Unemployment (`UNRATE`) | FRED | Civilian Unemployment Rate | 2007–2023 |
-| Interest Rate (`FEDFUNDS`) | FRED | Effective Federal Funds Rate | 2007–2023 |
 | Industrial Production (`INDPRO`) | FRED | Industrial Production Index | 2007–2023 |
-| Financial News (US) | Kaggle ([FinSen](https://www.kaggle.com/datasets/eaglewhl/finsen-financial-sentiment-dataset)) | ~15,000 categorized financial news articles | 2007–2023 |
-| Financial News (Multi) | HuggingFace ([Financial News Multisource](https://huggingface.co/datasets/Brianferrell787/financial-news-multisource)) | Additional financial news corpus | 2007–2023 |
-| European Macro | Eurostat | HICP and European macroeconomic indicators | 2007–2023 |
+| US News — original source | Kaggle ([FinSen](https://www.kaggle.com/datasets/eaglewhl/finsen-financial-sentiment-dataset)) | 15,534 categorized articles; retained as the historical baseline | 2007–2023 |
+| US News — replacement candidate | [New York Times Archive API](https://developer.nytimes.com/) | Publication-dated metadata filtered for US macroeconomic topics and scored locally with FinBERT | 2007–2023 |
+
+FinSen and NYT are not averaged together. The database source registry identifies one active news source for analytical views and the dashboard. FinSen remains available for comparison while NYT is downloaded, audited, scored, and validated.
 
 ---
 
@@ -129,40 +114,62 @@ Thesis/
 
 ### 1. NLP Sentiment Extraction — FinBERT
 
-Each financial news article is scored using [ProsusAI/finbert](https://huggingface.co/ProsusAI/finbert), a BERT-based model fine-tuned on financial text. FinBERT outputs class probabilities for *positive*, *negative*, and *neutral* labels. A net sentiment score is computed as:
+Articles from either US news source are scored using [ProsusAI/finbert](https://huggingface.co/ProsusAI/finbert), a BERT-based model fine-tuned on financial text. FinBERT outputs class probabilities for *positive*, *negative*, and *neutral* labels. A net sentiment score is computed as:
 
 ```
 score = P(positive) − P(negative)     ∈ [−1, +1]
 ```
 
-Article-level scores are averaged within each calendar month to produce a single `News_Sentiment` signal, which is merged with the macroeconomic indicators.
+Article-level scores are aggregated within each calendar month to produce `News_Sentiment`. The NYT workflow also retains the monthly article count, median sentiment, sentiment dispersion, and negative-article share for data-quality and robustness checks.
 
-### 2. Regime Detection — HMM & AR-HMM
+To prevent future information from entering a forecast, the ARX model uses the previous month's sentiment (`Sentiment_Lag1`) rather than contemporaneous sentiment.
 
-Latent inflation regimes are identified using two classes of Markov-Switching models fitted to the month-over-month inflation series (`Inflation_MoM`):
+### 2. Current Forecasting Models — AR(1) and ARX
+
+The implemented learning workflow currently contains:
+
+- **AR(1):** forecasts month-over-month inflation from its value one month earlier.
+- **ARX:** extends AR(1) with news sentiment lagged by one month.
+
+Both models use the same chronological train/test split and the same test months. This makes their forecasting errors directly comparable.
+
+### 3. Evaluation Metric — RMSE
+
+Forecast error is evaluated with Root Mean Squared Error:
+
+```text
+RMSE = sqrt(mean((actual inflation - predicted inflation)²))
+```
+
+Lower RMSE indicates better out-of-sample forecasting accuracy. The central ARX test is whether adding lagged news sentiment produces a lower RMSE than the AR(1) baseline.
+
+### 4. Planned Regime Detection — HMM & AR-HMM
+
+Latent inflation regimes will be investigated using two classes of Markov-Switching models fitted to the month-over-month inflation series (`Inflation_MoM`):
 
 - **HMM (Hidden Markov Model):** Assumes observations are conditionally independent given the hidden state.
 - **AR-HMM (Autoregressive HMM):** Extends HMM by modelling autoregressive dynamics within each regime, capturing serial dependence in inflation.
 
-### 3. Incremental Feature Selection (BIC-Guided)
+The existing US notebook is a retrospective exploration and is not part of the current three-notebook learning sequence. HMM and AR-HMM will be rebuilt step by step only after the AR and ARX results are understood.
 
-Starting from a baseline model (inflation only), macroeconomic indicators are added sequentially. The Bayesian Information Criterion (BIC) is recorded at each step to quantify each variable's marginal contribution:
+### 5. Step-by-Step Modelling
 
-| Step | Model Specification |
-|---|---|
-| M1 | Baseline — no exogenous variables |
-| M2 | + News Sentiment (FinBERT monthly average) |
-| M3 | + Unemployment Rate |
-| M4 | + Industrial Production MoM |
+The simplified learning sequence keeps five models in scope:
 
-The specification with the lowest BIC is selected as the best model within each family (HMM and AR-HMM).
+1. AR(1) as the understandable inflation forecast baseline.
+2. ARX to test whether lagged sentiment helps without hidden states.
+3. HMM for historical low/high inflation regimes.
+4. AR-HMM to combine regimes with past inflation.
+5. AR-HMM with news sentiment to test the NLP contribution.
 
-### 4. Database Architecture
+At the current project stage, Parts 1–3 are implemented and RMSE is the forecasting error metric. Parts 4–5 remain future thesis work.
+
+### 6. Database Architecture
 
 The data infrastructure uses a normalized SQL Server schema:
 
-- **`core` schema:** Regions, agencies, indicators, monthly observations, and daily news
-- **`analytics` schema:** Aggregated monthly views with month-over-month changes
+- **`core` schema:** Regions, agencies, indicators, monthly observations, daily news, and selectable news sources
+- **`analytics` schema:** Aggregated monthly views based on the active news source, with month-over-month macroeconomic changes
 - **`auth` schema:** Users, roles, companies, and scoped permissions
 
 See the [ER diagram](database/docs/ER.png) and [Data Management Plan](database/metadata/DMP.md) for full documentation.
@@ -176,6 +183,7 @@ See the [ER diagram](database/docs/ER.png) and [Data Management Plan](database/m
 - Python 3.8 or later
 - Microsoft SQL Server (with ODBC Driver 17)
 - A free [FRED API key](https://fred.stlouisfed.org/docs/api/api_key.html)
+- A free [NYT Developer API key](https://developer.nytimes.com/) when using the NYT replacement source
 
 ### Installation
 
@@ -196,18 +204,35 @@ database/scripts/03b_create_monthly_region_wide_view.sql
 database/scripts/04_create_auth_tables.sql
 database/scripts/05_create_access_views.sql
 database/scripts/06_create_assets_table.sql
+database/scripts/07_upgrade_news_sources.sql
 ```
 
-A precomputed FinBERT checkpoint is included at `data/processed/finbert_article_scores.csv`.
+### Step 2 — Configure the Environment
 
-### Step 2 — Run the Modelling Pipeline
+Create a project-root `.env` file as needed:
 
-Notebooks must be run in order:
+```text
+FRED_API_KEY=your-fred-key
+NYT_API_KEY=your-nyt-key
+DB_SERVER=your-server
+DB_DATABASE=MacroSentimentDB
+DB_DRIVER=ODBC Driver 17 for SQL Server
+```
 
-1. **`modelling/notebooks/US/01_Data_Prep.ipynb`** — Cleans and ingests raw data into SQL Server, downloads macroeconomic indicators from FRED, and scores news articles with FinBERT. Set `FRED_API_KEY` and configure the database connection at the top of the notebook.
-2. **`modelling/notebooks/US/02_AR_HMM_and_Evaluation.ipynb`** — Fits HMM and AR-HMM models with incremental feature selection. Produces regime probability plots and BIC comparisons.
+### Step 3 — Prepare the News Source
 
-### Step 3 — Launch the Dashboard
+- **FinSen:** use the included raw CSV and precomputed scores for the historical baseline.
+- **NYT:** run **`modelling/notebooks/learning/00_NYT_News_FinBERT_and_DB.ipynb`**. It downloads and filters Archive API metadata, audits coverage, runs FinBERT, creates monthly indicators, and optionally loads the database.
+
+### Step 4 — Run the Three Learning Notebooks
+
+Begin with:
+
+- **`modelling/notebooks/learning/01_Data_and_Inflation.ipynb`** — Explains the database/CSV roles, CPI, month-over-month inflation, year-over-year inflation, the target, and possible predictors.
+- **`modelling/notebooks/learning/02_AR1_Baseline.ipynb`** — After Part 1, explains a one-month lag, a fixed training/test split, the AR(1) equation, forecasts, and RMSE.
+- **`modelling/notebooks/learning/03_ARX_with_News.ipynb`** — Adds lagged news sentiment to AR(1) and compares both models fairly using the same test months and RMSE.
+
+### Step 5 — Launch the Dashboard
 
 Configure the database connection if the defaults do not match your environment:
 
@@ -237,12 +262,15 @@ streamlit run modelling/streamlit_app.py
 
 ## Future Work
 
-- **European analysis:** Extend the AR-HMM framework to European inflation using Eurostat HICP data and multilingual financial news.
-- **Real-time pipeline:** Connect the sentiment scoring to a live news feed for near-real-time regime probability updates.
-- **Model extensions:** Explore higher-order AR-HMM, Bayesian HMM, and regime-switching VAR models.
+- Validate NYT coverage and relevance against the historical FinSen baseline.
+- Re-run the ARX experiment with NYT sentiment and compare RMSE on the same test months.
+- Add the HMM, AR-HMM, and AR-HMM-with-news learning notebooks in order.
+- Understand and document each model before adding the next one.
+- Extend the understood US workflow to Eurostat/ECB data for the euro area.
+- Consider richer news indicators only after the generic FinBERT baseline is understood.
 
 ---
 
 ## License
 
-Project code, metadata, and eligible derived outputs are licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). Upstream data remains subject to the terms of FRED, Eurostat, Kaggle, Hugging Face, and the original data providers.
+Project code, metadata, and eligible derived outputs are licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). Upstream data remains subject to the terms of FRED, Kaggle, The New York Times, Eurostat, and the original data providers.
