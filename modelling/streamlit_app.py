@@ -129,28 +129,39 @@ def load_dashboard(start_date, end_date, region_ids):
         placeholders.append(f":{key}")
         params[key] = region_id
     region_filter = f"AND region_id IN ({','.join(placeholders)})" if placeholders else ""
-    monthly = pd.read_sql(
-        text(f"""
-            SELECT * FROM analytics.Monthly_Region_Wide_View
-            WHERE month_date BETWEEN :start AND :end {region_filter}
-            ORDER BY month_date, region_name
-        """),
-        get_engine(),
-        params=params,
-        parse_dates=["month_date"],
-    )
-    news = pd.read_sql(
-        text(f"""
-            SELECT article_id, news_date, title, source_name, region_id,
-                   sentiment_score, sentiment_label, lake_pointer_url
-            FROM core.daily_news
-            WHERE news_date BETWEEN :start AND :end {region_filter}
-            ORDER BY news_date DESC
-        """),
-        get_engine(),
-        params=params,
-        parse_dates=["news_date"],
-    )
+    with get_engine().connect() as connection:
+        has_active_view = bool(connection.execute(
+            text("SELECT CASE WHEN OBJECT_ID('analytics.Active_Daily_News', 'V') IS NULL THEN 0 ELSE 1 END")
+        ).scalar())
+        has_article_url = bool(connection.execute(
+            text("SELECT CASE WHEN COL_LENGTH('core.daily_news', 'article_url') IS NULL THEN 0 ELSE 1 END")
+        ).scalar())
+        news_source = "analytics.Active_Daily_News" if has_active_view else "core.daily_news"
+        article_url_field = "article_url" if has_article_url else "CAST(NULL AS VARCHAR(1000)) AS article_url"
+
+        monthly = pd.read_sql(
+            text(f"""
+                SELECT * FROM analytics.Monthly_Region_Wide_View
+                WHERE month_date BETWEEN :start AND :end {region_filter}
+                ORDER BY month_date, region_name
+            """),
+            connection,
+            params=params,
+            parse_dates=["month_date"],
+        )
+        news = pd.read_sql(
+            text(f"""
+                SELECT article_id, news_date, title, source_name, region_id,
+                       sentiment_score, sentiment_label, lake_pointer_url,
+                       {article_url_field}
+                FROM {news_source}
+                WHERE news_date BETWEEN :start AND :end {region_filter}
+                ORDER BY news_date DESC
+            """),
+            connection,
+            params=params,
+            parse_dates=["news_date"],
+        )
     return monthly, news
 
 
@@ -180,6 +191,22 @@ def get_article_content(article):
         except (OSError, UnicodeError, pd.errors.ParserError):
             continue
 
+        if {"title", "news_date", "text_for_finbert"}.issubset(raw.columns):
+            title_match = raw["title"].fillna("").astype(str).str.strip() == str(article["title"]).strip()
+            matches = raw.loc[title_match].copy()
+            if matches.empty:
+                continue
+            raw_dates = pd.to_datetime(matches["news_date"], errors="coerce").dt.date
+            article_date = pd.Timestamp(article["news_date"]).date()
+            dated = matches.loc[raw_dates == article_date]
+            selected = dated.iloc[0] if not dated.empty else matches.iloc[0]
+            return {
+                "title": selected["title"],
+                "tag": selected.get("news_desk", "New York Times API metadata"),
+                "date": selected["news_date"],
+                "content": selected["text_for_finbert"],
+            }
+
         required = {"Title", "Time", "Content"}
         if not required.issubset(raw.columns):
             continue
@@ -207,6 +234,8 @@ def get_article_content(article):
 
 def show_article(article_row):
     article = get_article_content(article_row)
+    article_url = article_row.get("article_url")
+    has_article_url = pd.notna(article_url) and bool(str(article_url).strip())
     if article:
         with st.container(border=True):
             st.subheader(article["title"])
@@ -215,8 +244,13 @@ def show_article(article_row):
             )
             st.caption(details)
             st.write(article["content"])
+            if has_article_url:
+                st.link_button("Open original article", str(article_url))
     else:
-        st.warning("The full content could not be found in the linked raw-news file.")
+        if has_article_url:
+            st.link_button("Open original article", str(article_url))
+        else:
+            st.warning("The article text could not be found in the linked source file.")
 
 
 def load_accessible_assets(user, roles):
