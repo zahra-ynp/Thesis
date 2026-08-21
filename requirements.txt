@@ -9,6 +9,7 @@ tqdm
 sqlalchemy
 pyodbc
 python-dotenv
+requests
 jupyter
 streamlit
 plotly
