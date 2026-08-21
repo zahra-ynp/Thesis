@@ -34,3 +34,7 @@ desktop.ini
 data/processed/US/finbert_checkpoints/
 data/raw/news/nyt_archive/
 data/processed/nyt_finbert_checkpoints/
+data/raw/news/nyt_archive/
+data/processed/nyt_macro_articles_*.csv
+data/processed/nyt_finbert_article_scores.csv
+data/processed/nyt_finbert_checkpoints/
