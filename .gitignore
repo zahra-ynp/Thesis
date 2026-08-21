@@ -32,3 +32,5 @@ desktop.ini
 
 # FinBERT checkpoints (large model files)
 data/processed/US/finbert_checkpoints/
+data/raw/news/nyt_archive/
+data/processed/nyt_finbert_checkpoints/
