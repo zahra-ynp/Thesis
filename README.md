@@ -6,7 +6,7 @@
 
 ## Abstract
 
-This thesis develops a step-by-step framework for forecasting inflation and identifying inflation regimes with an Autoregressive Hidden Markov Model. The current implementation covers data preparation, an AR(1) forecasting baseline, an ARX model with lagged FinBERT news sentiment, and a two-state HMM used for both historical interpretation and one-month-ahead forecasting. US macroeconomic data, two alternative US news sources, and a normalized SQL Server database form the supporting data pipeline.
+This thesis develops a step-by-step framework for forecasting inflation and identifying inflation regimes with an Autoregressive Hidden Markov Model. The current implementation covers data preparation, AR(1), ARX with lagged FinBERT sentiment, a two-state HMM, and a two-state AR-HMM with regime-specific autoregressive equations. US macroeconomic data, two alternative US news sources, and a normalized SQL Server database form the supporting data pipeline.
 
 **Author:** Zahra Younes Pour Langaroudi
 
@@ -20,7 +20,7 @@ This thesis builds an end-to-end pipeline that connects three complementary area
 
 1. **Data Infrastructure** — A normalized SQL Server database that ingests macroeconomic indicators from FRED and financial news from public datasets, scores articles with FinBERT, and exposes analytics-ready views through a Streamlit dashboard.
 2. **NLP Sentiment Extraction** — FinBERT (a BERT model fine-tuned on financial text) classifies each news article as positive, negative, or neutral. Article-level scores are aggregated into a monthly sentiment signal.
-3. **Forecasting and Regime Modelling** — The current learning workflow contains AR(1), ARX, and a two-state HMM. The HMM notebook separates full-sample historical interpretation from a no-lookahead train/test forecast experiment. AR-HMM is the next thesis stage; the older US regime notebook is retained only as reference.
+3. **Forecasting and Regime Modelling** — The current learning workflow contains AR(1), ARX, HMM, and AR-HMM. The HMM notebook separates full-sample historical interpretation from no-lookahead forecasting, while AR-HMM adds a separate autoregressive equation to every hidden state. Adding sentiment to AR-HMM is the next thesis stage; the older US regime notebook is retained only as reference.
 
 
 ### Pipeline Architecture
@@ -49,7 +49,10 @@ NYT API ─────┘                                 │
                         04 Historical + forecasting HMM
                                       │
                                       ▼
-                              Next: AR-HMM
+                                  05 AR-HMM
+                                      │
+                                      ▼
+                         Next: AR-HMM + sentiment
 ```
 
 ---
@@ -85,7 +88,8 @@ Thesis/
 │       │   ├── 01_Data_and_Inflation.ipynb ←  Data and inflation
 │       │   ├── 02_AR1_Baseline.ipynb        ← Simple AR(1) forecast
 │       │   ├── 03_ARX_with_News.ipynb       ← Add lagged sentiment
-│       │   └── 04_HMM.ipynb      ← Historical regimes and HMM forecasts
+│       │   ├── 04_HMM.ipynb                 ← Historical regimes and HMM forecasts
+│       │   └── 05_AR_HMM.ipynb              ← Regime-specific AR forecasts
 │       └── US/
 │           ├── 01_Data_Prep.ipynb              ← Data cleaning, ETL & FinBERT scoring
 │           └── 02_AR_HMM_and_Evaluation.ipynb  ← HMM & AR-HMM regime detection
@@ -152,13 +156,13 @@ RMSE = sqrt(mean((actual inflation - predicted inflation)²))
 
 Lower RMSE indicates better out-of-sample forecasting accuracy. The central ARX test is whether adding lagged news sentiment produces a lower RMSE than the AR(1) baseline.
 
-### 4. HMM — Historical Regimes and Forecasting
+### 4. HMM and AR-HMM
 
 The first section of the implemented two-state HMM is fitted to year-over-year inflation (`Inflation_YoY`) because it represents persistent inflation environments more clearly than noisy monthly changes. It estimates a state-specific average inflation rate, smoothed historical state probabilities, and transition probabilities.
 
 The second section is a separate forecasting experiment fitted only to pre-2017 month-over-month inflation. It creates each test forecast from predicted state probabilities, records the forecast before observing the actual month, and then updates filtered probabilities for the following month. Its RMSE is compared with AR(1) using identical test months. This keeps smoothed historical interpretation separate from genuine no-lookahead forecasting.
 
-AR-HMM will be the next model and will add autoregressive dynamics within hidden regimes.
+The implemented AR-HMM then assigns a different constant and lag coefficient to each hidden state. Its one-month-ahead forecast combines the state-specific AR forecasts using predicted state probabilities, and actual test inflation updates those probabilities only after each forecast is recorded.
 
 ### 5. Step-by-Step Modelling
 
@@ -231,7 +235,7 @@ DB_DRIVER=ODBC Driver 17 for SQL Server
 - **FinSen:** use the included raw CSV and precomputed scores for the historical baseline.
 - **NYT:** run **`modelling/notebooks/learning/00_NYT_News_FinBERT_and_DB.ipynb`**. It downloads and filters Archive API metadata, audits coverage, runs FinBERT, creates monthly indicators, and optionally loads the database.
 
-### Step 4 — Run the Four Learning Notebooks
+### Step 4 — Run the Five Learning Notebooks
 
 Begin with:
 
@@ -239,6 +243,7 @@ Begin with:
 - **`modelling/notebooks/learning/02_AR1_Baseline.ipynb`** — After Part 1, explains a one-month lag, a fixed training/test split, the AR(1) equation, forecasts, and RMSE.
 - **`modelling/notebooks/learning/03_ARX_with_News.ipynb`** — Adds lagged news sentiment to AR(1) and compares both models fairly using the same test months and RMSE.
 - **`modelling/notebooks/learning/04_HMM.ipynb`** — First explains two historical US inflation regimes using year-over-year inflation, then fits a separate training-only HMM to month-over-month inflation and compares its one-month-ahead test RMSE with AR(1).
+- **`modelling/notebooks/learning/05_AR_HMM.ipynb`** — Combines hidden states with state-specific AR(1) equations and compares AR(1), HMM, and AR-HMM using identical one-month-ahead test months and RMSE.
 
 ### Step 5 — Launch the Dashboard
 
@@ -266,7 +271,7 @@ streamlit run modelling/streamlit_app.py
 
 - Validate NYT coverage and relevance against the historical FinSen baseline.
 - Re-run the ARX experiment with NYT sentiment and compare RMSE on the same test months.
-- Add the AR-HMM and AR-HMM-with-news learning notebooks in order.
+- Add the AR-HMM-with-news learning notebook.
 - Understand and document each model before adding the next one.
 - Extend the understood US workflow to Eurostat/ECB data for the euro area.
 - Consider richer news indicators only after the generic FinBERT baseline is understood.
