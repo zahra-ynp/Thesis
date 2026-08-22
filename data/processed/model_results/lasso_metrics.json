@@ -1,0 +1,114 @@
+{
+  "notebook": "06_LASSO",
+  "description": "LASSO variants estimated on the same sample.",
+  "data_source": "database",
+  "target": "Inflation_MoM",
+  "forecast_horizon_months": 1,
+  "train_start": "2007-08-01",
+  "train_end": "2016-12-01",
+  "test_start": "2017-01-01",
+  "test_end": "2023-12-01",
+  "n_train": 113,
+  "n_test": 84,
+  "time_series_cv_splits": 5,
+  "variants": {
+    "inflation_only": {
+      "description": "LASSO using historical inflation only.",
+      "features": [
+        "Inflation_Lag1",
+        "Inflation_Lag2",
+        "Inflation_Lag3",
+        "Inflation_Lag4",
+        "Inflation_Lag5",
+        "Inflation_Lag6"
+      ],
+      "parameters": {
+        "alpha": 0.08227241341700466,
+        "standardized_coefficients": {
+          "Inflation_Lag1": 0.0859768913398252,
+          "Inflation_Lag2": 0.0,
+          "Inflation_Lag3": -0.0,
+          "Inflation_Lag4": -0.0,
+          "Inflation_Lag5": -0.0,
+          "Inflation_Lag6": -0.0
+        }
+      },
+      "metrics": {
+        "rmse": 0.2914630823524063,
+        "mae": 0.2098568830130111,
+        "mean_error_actual_minus_forecast": 0.109276112881313
+      }
+    },
+    "with_sentiment": {
+      "description": "LASSO using historical inflation and lagged sentiment.",
+      "features": [
+        "Inflation_Lag1",
+        "Inflation_Lag2",
+        "Inflation_Lag3",
+        "Inflation_Lag4",
+        "Inflation_Lag5",
+        "Inflation_Lag6",
+        "Sentiment_Lag1"
+      ],
+      "parameters": {
+        "alpha": 0.08227241341700466,
+        "standardized_coefficients": {
+          "Inflation_Lag1": 0.0859768913398252,
+          "Inflation_Lag2": 0.0,
+          "Inflation_Lag3": -0.0,
+          "Inflation_Lag4": -0.0,
+          "Inflation_Lag5": -0.0,
+          "Inflation_Lag6": -0.0,
+          "Sentiment_Lag1": 0.0
+        }
+      },
+      "metrics": {
+        "rmse": 0.2914630823524063,
+        "mae": 0.2098568830130111,
+        "mean_error_actual_minus_forecast": 0.109276112881313
+      }
+    }
+  },
+  "all_model_common_sample_comparison": {
+    "common_test_start": "2017-01-01",
+    "common_test_end": "2023-12-01",
+    "n_common_test_months": 84,
+    "metrics": {
+      "AR(1)": {
+        "rmse": 0.2651534346714634,
+        "mae": 0.19560439707283944,
+        "mean_error_actual_minus_forecast": 0.06752500704483556
+      },
+      "ARX + sentiment": {
+        "rmse": 0.26670417641708194,
+        "mae": 0.1967264887848841,
+        "mean_error_actual_minus_forecast": 0.06591746341362985
+      },
+      "HMM": {
+        "rmse": 0.33126643515981924,
+        "mae": 0.23504585987987797,
+        "mean_error_actual_minus_forecast": 0.12818695759450885
+      },
+      "AR-HMM": {
+        "rmse": 0.26945658718356563,
+        "mae": 0.1960734912992933,
+        "mean_error_actual_minus_forecast": 0.0743753400135835
+      },
+      "AR-HMM + sentiment": {
+        "rmse": 0.30081468951196333,
+        "mae": 0.21369010168198327,
+        "mean_error_actual_minus_forecast": 0.08873002808892039
+      },
+      "LASSO inflation only": {
+        "rmse": 0.2914630823524063,
+        "mae": 0.2098568830130111,
+        "mean_error_actual_minus_forecast": 0.109276112881313
+      },
+      "LASSO inflation + sentiment": {
+        "rmse": 0.2914630823524063,
+        "mae": 0.2098568830130111,
+        "mean_error_actual_minus_forecast": 0.109276112881313
+      }
+    }
+  }
+}

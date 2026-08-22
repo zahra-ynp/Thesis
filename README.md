@@ -6,7 +6,7 @@
 
 ## Abstract
 
-This thesis develops a step-by-step framework for forecasting inflation and identifying inflation regimes with an Autoregressive Hidden Markov Model. The current implementation covers data preparation, AR(1), ARX with lagged FinBERT sentiment, a two-state HMM, and a two-state AR-HMM with regime-specific autoregressive equations. US macroeconomic data, two alternative US news sources, and a normalized SQL Server database form the supporting data pipeline.
+This thesis develops a step-by-step framework for forecasting inflation and identifying inflation regimes. The implementation covers AR(1), ARX with lagged FinBERT sentiment, a two-state HMM, AR-HMM with and without sentiment, and LASSO forecasts using historical inflation with an optional sentiment input. US macroeconomic data, two alternative US news sources, and a normalized SQL Server database form the supporting data pipeline.
 
 **Author:** Zahra Younes Pour Langaroudi
 
@@ -20,7 +20,7 @@ This thesis builds an end-to-end pipeline that connects three complementary area
 
 1. **Data Infrastructure** — A normalized SQL Server database that ingests macroeconomic indicators from FRED and financial news from public datasets, scores articles with FinBERT, and exposes analytics-ready views through a Streamlit dashboard.
 2. **NLP Sentiment Extraction** — FinBERT (a BERT model fine-tuned on financial text) classifies each news article as positive, negative, or neutral. Article-level scores are aggregated into a monthly sentiment signal.
-3. **Forecasting and Regime Modelling** — The current learning workflow contains AR(1), ARX, HMM, AR-HMM, and AR-HMM with lagged news sentiment. The HMM notebook separates full-sample historical interpretation from no-lookahead forecasting, while AR-HMM gives every hidden state its own autoregressive equation. The sentiment extension tests whether news adds forecasting information inside those regimes.
+3. **Forecasting and Regime Modelling** — The learning workflow contains AR(1), ARX, HMM, AR-HMM, and LASSO specifications. AR-HMM remains the regime-analysis model, while LASSO provides a regularized alternative for practical forecasting and later macroeconomic expansion.
 
 
 ### Pipeline Architecture
@@ -89,7 +89,8 @@ Thesis/
 │       │   ├── 02_AR1_Baseline.ipynb        ← Simple AR(1) forecast
 │       │   ├── 03_ARX_with_News.ipynb       ← Add lagged sentiment
 │       │   ├── 04_HMM.ipynb                 ← Historical regimes and HMM forecasts
-│       │   └── 05_AR_HMM.ipynb              ← AR-HMM and AR-HMM with lagged sentiment
+│       │   ├── 05_AR_HMM.ipynb              ← AR-HMM and AR-HMM with lagged sentiment
+│       │   └── 06_LASSO.ipynb                ← LASSO with inflation lags and sentiment
 │       └── US/
 │           ├── 01_Data_Prep.ipynb              ← Data cleaning, ETL & FinBERT scoring
 │           └── 02_AR_HMM_and_Evaluation.ipynb  ← HMM & AR-HMM regime detection
@@ -174,15 +175,19 @@ The implemented AR-HMM then assigns a different constant and lag coefficient to 
 
 The final section of the same notebook adds sentiment lagged by one month to each state-specific equation.
 
+Part 06 provides a regularized alternative. The first LASSO specification uses historical inflation lags, while
+
 ### 5. Step-by-Step Modelling
 
-The simplified learning sequence keeps five models in scope:
+The simplified learning sequence currently keeps seven forecasting specifications in scope:
 
 1. AR(1) as the understandable inflation forecast baseline.
 2. ARX to test whether lagged sentiment helps without hidden states.
 3. HMM for historical low/high inflation regimes.
 4. AR-HMM to combine regimes with past inflation.
 5. AR-HMM with news sentiment to test the NLP contribution.
+6. LASSO with six inflation lags as a regularized autoregressive alternative.
+7. LASSO with inflation lags and sentiment to test whether regularization changes the sentiment result.
 
 
 ### 6. Database Architecture
@@ -245,7 +250,7 @@ DB_DRIVER=ODBC Driver 17 for SQL Server
 - **FinSen:** use the included raw CSV and precomputed scores for the historical baseline.
 - **NYT:** run **`modelling/notebooks/learning/00_NYT_News_FinBERT_and_DB.ipynb`**. It downloads and filters Archive API metadata, audits coverage, runs FinBERT, creates monthly indicators, and optionally loads the database.
 
-### Step 4 — Run the Five Learning Notebooks
+### Step 4 — Run the Six Learning Notebooks
 
 Begin with:
 
@@ -253,7 +258,8 @@ Begin with:
 - **`modelling/notebooks/learning/02_AR1_Baseline.ipynb`** — Fits AR(1), evaluates it, and saves `ar1_forecasts.csv` and `ar1_metrics.json`.
 - **`modelling/notebooks/learning/03_ARX_with_News.ipynb`** — Loads the saved AR(1) reference, fits only ARX, aligns common test dates, and saves the ARX CSV/JSON results.
 - **`modelling/notebooks/learning/04_HMM.ipynb`** — Explains historical regimes, loads the saved AR(1) reference, fits only the forecasting HMM, and saves the HMM CSV/JSON results.
-- **`modelling/notebooks/learning/05_AR_HMM.ipynb`** — Loads the saved AR(1) and HMM results, fits AR-HMM, then reuses that result while fitting only the AR-HMM-with-sentiment extension. Separate CSV/JSON results are saved for both specifications.
+- **`modelling/notebooks/learning/05_AR_HMM.ipynb`** — Loads the saved AR(1) and HMM results, fits AR-HMM, then reuses that result while fitting only the sentiment extension. Both variants are stored in one `ar_hmm_forecasts.csv` and one `ar_hmm_metrics.json`.
+- **`modelling/notebooks/learning/06_LASSO.ipynb`** — Fits inflation-only and inflation-plus-sentiment LASSO models and selects the penalty with time-series validation. Both variants and the all-model comparison are stored in one `lasso_forecasts.csv` and one `lasso_metrics.json`.
 
 ### Step 5 — Launch the Dashboard
 
@@ -281,7 +287,7 @@ streamlit run modelling/streamlit_app.py
 
 - Validate NYT coverage and relevance against the historical FinSen baseline.
 - Re-run the ARX experiment with NYT sentiment and compare all three error measures on the same test months.
-- Add the AR-HMM-with-news learning notebook.
+- Add lagged oil-price growth, unemployment changes, and industrial-production growth to the ARX, LASSO, and AR-HMM extensions after the inflation-and-sentiment stage is understood.
 - Understand and document each model before adding the next one.
 - Extend the understood US workflow to Eurostat/ECB data for the euro area.
 - Consider richer news indicators only after the generic FinBERT baseline is understood.
