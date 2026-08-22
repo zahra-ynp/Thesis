@@ -99,6 +99,7 @@ Thesis/
 │   │   └── news/                   ← FinSen CSV and generated NYT monthly cache
 │   └── processed/
 │       ├── US/                     ← US macro data and generated NYT monthly sentiment
+│       ├── model_results/          ← Saved forecast CSVs and model-metadata JSON files
 │       ├── finbert_article_scores.csv  ← FinSen FinBERT scores
 │       └── nyt_finbert_article_scores.csv ← Generated NYT FinBERT scores
 │
@@ -145,7 +146,9 @@ The implemented learning workflow currently contains:
 - **AR(1):** forecasts month-over-month inflation from its value one month earlier.
 - **ARX:** extends AR(1) with news sentiment lagged by one month.
 
-Both models use the same chronological train/test split and the same test months. This makes their forecasting errors directly comparable.
+Both models use the same chronological split. Comparisons are aligned to common test dates, which matters when sentiment is missing for a month.
+
+Each model is estimated only in its own notebook. It saves date-level out-of-sample forecasts to CSV and its settings, parameters, and metrics to JSON under `data/processed/model_results/`. Later notebooks load those artifacts instead of fitting earlier reference models again.
 
 ### 3. Evaluation Metrics — RMSE, MAE, and Mean Error
 
@@ -245,10 +248,10 @@ DB_DRIVER=ODBC Driver 17 for SQL Server
 Begin with:
 
 - **`modelling/notebooks/learning/01_Data_and_Inflation.ipynb`** — Explains the database/CSV roles, CPI, month-over-month inflation, year-over-year inflation, the target, and possible predictors.
-- **`modelling/notebooks/learning/02_AR1_Baseline.ipynb`** — After Part 1, explains a one-month lag, a fixed training/test split, the AR(1) equation, forecasts, RMSE, MAE, and mean error.
-- **`modelling/notebooks/learning/03_ARX_with_News.ipynb`** — Adds lagged news sentiment to AR(1) and compares both models fairly using the same test months and three error measures.
-- **`modelling/notebooks/learning/04_HMM.ipynb`** — First explains two historical US inflation regimes using year-over-year inflation, then compares the forecasting HMM with AR(1) using three error measures.
-- **`modelling/notebooks/learning/05_AR_HMM.ipynb`** — Combines hidden states with state-specific AR(1) equations and compares AR(1), HMM, and AR-HMM using identical test months, RMSE, MAE, and mean error.
+- **`modelling/notebooks/learning/02_AR1_Baseline.ipynb`** — Fits AR(1), evaluates it, and saves `ar1_forecasts.csv` and `ar1_metrics.json`.
+- **`modelling/notebooks/learning/03_ARX_with_News.ipynb`** — Loads the saved AR(1) reference, fits only ARX, aligns common test dates, and saves the ARX CSV/JSON results.
+- **`modelling/notebooks/learning/04_HMM.ipynb`** — Explains historical regimes, loads the saved AR(1) reference, fits only the forecasting HMM, and saves the HMM CSV/JSON results.
+- **`modelling/notebooks/learning/05_AR_HMM.ipynb`** — Loads the saved AR(1) and HMM results, fits only AR-HMM, performs the three-model comparison, and saves the AR-HMM CSV/JSON results.
 
 ### Step 5 — Launch the Dashboard
 

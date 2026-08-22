@@ -1,0 +1,23 @@
+{
+  "model": "ARX with lagged sentiment",
+  "data_source": "database",
+  "target": "Inflation_MoM",
+  "forecast_horizon_months": 1,
+  "train_start": "2007-03-01",
+  "train_end": "2016-12-01",
+  "test_start": "2017-01-01",
+  "test_end": "2023-12-01",
+  "n_train": 118,
+  "n_test": 84,
+  "parameters": {
+    "constant": 0.1235609081157529,
+    "inflation_lag1": 0.5212917292771228,
+    "sentiment_lag1": 0.17958538930940549
+  },
+  "metrics": {
+    "rmse": 0.26670417641708194,
+    "mae": 0.1967264887848841,
+    "mean_error_actual_minus_forecast": 0.06591746341362983
+  },
+  "comparison_note": "AR(1) metrics are recalculated on the same dates available to ARX."
+}

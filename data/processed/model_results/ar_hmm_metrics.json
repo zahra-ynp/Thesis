@@ -1,0 +1,39 @@
+{
+  "model": "AR-HMM",
+  "data_source": "database",
+  "target": "Inflation_MoM",
+  "forecast_horizon_months": 1,
+  "n_states": 2,
+  "train_start": "2007-03-01",
+  "train_end": "2016-12-01",
+  "test_start": "2017-01-01",
+  "test_end": "2023-12-01",
+  "n_train": 118,
+  "n_test": 84,
+  "parameters": {
+    "state_constants": [
+      0.11144067857868954,
+      -0.8950643681913404
+    ],
+    "state_inflation_lag1": [
+      0.4047610388965206,
+      1.031677312237981
+    ],
+    "variance": 0.046882635945374895,
+    "transition_matrix": [
+      [
+        0.985818925906955,
+        0.6235972455904112
+      ],
+      [
+        0.014181074093045032,
+        0.3764027544095888
+      ]
+    ]
+  },
+  "metrics": {
+    "rmse": 0.26945658718356563,
+    "mae": 0.19607349129929327,
+    "mean_error_actual_minus_forecast": 0.07437534001358345
+  }
+}

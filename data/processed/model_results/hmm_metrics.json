@@ -1,0 +1,35 @@
+{
+  "model": "HMM",
+  "data_source": "database",
+  "target": "Inflation_MoM",
+  "forecast_horizon_months": 1,
+  "n_states": 2,
+  "train_start": "2007-03-01",
+  "train_end": "2016-12-01",
+  "test_start": "2017-01-01",
+  "test_end": "2023-12-01",
+  "n_train": 118,
+  "n_test": 84,
+  "parameters": {
+    "state_means": [
+      0.18136773324444688,
+      -1.1314951829100537
+    ],
+    "variance": 0.059001013005481766,
+    "transition_matrix": [
+      [
+        0.9904133414984884,
+        0.3637153549762142
+      ],
+      [
+        0.009586658501511636,
+        0.6362846450237858
+      ]
+    ]
+  },
+  "metrics": {
+    "rmse": 0.33126643515981924,
+    "mae": 0.23504585987987797,
+    "mean_error_actual_minus_forecast": 0.1281869575945088
+  }
+}
