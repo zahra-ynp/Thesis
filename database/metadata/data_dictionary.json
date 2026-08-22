@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Macroeconomic Sentiment and Inflation Database — Data Dictionary",
   "version": "2.0",
-  "lastUpdated": "2026-07-27",
+  "lastUpdated": "2026-08-22",
   "author": "Zahra Younes Pour Langaroudi",
   "databaseName": "MacroSentimentDB",
   "databaseEngine": "Microsoft SQL Server",
@@ -98,7 +98,7 @@
       "objectType": "TABLE",
       "schema": "core",
       "name": "indicators",
-      "description": "Lookup table of macroeconomic indicator definitions (CPI, UNRATE, FEDFUNDS, INDPRO).",
+      "description": "Lookup table of macroeconomic indicator definitions (CPI, UNRATE, FEDFUNDS, INDPRO, MCOILWTICO).",
       "primaryKey": "indicator_id",
       "columns": [
         {

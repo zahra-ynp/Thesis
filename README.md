@@ -116,6 +116,7 @@ Thesis/
 | CPI (`CPIAUCSL`) | FRED | Consumer Price Index for All Urban Consumers | 2007–2023 |
 | Unemployment (`UNRATE`) | FRED | Civilian Unemployment Rate | 2007–2023 |
 | Industrial Production (`INDPRO`) | FRED | Industrial Production Index | 2007–2023 |
+| WTI Oil (`MCOILWTICO`) | FRED | Monthly West Texas Intermediate crude-oil price in USD per barrel | 2007–2023 |
 | US News — original source | Kaggle ([FinSen](https://www.kaggle.com/datasets/eaglewhl/finsen-financial-sentiment-dataset)) | 15,534 categorized articles; retained as the historical baseline | 2007–2023 |
 | US News — replacement candidate | [New York Times Archive API](https://developer.nytimes.com/) | Publication-dated metadata filtered for US macroeconomic topics and scored locally with FinBERT | 2007–2023 |
 

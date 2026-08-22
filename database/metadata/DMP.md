@@ -18,7 +18,7 @@ This project studies the relationship between macroeconomic conditions and finan
 
 It combines:
 
-- **FRED:** U.S. Consumer Price Index (`CPIAUCSL`), unemployment (`UNRATE`), federal funds rate (`FEDFUNDS`), and industrial production (`INDPRO`).
+- **FRED:** U.S. Consumer Price Index (`CPIAUCSL`), unemployment (`UNRATE`), federal funds rate (`FEDFUNDS`), industrial production (`INDPRO`), and monthly WTI crude-oil prices (`MCOILWTICO`).
 - **Eurostat:** European macroeconomic data, including the Harmonised Index of Consumer Prices.
 - **Financial news:** FinSen data from Kaggle and Financial News Multisource data from Hugging Face.
 
@@ -136,7 +136,7 @@ Code and documentation are versioned in Git. Raw data, metadata, scripts, and de
 ### FRED
 
 - Date range: `2007-01-01` to `2023-12-31`
-- Series: `CPIAUCSL`, `UNRATE`, `FEDFUNDS`, `INDPRO`
+- Series: `CPIAUCSL`, `UNRATE`, `FEDFUNDS`, `INDPRO`, `MCOILWTICO`
 - Requires a FRED API key
 
 ```text

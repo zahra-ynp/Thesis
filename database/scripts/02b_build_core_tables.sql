@@ -50,8 +50,9 @@ GO
 INSERT INTO core.indicators (indicator_code, indicator_name, unit) VALUES
     ('CPIAUCSL', 'Consumer Price Index for All Urban Consumers', 'Index'),
     ('UNRATE',   'Unemployment Rate',                            '%'),
-    ('FEDFUNDS', 'Effective Federal Funds Rate',                 '%'),
-    ('INDPRO',   'Industrial Production Index',                  'Index');
+    ('FEDFUNDS',  'Effective Federal Funds Rate',                 '%'),
+    ('INDPRO',    'Industrial Production Index',                  'Index'),
+    ('MCOILWTICO','Crude Oil Prices: West Texas Intermediate',    'USD per Barrel');
 GO
 
 CREATE TABLE core.monthly_macro_indicators (
