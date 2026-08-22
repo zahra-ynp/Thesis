@@ -48,24 +48,34 @@
         "Inflation_Lag4",
         "Inflation_Lag5",
         "Inflation_Lag6",
-        "Sentiment_Lag1"
+        "Sentiment_Lag1",
+        "Sentiment_Lag2",
+        "Sentiment_Lag3",
+        "Sentiment_Lag4",
+        "Sentiment_Lag5",
+        "Sentiment_Lag6"
       ],
       "parameters": {
-        "alpha": 0.08227241341700466,
+        "alpha": 0.07038135554931554,
         "standardized_coefficients": {
-          "Inflation_Lag1": 0.0859768913398252,
-          "Inflation_Lag2": 0.0,
+          "Inflation_Lag1": 0.09786794920751431,
+          "Inflation_Lag2": -0.0,
           "Inflation_Lag3": -0.0,
           "Inflation_Lag4": -0.0,
           "Inflation_Lag5": -0.0,
           "Inflation_Lag6": -0.0,
-          "Sentiment_Lag1": 0.0
+          "Sentiment_Lag1": 0.0,
+          "Sentiment_Lag2": -0.0,
+          "Sentiment_Lag3": 0.0,
+          "Sentiment_Lag4": 0.0,
+          "Sentiment_Lag5": 0.0,
+          "Sentiment_Lag6": -0.0
         }
       },
       "metrics": {
-        "rmse": 0.2914630823524063,
-        "mae": 0.2098568830130111,
-        "mean_error_actual_minus_forecast": 0.109276112881313
+        "rmse": 0.286343194076103,
+        "mae": 0.20687855201916042,
+        "mean_error_actual_minus_forecast": 0.10377083658554193
       }
     }
   },
@@ -105,9 +115,9 @@
         "mean_error_actual_minus_forecast": 0.109276112881313
       },
       "LASSO inflation + sentiment": {
-        "rmse": 0.2914630823524063,
-        "mae": 0.2098568830130111,
-        "mean_error_actual_minus_forecast": 0.109276112881313
+        "rmse": 0.286343194076103,
+        "mae": 0.20687855201916042,
+        "mean_error_actual_minus_forecast": 0.10377083658554193
       }
     }
   }

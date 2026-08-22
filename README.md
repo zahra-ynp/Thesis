@@ -175,7 +175,7 @@ The implemented AR-HMM then assigns a different constant and lag coefficient to 
 
 The final section of the same notebook adds sentiment lagged by one month to each state-specific equation.
 
-Part 06 provides a regularized alternative. The first LASSO specification uses historical inflation lags, while
+Part 06 provides a regularized alternative. The first LASSO specification uses six historical inflation lags. The second uses the same six inflation lags plus six separate sentiment lags. LASSO can retain informative lags and shrink unhelpful coefficients to zero. Both variants use the same observations and share one forecast CSV and one metrics JSON; the JSON also contains the common-date comparison with every implemented model.
 
 ### 5. Step-by-Step Modelling
 
@@ -187,7 +187,7 @@ The simplified learning sequence currently keeps seven forecasting specification
 4. AR-HMM to combine regimes with past inflation.
 5. AR-HMM with news sentiment to test the NLP contribution.
 6. LASSO with six inflation lags as a regularized autoregressive alternative.
-7. LASSO with inflation lags and sentiment to test whether regularization changes the sentiment result.
+7. LASSO with six inflation lags and six sentiment lags to test whether regularization changes the sentiment result.
 
 
 ### 6. Database Architecture
@@ -259,7 +259,7 @@ Begin with:
 - **`modelling/notebooks/learning/03_ARX_with_News.ipynb`** — Loads the saved AR(1) reference, fits only ARX, aligns common test dates, and saves the ARX CSV/JSON results.
 - **`modelling/notebooks/learning/04_HMM.ipynb`** — Explains historical regimes, loads the saved AR(1) reference, fits only the forecasting HMM, and saves the HMM CSV/JSON results.
 - **`modelling/notebooks/learning/05_AR_HMM.ipynb`** — Loads the saved AR(1) and HMM results, fits AR-HMM, then reuses that result while fitting only the sentiment extension. Both variants are stored in one `ar_hmm_forecasts.csv` and one `ar_hmm_metrics.json`.
-- **`modelling/notebooks/learning/06_LASSO.ipynb`** — Fits inflation-only and inflation-plus-sentiment LASSO models and selects the penalty with time-series validation. Both variants and the all-model comparison are stored in one `lasso_forecasts.csv` and one `lasso_metrics.json`.
+- **`modelling/notebooks/learning/06_LASSO.ipynb`** — Fits a six-inflation-lag LASSO and a second LASSO with the same inflation lags plus six sentiment lags. Both variants and the all-model comparison are stored in one `lasso_forecasts.csv` and one `lasso_metrics.json`.
 
 ### Step 5 — Launch the Dashboard
 
