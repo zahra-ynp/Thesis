@@ -43,7 +43,7 @@ NYT API ─────┘                                 │
                          03 ARX with lagged news
                                       │
                                       ▼
-                              RMSE comparison
+                         Forecast-error comparison
                                       │
                                       ▼
                         04 Historical + forecasting HMM
@@ -146,21 +146,25 @@ The implemented learning workflow currently contains:
 
 Both models use the same chronological train/test split and the same test months. This makes their forecasting errors directly comparable.
 
-### 3. Evaluation Metric — RMSE
+### 3. Evaluation Metrics — RMSE, MAE, and Mean Error
 
-Forecast error is evaluated with Root Mean Squared Error:
+Every forecasting notebook reports three complementary measures on identical test months:
 
 ```text
 RMSE = sqrt(mean((actual inflation - predicted inflation)²))
+MAE  = mean(abs(actual inflation - predicted inflation))
+ME   = mean(actual inflation - predicted inflation)
 ```
 
-Lower RMSE indicates better out-of-sample forecasting accuracy. The central ARX test is whether adding lagged news sentiment produces a lower RMSE than the AR(1) baseline.
+Lower RMSE and MAE indicate better accuracy. RMSE penalizes large errors more heavily, while MAE describes the typical absolute mistake. Mean error measures bias rather than accuracy: a positive value means the model underpredicts inflation on average, and a negative value means it overpredicts.
+
+Verified results from the frozen US CSV snapshot on the common 2017–2023 test period are:
 
 ### 4. HMM and AR-HMM
 
 The first section of the implemented two-state HMM is fitted to year-over-year inflation (`Inflation_YoY`) because it represents persistent inflation environments more clearly than noisy monthly changes. It estimates a state-specific average inflation rate, smoothed historical state probabilities, and transition probabilities.
 
-The second section is a separate forecasting experiment fitted only to pre-2017 month-over-month inflation. It creates each test forecast from predicted state probabilities, records the forecast before observing the actual month, and then updates filtered probabilities for the following month. Its RMSE is compared with AR(1) using identical test months. This keeps smoothed historical interpretation separate from genuine no-lookahead forecasting.
+The second section is a separate forecasting experiment fitted only to pre-2017 month-over-month inflation. It creates each test forecast from predicted state probabilities, records the forecast before observing the actual month, and then updates filtered probabilities for the following month. Its RMSE, MAE, and mean error are compared with AR(1) using identical test months. This keeps smoothed historical interpretation separate from genuine no-lookahead forecasting.
 
 The implemented AR-HMM then assigns a different constant and lag coefficient to each hidden state. Its one-month-ahead forecast combines the state-specific AR forecasts using predicted state probabilities, and actual test inflation updates those probabilities only after each forecast is recorded.
 
@@ -240,10 +244,10 @@ DB_DRIVER=ODBC Driver 17 for SQL Server
 Begin with:
 
 - **`modelling/notebooks/learning/01_Data_and_Inflation.ipynb`** — Explains the database/CSV roles, CPI, month-over-month inflation, year-over-year inflation, the target, and possible predictors.
-- **`modelling/notebooks/learning/02_AR1_Baseline.ipynb`** — After Part 1, explains a one-month lag, a fixed training/test split, the AR(1) equation, forecasts, and RMSE.
-- **`modelling/notebooks/learning/03_ARX_with_News.ipynb`** — Adds lagged news sentiment to AR(1) and compares both models fairly using the same test months and RMSE.
-- **`modelling/notebooks/learning/04_HMM.ipynb`** — First explains two historical US inflation regimes using year-over-year inflation, then fits a separate training-only HMM to month-over-month inflation and compares its one-month-ahead test RMSE with AR(1).
-- **`modelling/notebooks/learning/05_AR_HMM.ipynb`** — Combines hidden states with state-specific AR(1) equations and compares AR(1), HMM, and AR-HMM using identical one-month-ahead test months and RMSE.
+- **`modelling/notebooks/learning/02_AR1_Baseline.ipynb`** — After Part 1, explains a one-month lag, a fixed training/test split, the AR(1) equation, forecasts, RMSE, MAE, and mean error.
+- **`modelling/notebooks/learning/03_ARX_with_News.ipynb`** — Adds lagged news sentiment to AR(1) and compares both models fairly using the same test months and three error measures.
+- **`modelling/notebooks/learning/04_HMM.ipynb`** — First explains two historical US inflation regimes using year-over-year inflation, then compares the forecasting HMM with AR(1) using three error measures.
+- **`modelling/notebooks/learning/05_AR_HMM.ipynb`** — Combines hidden states with state-specific AR(1) equations and compares AR(1), HMM, and AR-HMM using identical test months, RMSE, MAE, and mean error.
 
 ### Step 5 — Launch the Dashboard
 
@@ -270,7 +274,7 @@ streamlit run modelling/streamlit_app.py
 ## Future Work
 
 - Validate NYT coverage and relevance against the historical FinSen baseline.
-- Re-run the ARX experiment with NYT sentiment and compare RMSE on the same test months.
+- Re-run the ARX experiment with NYT sentiment and compare all three error measures on the same test months.
 - Add the AR-HMM-with-news learning notebook.
 - Understand and document each model before adding the next one.
 - Extend the understood US workflow to Eurostat/ECB data for the euro area.
