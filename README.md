@@ -20,7 +20,7 @@ This thesis builds an end-to-end pipeline that connects three complementary area
 
 1. **Data Infrastructure** — A normalized SQL Server database that ingests macroeconomic indicators from FRED and financial news from public datasets, scores articles with FinBERT, and exposes analytics-ready views through a Streamlit dashboard.
 2. **NLP Sentiment Extraction** — FinBERT (a BERT model fine-tuned on financial text) classifies each news article as positive, negative, or neutral. Article-level scores are aggregated into a monthly sentiment signal.
-3. **Forecasting and Regime Modelling** — The current learning workflow contains AR(1), ARX, HMM, and AR-HMM. The HMM notebook separates full-sample historical interpretation from no-lookahead forecasting, while AR-HMM adds a separate autoregressive equation to every hidden state. Adding sentiment to AR-HMM is the next thesis stage; the older US regime notebook is retained only as reference.
+3. **Forecasting and Regime Modelling** — The current learning workflow contains AR(1), ARX, HMM, AR-HMM, and AR-HMM with lagged news sentiment. The HMM notebook separates full-sample historical interpretation from no-lookahead forecasting, while AR-HMM gives every hidden state its own autoregressive equation. The sentiment extension tests whether news adds forecasting information inside those regimes.
 
 
 ### Pipeline Architecture
@@ -89,7 +89,7 @@ Thesis/
 │       │   ├── 02_AR1_Baseline.ipynb        ← Simple AR(1) forecast
 │       │   ├── 03_ARX_with_News.ipynb       ← Add lagged sentiment
 │       │   ├── 04_HMM.ipynb                 ← Historical regimes and HMM forecasts
-│       │   └── 05_AR_HMM.ipynb              ← Regime-specific AR forecasts
+│       │   └── 05_AR_HMM.ipynb              ← AR-HMM and AR-HMM with lagged sentiment
 │       └── US/
 │           ├── 01_Data_Prep.ipynb              ← Data cleaning, ETL & FinBERT scoring
 │           └── 02_AR_HMM_and_Evaluation.ipynb  ← HMM & AR-HMM regime detection
@@ -172,6 +172,8 @@ The second section is a separate forecasting experiment fitted only to pre-2017 
 
 The implemented AR-HMM then assigns a different constant and lag coefficient to each hidden state. Its one-month-ahead forecast combines the state-specific AR forecasts using predicted state probabilities, and actual test inflation updates those probabilities only after each forecast is recorded.
 
+The final section of the same notebook adds sentiment lagged by one month to each state-specific equation.
+
 ### 5. Step-by-Step Modelling
 
 The simplified learning sequence keeps five models in scope:
@@ -251,7 +253,7 @@ Begin with:
 - **`modelling/notebooks/learning/02_AR1_Baseline.ipynb`** — Fits AR(1), evaluates it, and saves `ar1_forecasts.csv` and `ar1_metrics.json`.
 - **`modelling/notebooks/learning/03_ARX_with_News.ipynb`** — Loads the saved AR(1) reference, fits only ARX, aligns common test dates, and saves the ARX CSV/JSON results.
 - **`modelling/notebooks/learning/04_HMM.ipynb`** — Explains historical regimes, loads the saved AR(1) reference, fits only the forecasting HMM, and saves the HMM CSV/JSON results.
-- **`modelling/notebooks/learning/05_AR_HMM.ipynb`** — Loads the saved AR(1) and HMM results, fits only AR-HMM, performs the three-model comparison, and saves the AR-HMM CSV/JSON results.
+- **`modelling/notebooks/learning/05_AR_HMM.ipynb`** — Loads the saved AR(1) and HMM results, fits AR-HMM, then reuses that result while fitting only the AR-HMM-with-sentiment extension. Separate CSV/JSON results are saved for both specifications.
 
 ### Step 5 — Launch the Dashboard
 
