@@ -1,241 +1,86 @@
-# Inflation Regime Forecasting with AR-HMM and NLP Sentiment Analysis
+# Inflation Regime Forecasting with AR-HMM and News Sentiment
 
 [![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
 [![Database](https://img.shields.io/badge/Database-SQL%20Server-red.svg)](https://www.microsoft.com/sql-server/)
 
-## Abstract
+M.Sc. thesis by **Zahra Younes Pour Langaroudi**, University of Trieste.
 
-This thesis develops a step-by-step framework for forecasting inflation and identifying inflation regimes. The implementation covers AR(1), ARX with lagged FinBERT sentiment, a two-state HMM, AR-HMM with and without sentiment, and LASSO forecasts using historical inflation with an optional sentiment input. US macroeconomic data, two alternative US news sources, and a normalized SQL Server database form the supporting data pipeline.
+This project forecasts US inflation and identifies inflation regimes using AR(1), ARX, HMM, AR-HMM, and LASSO. It combines monthly macroeconomic data from FRED with FinBERT sentiment extracted from financial news. Data are managed in SQL Server and exposed through a Streamlit dashboard.
 
-**Author:** Zahra Younes Pour Langaroudi
+## Project Components
 
-**Institution:** University of Trieste — M.Sc. in Data Science and Artificial Intelligence
+- **Database:** normalized SQL Server schemas, ingestion scripts, analytics views, and metadata.
+- **NLP:** FinBERT article scoring and monthly sentiment aggregation.
+- **Forecasting:** chronological one-month-ahead experiments with a common 2017–2023 test period.
+- **Dashboard:** interactive access to the processed data and model results.
 
----
+## Data
 
-## Project Overview
+| Input | Source | Use |
+|---|---|---|
+| CPI (`CPIAUCSL`) | FRED | Inflation target |
+| Unemployment (`UNRATE`) | FRED | Future macro extension |
+| Industrial production (`INDPRO`) | FRED | Future macro extension |
+| WTI oil (`MCOILWTICO`) | FRED | Future macro extension |
+| FinSen news | Kaggle | Historical sentiment baseline |
+| NYT news | Archive API | Alternative US news source |
 
-This thesis builds an end-to-end pipeline that connects three complementary areas:
+FinBERT calculates monthly net sentiment as:
 
-1. **Data Infrastructure** — A normalized SQL Server database that ingests macroeconomic indicators from FRED and financial news from public datasets, scores articles with FinBERT, and exposes analytics-ready views through a Streamlit dashboard.
-2. **NLP Sentiment Extraction** — FinBERT (a BERT model fine-tuned on financial text) classifies each news article as positive, negative, or neutral. Article-level scores are aggregated into a monthly sentiment signal.
-3. **Forecasting and Regime Modelling** — The learning workflow contains AR(1), ARX, HMM, AR-HMM, and LASSO specifications. AR-HMM remains the regime-analysis model, while LASSO provides a regularized alternative for practical forecasting and later macroeconomic expansion.
-
-
-### Pipeline Architecture
-
-```
-FRED macro data ───────────────────────────────┐
-                                               │
-FinSen CSV ──┐                                 ▼
-             ├─ FinBERT ─ monthly sentiment ─ SQL Server
-NYT API ─────┘                                 │
-                                               ├─ Streamlit dashboard
-                                               │
-                                               ▼
-                           01 Data and Inflation
-                                      │
-                                      ▼
-                              02 AR(1) baseline
-                                      │
-                                      ▼
-                         03 ARX with lagged news
-                                      │
-                                      ▼
-                         Forecast-error comparison
-                                      │
-                                      ▼
-                        04 Historical + forecasting HMM
-                                      │
-                                      ▼
-                                  05 AR-HMM
-                                      │
-                                      ▼
-                         Next: AR-HMM + sentiment
+```text
+sentiment = P(positive) - P(negative)
 ```
 
----
+The database source registry selects the active news source; FinSen and NYT are not averaged together. Forecasts use only lagged information to prevent look-ahead bias. The notebooks read from SQL Server by default and support the processed CSV as a fallback.
+
+## Models
+
+| Model | Predictors | Purpose |
+|---|---|---|
+| AR(1) | Inflation lag 1 | Forecast baseline |
+| ARX | Inflation lag 1, sentiment lag 1 | Simple sentiment test |
+| HMM | Hidden inflation state | Regime identification and forecast |
+| AR-HMM | State-specific inflation dynamics | Regime-dependent forecast |
+| AR-HMM + sentiment | AR-HMM inputs, sentiment lag 1 | Regime-dependent sentiment test |
+| LASSO | Inflation lags 1–6 | Regularized forecast |
+| LASSO + sentiment | Inflation and sentiment lags 1–6 | Regularized sentiment test |
+
+Forecasts are compared on common out-of-sample dates using RMSE, MAE, and mean error. Lower RMSE and MAE are better; mean error indicates systematic underprediction or overprediction.
 
 ## Repository Structure
 
-```
-Thesis/
-│
-├── README.md                       ← This file
-├── .gitignore
-├── .env.example                    ← Safe API and database configuration template
-├── requirements.txt                ← Merged Python dependencies
-│
-├── database/                       ← Data infrastructure & schema definitions
-│   ├── scripts/                    ← SQL schema, views, security & news-source upgrade (01–07)
-│   ├── docs/
-│   │   └── ER.png                  ← Entity-Relationship diagram
-│   └── metadata/
-│       ├── DMP.md                  ← Data Management Plan
-│       ├── data_dictionary.json    ← Field-level metadata
-│       ├── data_lineage.jsonld     ← Source & transformation lineage
-│       └── dataset_metadata.jsonld ← Descriptive dataset metadata
-│
-├── modelling/                      ← Data pipeline, NLP, and probabilistic models
-│   ├── config.py                   ← Central `.env` loader and SQL connection builder
-│   ├── news_pipeline.py            ← Reusable NYT filtering, FinBERT & database helpers
-│   ├── streamlit_app.py            ← Interactive analytics dashboard
-│   └── notebooks/
-│       ├── learning/
-│       │   ├── 00_NYT_News_FinBERT_and_DB.ipynb
-│       │   │                                ← NYT acquisition and scoring pipeline
-│       │   ├── 01_Data_and_Inflation.ipynb ←  Data and inflation
-│       │   ├── 02_AR1_Baseline.ipynb        ← Simple AR(1) forecast
-│       │   ├── 03_ARX_with_News.ipynb       ← Add lagged sentiment
-│       │   ├── 04_HMM.ipynb                 ← Historical regimes and HMM forecasts
-│       │   ├── 05_AR_HMM.ipynb              ← AR-HMM and AR-HMM with lagged sentiment
-│       │   └── 06_LASSO.ipynb                ← LASSO with inflation lags and sentiment
-│       └── US/
-│           ├── 01_Data_Prep.ipynb              ← Data cleaning, ETL & FinBERT scoring
-│           └── 02_AR_HMM_and_Evaluation.ipynb  ← HMM & AR-HMM regime detection
-│
-├── data/                           ← Shared data layer
-│   ├── raw/
-│   │   └── news/                   ← FinSen CSV and generated NYT monthly cache
-│   └── processed/
-│       ├── US/                     ← US macro data and generated NYT monthly sentiment
-│       ├── model_results/          ← Saved forecast CSVs and model-metadata JSON files
-│       ├── finbert_article_scores.csv  ← FinSen FinBERT scores
-│       └── nyt_finbert_article_scores.csv ← Generated NYT FinBERT scores
-│
-└── plots/                          ← Exploratory notebook visualisations
-    └── US/                         ← Historical regimes and BIC comparisons
-
-```
-
----
-
-## Data Sources
-
-| Source | Provider | Description | Period |
-|---|---|---|---|
-| CPI (`CPIAUCSL`) | FRED | Consumer Price Index for All Urban Consumers | 2007–2023 |
-| Unemployment (`UNRATE`) | FRED | Civilian Unemployment Rate | 2007–2023 |
-| Industrial Production (`INDPRO`) | FRED | Industrial Production Index | 2007–2023 |
-| WTI Oil (`MCOILWTICO`) | FRED | Monthly West Texas Intermediate crude-oil price in USD per barrel | 2007–2023 |
-| US News — original source | Kaggle ([FinSen](https://www.kaggle.com/datasets/eaglewhl/finsen-financial-sentiment-dataset)) | 15,534 categorized articles; retained as the historical baseline | 2007–2023 |
-| US News — replacement candidate | [New York Times Archive API](https://developer.nytimes.com/) | Publication-dated metadata filtered for US macroeconomic topics and scored locally with FinBERT | 2007–2023 |
-
-FinSen and NYT are not averaged together. The database source registry identifies one active news source for analytical views and the dashboard. FinSen remains available for comparison while NYT is downloaded, audited, scored, and validated.
-
----
-
-## Methodology
-
-### 1. NLP Sentiment Extraction — FinBERT
-
-Articles from either US news source are scored using [ProsusAI/finbert](https://huggingface.co/ProsusAI/finbert), a BERT-based model fine-tuned on financial text. FinBERT outputs class probabilities for *positive*, *negative*, and *neutral* labels. A net sentiment score is computed as:
-
-```
-score = P(positive) − P(negative)     ∈ [−1, +1]
-```
-
-Article-level scores are aggregated within each calendar month to produce `News_Sentiment`. The NYT workflow also retains the monthly article count, median sentiment, sentiment dispersion, and negative-article share for data-quality and robustness checks.
-
-To prevent future information from entering a forecast, the ARX model uses the previous month's sentiment (`Sentiment_Lag1`) rather than contemporaneous sentiment.
-
-### 2. Current Forecasting Models — AR(1) and ARX
-
-The implemented learning workflow currently contains:
-
-- **AR(1):** forecasts month-over-month inflation from its value one month earlier.
-- **ARX:** extends AR(1) with news sentiment lagged by one month.
-
-Both models use the same chronological split. Comparisons are aligned to common test dates, which matters when sentiment is missing for a month.
-
-Each model is estimated only in its own notebook. It saves date-level out-of-sample forecasts to CSV and its settings, parameters, and metrics to JSON under `data/processed/model_results/`. Later notebooks load those artifacts instead of fitting earlier reference models again.
-
-### 3. Evaluation Metrics — RMSE, MAE, and Mean Error
-
-Every forecasting notebook reports three complementary measures on identical test months:
-
 ```text
-RMSE = sqrt(mean((actual inflation - predicted inflation)²))
-MAE  = mean(abs(actual inflation - predicted inflation))
-ME   = mean(actual inflation - predicted inflation)
+database/
+  scripts/                 SQL Server setup and views
+  docs/                    ER diagram
+  metadata/                Data management and lineage
+modelling/
+  notebooks/learning/      Step-by-step learning workflow
+  config.py                Environment and database connection
+  news_pipeline.py         NYT and FinBERT helpers
+  streamlit_app.py         Dashboard
+data/
+  raw/                     Source data
+  processed/US/            Processed US dataset
+  processed/model_results/ One CSV and one JSON per model notebook
 ```
 
-Lower RMSE and MAE indicate better accuracy. RMSE penalizes large errors more heavily, while MAE describes the typical absolute mistake. Mean error measures bias rather than accuracy: a positive value means the model underpredicts inflation on average, and a negative value means it overpredicts.
+## Setup
 
-Verified results from the frozen US CSV snapshot on the common 2017–2023 test period are:
-
-### 4. HMM and AR-HMM
-
-The first section of the implemented two-state HMM is fitted to year-over-year inflation (`Inflation_YoY`) because it represents persistent inflation environments more clearly than noisy monthly changes. It estimates a state-specific average inflation rate, smoothed historical state probabilities, and transition probabilities.
-
-The second section is a separate forecasting experiment fitted only to pre-2017 month-over-month inflation. It creates each test forecast from predicted state probabilities, records the forecast before observing the actual month, and then updates filtered probabilities for the following month. Its RMSE, MAE, and mean error are compared with AR(1) using identical test months. This keeps smoothed historical interpretation separate from genuine no-lookahead forecasting.
-
-The implemented AR-HMM then assigns a different constant and lag coefficient to each hidden state. Its one-month-ahead forecast combines the state-specific AR forecasts using predicted state probabilities, and actual test inflation updates those probabilities only after each forecast is recorded.
-
-The final section of the same notebook adds sentiment lagged by one month to each state-specific equation.
-
-Part 06 provides a regularized alternative. The first LASSO specification uses six historical inflation lags. The second uses the same six inflation lags plus six separate sentiment lags. LASSO can retain informative lags and shrink unhelpful coefficients to zero. Both variants use the same observations and share one forecast CSV and one metrics JSON; the JSON also contains the common-date comparison with every implemented model.
-
-### 5. Step-by-Step Modelling
-
-The simplified learning sequence currently keeps seven forecasting specifications in scope:
-
-1. AR(1) as the understandable inflation forecast baseline.
-2. ARX to test whether lagged sentiment helps without hidden states.
-3. HMM for historical low/high inflation regimes.
-4. AR-HMM to combine regimes with past inflation.
-5. AR-HMM with news sentiment to test the NLP contribution.
-6. LASSO with six inflation lags as a regularized autoregressive alternative.
-7. LASSO with six inflation lags and six sentiment lags to test whether regularization changes the sentiment result.
-
-
-### 6. Database Architecture
-
-The data infrastructure uses a normalized SQL Server schema:
-
-- **`core` schema:** Regions, agencies, indicators, monthly observations, daily news, and selectable news sources
-- **`analytics` schema:** Aggregated monthly views based on the active news source, with month-over-month macroeconomic changes
-- **`auth` schema:** Users, roles, companies, and scoped permissions
-
-See the [ER diagram](database/docs/ER.png) and [Data Management Plan](database/metadata/DMP.md) for full documentation.
-
----
-
-## Quick Start
-
-### Prerequisites
-
-- Python 3.8 or later
-- Microsoft SQL Server (with ODBC Driver 17)
-- A free [FRED API key](https://fred.stlouisfed.org/docs/api/api_key.html)
-- A free [NYT Developer API key](https://developer.nytimes.com/) when using the NYT replacement source
-
-### Installation
+### 1. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### Step 1 — Set Up the Database
+### 2. Create the database
 
-Create a SQL Server database named `MacroSentimentDB`, then run the SQL scripts in order:
+Create a SQL Server database named `MacroSentimentDB`, then run the files under `database/scripts/` in numerical order.
 
-```text
-database/scripts/01_create_schemas.sql
-database/scripts/02a_create_source_regions.sql
-database/scripts/02b_build_core_tables.sql
-database/scripts/03_create_analytics_view.sql
-database/scripts/03b_create_monthly_region_wide_view.sql
-database/scripts/04_create_auth_tables.sql
-database/scripts/05_create_access_views.sql
-database/scripts/06_create_assets_table.sql
-database/scripts/07_upgrade_news_sources.sql
-```
+### 3. Configure the environment
 
-### Step 2 — Configure the Environment
-
-Copy `.env.example` to a project-root `.env` file and replace the placeholders with local values:
+Copy `.env.example` to `.env` in the project root and set:
 
 ```text
 FRED_API_KEY=your-fred-key
@@ -245,55 +90,46 @@ DB_DATABASE=MacroSentimentDB
 DB_DRIVER=ODBC Driver 17 for SQL Server
 ```
 
-### Step 3 — Prepare the News Source
+## Notebook Order
 
-- **FinSen:** use the included raw CSV and precomputed scores for the historical baseline.
-- **NYT:** run **`modelling/notebooks/learning/00_NYT_News_FinBERT_and_DB.ipynb`**. It downloads and filters Archive API metadata, audits coverage, runs FinBERT, creates monthly indicators, and optionally loads the database.
+Run the notebooks under `modelling/notebooks/learning/` in this order:
 
-### Step 4 — Run the Six Learning Notebooks
+| Part | Notebook | Main output |
+|---:|---|---|
+| 00 | `00_NYT_News_FinBERT_and_DB.ipynb` | Optional NYT acquisition, FinBERT scoring, and database load |
+| 01 | `01_Data_and_Inflation.ipynb` | Data and inflation explanation |
+| 02 | `02_AR1_Baseline.ipynb` | `ar1_forecasts.csv`, `ar1_metrics.json` |
+| 03 | `03_ARX_with_News.ipynb` | `arx_forecasts.csv`, `arx_metrics.json` |
+| 04 | `04_HMM.ipynb` | `hmm_forecasts.csv`, `hmm_metrics.json` |
+| 05 | `05_AR_HMM.ipynb` | `ar_hmm_forecasts.csv`, `ar_hmm_metrics.json` |
+| 06 | `06_LASSO.ipynb` | `lasso_forecasts.csv`, `lasso_metrics.json` |
 
-Begin with:
+Parts 05 and 06 store their inflation-only and sentiment variants together. All result files are written to `data/processed/model_results/`.
 
-- **`modelling/notebooks/learning/01_Data_and_Inflation.ipynb`** — Explains the database/CSV roles, CPI, month-over-month inflation, year-over-year inflation, the target, and possible predictors.
-- **`modelling/notebooks/learning/02_AR1_Baseline.ipynb`** — Fits AR(1), evaluates it, and saves `ar1_forecasts.csv` and `ar1_metrics.json`.
-- **`modelling/notebooks/learning/03_ARX_with_News.ipynb`** — Loads the saved AR(1) reference, fits only ARX, aligns common test dates, and saves the ARX CSV/JSON results.
-- **`modelling/notebooks/learning/04_HMM.ipynb`** — Explains historical regimes, loads the saved AR(1) reference, fits only the forecasting HMM, and saves the HMM CSV/JSON results.
-- **`modelling/notebooks/learning/05_AR_HMM.ipynb`** — Loads the saved AR(1) and HMM results, fits AR-HMM, then reuses that result while fitting only the sentiment extension. Both variants are stored in one `ar_hmm_forecasts.csv` and one `ar_hmm_metrics.json`.
-- **`modelling/notebooks/learning/06_LASSO.ipynb`** — Fits a six-inflation-lag LASSO and a second LASSO with the same inflation lags plus six sentiment lags. Both variants and the all-model comparison are stored in one `lasso_forecasts.csv` and one `lasso_metrics.json`.
-
-### Step 5 — Launch the Dashboard
-
-The dashboard reads its database connection from the same project-root `.env` file.
+## Dashboard
 
 ```bash
 streamlit run modelling/streamlit_app.py
 ```
 
----
+The dashboard uses the database connection defined in `.env`.
 
 ## Documentation
 
-| Document | Description |
-|---|---|
-| [`DMP.md`](database/metadata/DMP.md) | Data Management Plan — scope, architecture, governance, security |
-| [`data_dictionary.json`](database/metadata/data_dictionary.json) | Field-level metadata for all database tables |
-| [`data_lineage.jsonld`](database/metadata/data_lineage.jsonld) | Source and transformation lineage |
-| [`dataset_metadata.jsonld`](database/metadata/dataset_metadata.jsonld) | Descriptive dataset metadata |
-| [`ER.png`](database/docs/ER.png) | Entity-Relationship diagram |
+- [Data Management Plan](database/metadata/DMP.md)
+- [Data dictionary](database/metadata/data_dictionary.json)
+- [Data lineage](database/metadata/data_lineage.jsonld)
+- [Dataset metadata](database/metadata/dataset_metadata.jsonld)
+- [Entity-Relationship diagram](database/docs/ER.png)
 
----
+## Next Steps
 
-## Future Work
-
-- Validate NYT coverage and relevance against the historical FinSen baseline.
-- Re-run the ARX experiment with NYT sentiment and compare all three error measures on the same test months.
-- Add lagged oil-price growth, unemployment changes, and industrial-production growth to the ARX, LASSO, and AR-HMM extensions after the inflation-and-sentiment stage is understood.
-- Understand and document each model before adding the next one.
-- Extend the understood US workflow to Eurostat/ECB data for the euro area.
-- Consider richer news indicators only after the generic FinBERT baseline is understood.
-
----
+- Add oil-price growth, unemployment changes, and industrial-production growth to the forecasting experiments.
+- Validate NYT sentiment against the FinSen baseline.
+- Consider Ridge and Random Forest after the macroeconomic extension.
+- Extend the validated workflow to the euro area using Eurostat and ECB data.
+- Connect the final forecasts and regime probabilities to the dashboard.
 
 ## License
 
-Project code, metadata, and eligible derived outputs are licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). Upstream data remains subject to the terms of FRED, Kaggle, The New York Times, Eurostat, and the original data providers.
+Project code, metadata, and eligible derived outputs are licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). Source datasets remain subject to their providers' terms.
