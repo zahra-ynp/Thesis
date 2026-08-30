@@ -32,7 +32,7 @@ FinBERT calculates monthly net sentiment as:
 sentiment = P(positive) - P(negative)
 ```
 
-The database source registry selects the active news source; FinSen and NYT are not averaged together. Forecasts use only lagged information to prevent look-ahead bias. The notebooks read from SQL Server by default and support the processed CSV as a fallback.
+Each experiment selects a named news source explicitly; FinSen and NYT are not averaged together. Forecasts use only lagged information to prevent look-ahead bias. SQL Server is the primary store, while exported experiment datasets provide auditable, reproducible snapshots.
 
 ## Models
 
@@ -56,13 +56,20 @@ database/
   docs/                    ER diagram
   metadata/                Data management and lineage
 modelling/
-  notebooks/learning/      Step-by-step learning workflow
   config.py                Environment and database connection
+  data_pipeline.py         Shared experiment data preparation
   news_pipeline.py         NYT and FinBERT helpers
+  sentiment.py             Shared sentiment features
+  models.py                Shared forecasting implementations
+  evaluation.py            Metrics and comparison checks
+  run_experiments.py       Repeatable experiment runner
+  notebooks/               Two active thesis notebooks
+  notebooks/archive/       Preserved historical notebooks
+  ARCHITECTURE.md          Extension rules and workflow reference
   streamlit_app.py         Dashboard
 data/
   raw/                     Source data
-  processed/US/            Processed US dataset
+  processed/modelling_datasets/ Prepared datasets and metadata used by models
   processed/model_results/ One CSV and one JSON per model notebook
 ```
 
@@ -92,19 +99,20 @@ DB_DRIVER=ODBC Driver 17 for SQL Server
 
 ## Notebook Order
 
-Run the notebooks under `modelling/notebooks/learning/` in this order:
+Use the two active notebooks under `modelling/notebooks/` in this order:
 
 | Part | Notebook | Main output |
 |---:|---|---|
-| 00 | `00_NYT_News_FinBERT_and_DB.ipynb` | Optional NYT acquisition, FinBERT scoring, and database load |
-| 01 | `01_Data_and_Inflation.ipynb` | Data and inflation explanation |
-| 02 | `02_AR1_Baseline.ipynb` | `ar1_forecasts.csv`, `ar1_metrics.json` |
-| 03 | `03_ARX_with_News.ipynb` | `arx_forecasts.csv`, `arx_metrics.json` |
-| 04 | `04_HMM.ipynb` | `hmm_forecasts.csv`, `hmm_metrics.json` |
-| 05 | `05_AR_HMM.ipynb` | `ar_hmm_forecasts.csv`, `ar_hmm_metrics.json` |
-| 06 | `06_LASSO.ipynb` | `lasso_forecasts.csv`, `lasso_metrics.json` |
+| 01 | `01_Data_and_Sentiment_Analysis.ipynb` | Data provenance, coverage, and current FinBERT sentiment analysis |
+| 02 | `02_Forecasting_and_Regime_Results.ipynb` | Existing forecast comparison and regime interpretation |
 
-Parts 05 and 06 store their inflation-only and sentiment variants together. All result files are written to `data/processed/model_results/`.
+The old learning notebooks are preserved under `modelling/notebooks/archive/`. Reusable logic is no longer defined inside notebooks. To check inputs without fitting anything, run:
+
+```bash
+python -m modelling.run_experiments --model all --check-only
+```
+
+To re-estimate all existing models, omit `--check-only`. Results are written to `data/processed/model_results/modelling_dataset/`, leaving the historical result files intact.
 
 ## Dashboard
 
