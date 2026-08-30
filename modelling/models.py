@@ -137,6 +137,8 @@ def fit_ar_hmm(
     target: str = "Inflation_MoM",
     test_start: str = "2017-01-01",
     n_states: int = 2,
+    maxiter: int = 2000,
+    search_reps: int = 30,
     random_seed: int = 42,
 ) -> ForecastResult:
     """Fit the existing AR-HMM with state-specific predictor coefficients."""
