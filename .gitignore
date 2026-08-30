@@ -41,3 +41,5 @@ data/processed/nyt_finbert_checkpoints/
 
 # Archived notebooks from previous structure
 modelling/notebooks/archive/*
+
+ARCHITECTURE.md
