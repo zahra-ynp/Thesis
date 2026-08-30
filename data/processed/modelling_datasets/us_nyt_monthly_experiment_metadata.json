@@ -1,0 +1,49 @@
+{
+  "experiment": "inflation_sentiment_forecasting",
+  "schema_version": 1,
+  "created_at_utc": "2026-08-30T09:26:02.760357+00:00",
+  "region_code": "US",
+  "news_source": {
+    "source_code": "NYT",
+    "source_name": "The New York Times Archive API",
+    "was_active_at_export": true,
+    "selection_rule": "explicit source_code; experiment does not depend on active view"
+  },
+  "coverage": {
+    "row_count": 204,
+    "first_month": "2007-01-01",
+    "last_month": "2023-12-01",
+    "missing_calendar_months": [],
+    "months_with_sentiment": 204,
+    "months_without_sentiment": 0,
+    "article_count_total": 16455,
+    "macro_missing_values": {
+      "CPIAUCSL": 0,
+      "UNRATE": 0,
+      "FEDFUNDS": 0,
+      "INDPRO": 0,
+      "MCOILWTICO": 0
+    }
+  },
+  "target_definitions": {
+    "primary": "Inflation_MoM = 100 * monthly percentage change in CPIAUCSL",
+    "secondary": "Inflation_YoY = 100 * twelve-month percentage change in CPIAUCSL"
+  },
+  "predictor_timing": {
+    "forecast_horizon_months": 1,
+    "policy": "Only lag-1 predictors are used to forecast month t."
+  },
+  "split": {
+    "test_start": "2017-01-01",
+    "train_first_month": "2007-01-01",
+    "train_last_month": "2016-12-01",
+    "test_first_month": "2017-01-01",
+    "test_last_month": "2023-12-01"
+  },
+  "macro_transformations": {
+    "UNRATE": "first difference",
+    "FEDFUNDS": "first difference",
+    "INDPRO": "monthly percentage growth",
+    "MCOILWTICO": "monthly log growth"
+  }
+}
