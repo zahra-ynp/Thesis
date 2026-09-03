@@ -72,6 +72,45 @@ def fit_ar1(data: pd.DataFrame, *, test_start: str = "2017-01-01") -> ForecastRe
     )
 
 
+def fit_expanding_macro(
+    sample: pd.DataFrame,
+    schedule: pd.DataFrame,
+    *,
+    features: Sequence[str],
+    name: str,
+) -> ForecastResult:
+    """Direct OLS forecasts using only targets available at each scheduled origin."""
+    frame = sample.copy()
+    frame["Date"] = pd.to_datetime(frame["Date"])
+    frame["TargetAssumedAvailableBy"] = pd.to_datetime(frame["TargetAssumedAvailableBy"])
+    rows, coefficients = [], []
+    for item in schedule.itertuples(index=False):
+        origin, target_date = pd.Timestamp(item.ForecastOrigin), pd.Timestamp(item.TargetMonth)
+        train = frame.loc[frame["TargetAssumedAvailableBy"] <= origin]
+        target = frame.loc[frame["Date"] == target_date]
+        if len(target) != 1 or len(train) <= len(features) + 1:
+            raise ValueError(f"Insufficient data for {name} at {target_date.date()}.")
+        x = np.column_stack([np.ones(len(train)), train[list(features)].to_numpy(dtype=float)])
+        y = train["Inflation_MoM"].to_numpy(dtype=float)
+        x_next = np.r_[1.0, target.iloc[0][list(features)].to_numpy(dtype=float)]
+        if not all(np.isfinite(v).all() for v in (x, y, x_next)):
+            raise ValueError(f"Nonfinite data for {name} at {target_date.date()}.")
+        beta, _, rank, _ = np.linalg.lstsq(x, y, rcond=None)
+        if rank < x.shape[1]:
+            raise ValueError(f"Rank-deficient regression for {name} at {target_date.date()}.")
+        prediction = float(x_next @ beta)
+        actual = float(target.iloc[0]["Inflation_MoM"])
+        rows.append({"Date": target_date, "Actual": actual, "Forecast": prediction,
+                     "Error": actual - prediction})
+        coefficients.append({"target_month": str(target_date.date()), "origin": str(origin.date()),
+                             "training_end": str(train["Date"].max().date()), "training_rows": len(train),
+                             "coefficients": dict(zip(["intercept", *features], beta.tolist()))})
+    return ForecastResult(name, pd.DataFrame(rows), {
+        "features": list(features), "estimator": "expanding-window ordinary least squares",
+        "coefficients_by_origin": coefficients,
+    })
+
+
 def fit_arx_sentiment(
     data: pd.DataFrame, *, test_start: str = "2017-01-01"
 ) -> ForecastResult:
