@@ -160,7 +160,7 @@ def compare_macro_lags(path: Path = DEFAULT_DATASET):
 
 
 def run_sentiment_comparison(path: Path = DEFAULT_DATASET, *, macro_dir: Path | None = None):
-    """Compare inflation-only and the best saved macro model, with/without lag-1 FinBERT."""
+    """Compare models with/without target-month FinBERT sentiment."""
     macro_dir = Path(macro_dir) if macro_dir is not None else DEFAULT_OUTPUT.parent / "macro"
     ranking = pd.read_csv(macro_dir / "metrics.csv").sort_values("rmse")
     saved = json.loads((macro_dir / "parameters.json").read_text(encoding="utf-8"))
@@ -169,10 +169,10 @@ def run_sentiment_comparison(path: Path = DEFAULT_DATASET, *, macro_dir: Path | 
     first = saved["metadata"]["sample"]["test_start"]
     last = saved["metadata"]["sample"]["test_end"]
     data, _, _ = load_macro_benchmark_snapshot(path)
-    data["Sentiment_Lag1"] = data["News_Sentiment"].shift(1)
+    data["Sentiment_Current"] = data["News_Sentiment"]
     common = ["Inflation_MoM", *MACRO_BENCHMARK_FEATURES]
     sample = data.loc[data[common].notna().all(axis=1) & data["Date"].le(last)].copy()
-    if sample["Sentiment_Lag1"].isna().any():
+    if sample["Sentiment_Current"].isna().any():
         raise ValueError("Sentiment is missing on the shared macro sample.")
     sample["TargetAssumedAvailableBy"] = sample["Date"] + pd.offsets.MonthEnd(2)
     dates = sample.loc[sample["Date"].between(first, last), "Date"]
@@ -181,9 +181,9 @@ def run_sentiment_comparison(path: Path = DEFAULT_DATASET, *, macro_dir: Path | 
     schedule = pd.DataFrame({"TargetMonth": dates, "ForecastOrigin": dates + pd.offsets.MonthEnd(0)})
     specifications = {
         "Inflation only (lag 1)": ["Inflation_Lag1"],
-        "Inflation + sentiment": ["Inflation_Lag1", "Sentiment_Lag1"],
+        "Inflation + sentiment": ["Inflation_Lag1", "Sentiment_Current"],
         best_name: best_features,
-        best_name + " + sentiment": [*best_features, "Sentiment_Lag1"],
+        best_name + " + sentiment": [*best_features, "Sentiment_Current"],
     }
     results = {name: fit_expanding_macro(sample, schedule, features=features, name=name)
                for name, features in specifications.items()}

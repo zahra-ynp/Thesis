@@ -116,7 +116,7 @@ def fit_arx_sentiment(
 ) -> ForecastResult:
     return fit_ols_forecast(
         data,
-        features=["Inflation_Lag1", "Sentiment_Lag1"],
+        features=["Inflation_Lag1", "News_Sentiment"],
         name="ARX + sentiment",
         test_start=test_start,
     )
