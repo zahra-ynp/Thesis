@@ -1,0 +1,75 @@
+{
+  "audit_date": "2026-09-03",
+  "scope": "Series definitions and release conventions; not a complete historical release-calendar reconstruction.",
+  "historical_observation_release_dates_verified": false,
+  "snapshot_vintages_available": false,
+  "series": [
+    {
+      "series": "CPIAUCSL",
+      "role": "Inflation target and lagged inflation",
+      "availability": "CPI for a reference month is released in the following month. The prior month's CPI cannot be presumed available at the start of the target month.",
+      "revision": "Seasonally adjusted CPI can be revised when seasonal factors are updated.",
+      "source_urls": [
+        "https://www.bls.gov/news.release/cpi.htm",
+        "https://www.bls.gov/cpi/seasonal-adjustment/home.htm",
+        "https://www.bls.gov/schedule/news_release/cpi.htm",
+        "https://www.bls.gov/news.release/archives/cpi_01182017.htm"
+      ]
+    },
+    {
+      "series": "UNRATE",
+      "role": "Unemployment-rate change",
+      "availability": "Monthly household-survey unemployment rate in the Employment Situation release; reference month and publication date differ.",
+      "revision": "Seasonally adjusted snapshot; historical vintages are not stored here.",
+      "source_urls": [
+        "https://fred.stlouisfed.org/series/UNRATE"
+      ]
+    },
+    {
+      "series": "INDPRO",
+      "role": "Industrial-production growth",
+      "availability": "The first estimate is normally published around the middle of the following month. Do not infer availability from the reference-month timestamp.",
+      "revision": "Monthly and annual revisions; release exceptions require a historical calendar for a real-time exercise.",
+      "source_urls": [
+        "https://www.federalreserve.gov/releases/g17/",
+        "https://www.federalreserve.gov/RELEASES/G17/revisions/Current/g17rev.pdf",
+        "https://www.federalreserve.gov/releases/g17/20170118/default.htm"
+      ]
+    },
+    {
+      "series": "FEDFUNDS",
+      "role": "Effective federal-funds-rate change",
+      "availability": "Monthly average of daily effective rates, not the FOMC target rate. Full-month aggregation and publication availability must be distinguished from individual daily observations.",
+      "revision": "No historical publication or vintage timestamps in the snapshot.",
+      "source_urls": [
+        "https://fred.stlouisfed.org/series/FEDFUNDS"
+      ]
+    },
+    {
+      "series": "MCOILWTICO",
+      "role": "WTI oil-price log growth",
+      "availability": "EIA monthly spot-price series. An available daily spot quote does not establish when this monthly series was available historically.",
+      "revision": "No historical publication or vintage timestamps in the snapshot.",
+      "source_urls": [
+        "https://fred.stlouisfed.org/series/MCOILWTICO"
+      ]
+    }
+  ],
+  "vintage_reference": "https://fred.stlouisfed.org/docs/api/fred/realtime_period.html",
+  "interpretation": "FRED's current historical values and information available at a past forecast origin differ. This audit does not certify a real-time backtest.",
+  "chosen_policy": {
+    "name": "month_end_next_month_forecast",
+    "origin": "End of t-1, America/New_York",
+    "target": "Monthly inflation in t",
+    "macro_reference_month": "t-2 for all five predictors, including lagged inflation",
+    "training_target_cutoff": "t-2",
+    "assumption": "Monthly observations are available by the end of the following month. This is a conservative convention, not verified historical release dates.",
+    "live_requirement": "Use actual released_at timestamps and observation vintages; never treat this assumption as proof of availability."
+  },
+  "historical_example": {
+    "reference_month": "2016-12",
+    "cpi_release_date": "2017-01-18",
+    "industrial_production_release_date": "2017-01-18",
+    "implication": "December CPI and industrial production were unavailable at the 2016-12-31 forecast origin for January 2017."
+  }
+}
