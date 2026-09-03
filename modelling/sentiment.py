@@ -5,6 +5,14 @@ from typing import Any
 import pandas as pd
 
 
+ALTERNATIVE_FINBERT_FEATURES = (
+    "News_Sentiment",
+    "Sentiment_Median",
+    "Negative_Share",
+    "Sentiment_Std",
+)
+
+
 def aggregate_monthly_sentiment(
     articles: pd.DataFrame,
     *,
@@ -19,7 +27,13 @@ def aggregate_monthly_sentiment(
     frame = articles.copy()
     frame["news_date"] = pd.to_datetime(frame["news_date"], errors="coerce")
     frame["sentiment_score"] = pd.to_numeric(frame["sentiment_score"], errors="coerce")
-    frame["sentiment_label"] = frame["sentiment_label"].fillna("").str.lower()
+    frame["sentiment_label"] = (
+        frame["sentiment_label"]
+        .astype("string")
+        .fillna("")
+        .str.strip()
+        .str.lower()
+    )
     frame = frame.dropna(subset=["news_date", "sentiment_score"])
     if frame.empty:
         raise ValueError("No valid dated sentiment scores remain after cleaning.")
@@ -34,8 +48,11 @@ def aggregate_monthly_sentiment(
         id_column = "_article_key"
     elif "external_article_id" in frame:
         id_column = "external_article_id"
-    else:
+    elif "article_id" in frame:
         id_column = "article_id"
+    else:
+        frame["_article_key"] = range(len(frame))
+        id_column = "_article_key"
 
     monthly = (
         frame.groupby("Date", as_index=False)
@@ -51,6 +68,8 @@ def aggregate_monthly_sentiment(
         .sort_values("Date")
         .reset_index(drop=True)
     )
+    # Dispersion is zero, rather than undefined, when a month has one article.
+    monthly["Sentiment_Std"] = monthly["Sentiment_Std"].fillna(0.0)
     monthly.insert(1, "News_Source", source_code.upper())
     return monthly
 
@@ -85,5 +104,13 @@ def current_method_catalog() -> list[dict[str, Any]]:
             "forecast_features": [f"Sentiment_Lag{lag}" for lag in range(1, 7)],
             "status": "implemented",
             "notes": "Generic financial sentiment; not yet manually validated for inflation direction.",
-        }
+        },
+        {
+            "method": "alternative_finbert_aggregations",
+            "level": "month",
+            "monthly_primary_feature": "News_Sentiment",
+            "forecast_features": list(ALTERNATIVE_FINBERT_FEATURES),
+            "status": "implemented",
+            "notes": "Mean, median, negative share, and dispersion from the same FinBERT scores.",
+        },
     ]
