@@ -1,0 +1,147 @@
+{
+  "models": {
+    "AR(1)": {
+      "const": 0.0693924146693531,
+      "Inflation_Lag1": 0.5228078504704156
+    },
+    "ARX + sentiment": {
+      "const": 0.12356090811575268,
+      "Inflation_Lag1": 0.5212917292771229,
+      "Sentiment_Lag1": 0.17958538930940504
+    },
+    "HMM": {
+      "state_means": [
+        0.183178125885671,
+        -1.1308279365658929
+      ],
+      "variance": 0.05884601832753518,
+      "transition_matrix": [
+        [
+          0.9904585768100187,
+          0.36448473435001205
+        ],
+        [
+          0.009541423189981302,
+          0.635515265649988
+        ]
+      ]
+    },
+    "AR-HMM": {
+      "state_constants": [
+        0.11144067857868906,
+        -0.8950643681913497
+      ],
+      "state_coefficients": {
+        "Inflation_Lag1": [
+          0.40476103889652104,
+          1.031677312237973
+        ]
+      },
+      "variance": 0.046882635945375055,
+      "transition_matrix": [
+        [
+          0.985818925906955,
+          0.6235972455903656
+        ],
+        [
+          0.014181074093045032,
+          0.37640275440963444
+        ]
+      ]
+    },
+    "AR-HMM + sentiment": {
+      "state_constants": [
+        2.7843555453260995,
+        0.15890702208083782
+      ],
+      "state_coefficients": {
+        "Inflation_Lag1": [
+          0.4068745001018725,
+          0.3833937915563855
+        ],
+        "Sentiment_Lag1": [
+          12.664639741055835,
+          0.15070170894548454
+        ]
+      },
+      "variance": 0.04639577961493399,
+      "transition_matrix": [
+        [
+          0.4306011787939161,
+          0.01498181640985046
+        ],
+        [
+          0.5693988212060839,
+          0.9850181835901496
+        ]
+      ]
+    },
+    "LASSO inflation only": {
+      "alpha": 0.08227241341700466,
+      "standardized_coefficients": {
+        "Inflation_Lag1": 0.0859768913398252,
+        "Inflation_Lag2": 0.0,
+        "Inflation_Lag3": -0.0,
+        "Inflation_Lag4": -0.0,
+        "Inflation_Lag5": -0.0,
+        "Inflation_Lag6": -0.0
+      }
+    },
+    "LASSO inflation + sentiment": {
+      "alpha": 0.07038135554931554,
+      "standardized_coefficients": {
+        "Inflation_Lag1": 0.09786794920751432,
+        "Inflation_Lag2": -0.0,
+        "Inflation_Lag3": -0.0,
+        "Inflation_Lag4": -0.0,
+        "Inflation_Lag5": -0.0,
+        "Inflation_Lag6": -0.0,
+        "Sentiment_Lag1": 0.0,
+        "Sentiment_Lag2": -0.0,
+        "Sentiment_Lag3": 0.0,
+        "Sentiment_Lag4": 0.0,
+        "Sentiment_Lag5": 0.0,
+        "Sentiment_Lag6": -0.0
+      }
+    }
+  },
+  "metadata": {
+    "description": "Consolidated existing runner outputs; no baseline model refitted during migration.",
+    "previous_files": "../archive/previous_files",
+    "original_file_hashes": {
+      "ar1_forecasts.csv": "1a605dfa9d3e434c88a41894de81ebf249b9e22000bfc8bbd27854569be64075",
+      "ar1_metrics.json": "b82c29cdbc62a3e17d3bf065619147472a0366fd728df51e6561e4b6f2906813",
+      "ar1_parameters.json": "d1c66c50aeca2d8499be62127d2cc964084f9cd8a1d1cc407016f5d843f9bf6d",
+      "arhmm_forecasts.csv": "71e1c9d82d6d920c44771d6c626fb7ad334d001bb27e6b581ea5f5e209b125d8",
+      "arhmm_parameters.json": "3b2e8329b49506ffb97db7c25047e072ea5c24cb10e4840d9af7a56abda34f1d",
+      "arhmm_sentiment_forecasts.csv": "47da23ea055d594a00533308422c710f36e98aaf7ee0ef096e5dd5a1e4a77893",
+      "arhmm_sentiment_parameters.json": "88985712cb8d9dbda22ead63bef41de3f1548d09b2210c5f6e942fa00139cae8",
+      "arx_forecasts.csv": "477f9b19bae7c66b598805637c476db9fb43f6e3ea8cbf3313ea5fe935d3b84c",
+      "arx_metrics.json": "c6a12766f18d3d28e481aa8c8701798effcffb33e17ea41aea549851bf203689",
+      "arx_parameters.json": "d451436f8a716699aec4921666ab57e390ee06e0dee66b7016e9132c5fc8f30d",
+      "ar_hmm_forecasts.csv": "4f0a5dcc3a3e38dc940a641f6375c08b004496be01b6cc3a0f7640e5d8c609b5",
+      "ar_hmm_metrics.json": "1a53a799d0401efcb95c4f0c5d826e38703e353782dd23385a7444127a67dce9",
+      "comparison_metrics.csv": "051712b6cfe03fcd500ba5454d737f7adb34bd1926562e5ae44c0aa12069fcc6",
+      "hmm_forecasts.csv": "f9ca1062ee4cdd245309b178914f437b7e4f26d31ec4755f02fac0e77cb9e51d",
+      "hmm_metrics.json": "fe2e919dfd0100d5bd4482a6f361269cf27128d4443d2fdcc7ab42885774b326",
+      "hmm_parameters.json": "bdf1f1ba7203c1042688de4bba1a488670cf25d3d1d5f8897e4d6bd94eb90783",
+      "lasso_forecasts.csv": "ac5603979250edd6ec05e2cc2d5942c6069d9ee5c8a5543878c8e3631a625921",
+      "lasso_metrics.json": "746255e46aeceb6b2800896696030a546af3a6ae2f0063a3103d9bed5299de86",
+      "lasso_parameters.json": "4cd622ca75d85293135eca148281431189c91fcd4fb50892f9a496fe67b9fbe5",
+      "lasso_sentiment_forecasts.csv": "b23900b50014bab6865a24865fb88a9210509cdbdcdd637cef392ae63b3c1797",
+      "lasso_sentiment_parameters.json": "4d00ebb9db14b0c10096007083b09c6eb4eccece6389109c809b90fb95ddc683"
+    },
+    "timing": "Original static-fit lag-1 experiment; compare separately from the macro benchmark.",
+    "dataset": "D:\\Master Semester 4\\Thesis\\data\\processed\\modelling_datasets\\us_nyt_monthly_experiment.csv",
+    "test_start": "2017-01-01",
+    "last_rerun_models": [
+      "AR(1)",
+      "ARX + sentiment",
+      "HMM",
+      "AR-HMM",
+      "AR-HMM + sentiment",
+      "LASSO inflation only",
+      "LASSO inflation + sentiment"
+    ]
+  }
+}

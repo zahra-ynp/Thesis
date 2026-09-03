@@ -1,0 +1,17 @@
+model,rmse,mae,mean_error_actual_minus_forecast,rmse_improvement_pct,macro_count,features,test_months
+Inflation + Oil + Unemployment,0.261698086210699,0.19584937415676545,0.07032988673510074,0.9068657551395454,2,"Inflation_Lag1, Oil_Price_Growth_Lag1, Unemployment_Change_Lag1",84
+Inflation + Oil + Unemployment + Industry,0.2627231929114251,0.1968390678420157,0.07096690890055858,0.518704582923059,3,"Inflation_Lag1, Oil_Price_Growth_Lag1, Unemployment_Change_Lag1, IP_Growth_MoM_Lag1",84
+Inflation only (lag 1),0.264093055694494,0.19502941461341972,0.05353868073524222,0.0,0,Inflation_Lag1,84
+Inflation + Fed rate,0.26492994124880226,0.19826655010389194,0.04213166000625644,-0.31689040520489664,1,"Inflation_Lag1, Fed_Funds_Change_Lag1",84
+Inflation + Oil + Unemployment + Fed rate,0.2649417547709424,0.20145248561491907,0.05397583265486755,-0.3213636474524331,3,"Inflation_Lag1, Oil_Price_Growth_Lag1, Unemployment_Change_Lag1, Fed_Funds_Change_Lag1",84
+Inflation + Oil + Unemployment + Industry + Fed rate,0.2653628083453269,0.20301449136974845,0.054111237783479184,-0.48079743993790036,4,"Inflation_Lag1, Oil_Price_Growth_Lag1, Unemployment_Change_Lag1, IP_Growth_MoM_Lag1, Fed_Funds_Change_Lag1",84
+Inflation + Oil + Industry + Fed rate,0.26741893104482456,0.20096785144665769,0.06333311524891347,-1.2593573661315762,3,"Inflation_Lag1, Oil_Price_Growth_Lag1, IP_Growth_MoM_Lag1, Fed_Funds_Change_Lag1",84
+Inflation + Oil + Industry,0.2679240012836879,0.20010230342162647,0.07596597526024434,-1.4506044390752835,2,"Inflation_Lag1, Oil_Price_Growth_Lag1, IP_Growth_MoM_Lag1",84
+Inflation + Unemployment,0.26822497648012716,0.19670946686432597,0.05224837897728437,-1.564570024292133,1,"Inflation_Lag1, Unemployment_Change_Lag1",84
+Inflation + Oil,0.2689346619399176,0.19460941034852305,0.07498616199547312,-1.8332955528465134,1,"Inflation_Lag1, Oil_Price_Growth_Lag1",84
+Inflation + Industry + Fed rate,0.2690457771431846,0.20185279911156997,0.0403509059372722,-1.8753698145020523,2,"Inflation_Lag1, IP_Growth_MoM_Lag1, Fed_Funds_Change_Lag1",84
+Inflation + Industry,0.26929428831728097,0.19940875517174908,0.05473803491119115,-1.9694696663299762,1,"Inflation_Lag1, IP_Growth_MoM_Lag1",84
+Inflation + Unemployment + Industry,0.2704518408485687,0.19758387556129306,0.05172185734783773,-2.4077820362799125,2,"Inflation_Lag1, Unemployment_Change_Lag1, IP_Growth_MoM_Lag1",84
+Inflation + Oil + Fed rate,0.27048924257500023,0.19654683172614346,0.06608642395511173,-2.42194436490804,2,"Inflation_Lag1, Oil_Price_Growth_Lag1, Fed_Funds_Change_Lag1",84
+Inflation + Unemployment + Fed rate,0.27537534768383626,0.2066441814459321,0.030623997082634212,-4.272089608593785,2,"Inflation_Lag1, Unemployment_Change_Lag1, Fed_Funds_Change_Lag1",84
+Inflation + Unemployment + Industry + Fed rate,0.2776316169656592,0.2083137226102854,0.03058942453626024,-5.1264359206880385,3,"Inflation_Lag1, Unemployment_Change_Lag1, IP_Growth_MoM_Lag1, Fed_Funds_Change_Lag1",84
