@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -299,3 +300,256 @@ def add_lags(
             frame[name] = frame[column].shift(lag)
             created.append(name)
     return frame, created
+
+
+MACRO_BENCHMARK_FEATURES = (
+    "Inflation_Lag1", "Oil_Price_Growth_Lag1", "Unemployment_Change_Lag1",
+    "IP_Growth_MoM_Lag1", "Fed_Funds_Change_Lag1",
+)
+MACRO_TRANSFORM_COLUMNS = (
+    "Inflation_MoM", "Inflation_YoY", "Oil_Price_Growth",
+    "Unemployment_Change", "IP_Growth_MoM", "Fed_Funds_Change",
+)
+
+
+def load_macro_benchmark_snapshot(
+    path: str | Path,
+    metadata_path: str | Path | None = None,
+) -> tuple[pd.DataFrame, dict[str, Any], list[dict[str, Any]]]:
+    """Audit the saved US snapshot without repairing, filling, or sorting its rows."""
+    path = Path(path)
+    metadata_path = Path(metadata_path) if metadata_path else path.with_name(
+        path.stem + "_metadata.json"
+    )
+    metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+    data = pd.read_csv(path)
+    required = {
+        "Date", "Experiment_News_Source", *REQUIRED_MACRO_COLUMNS,
+        *MACRO_TRANSFORM_COLUMNS, *MACRO_BENCHMARK_FEATURES,
+    }
+    missing = required - set(data.columns)
+    if missing:
+        raise ValueError(f"Snapshot is missing columns: {sorted(missing)}")
+    if data.empty:
+        raise ValueError("Snapshot is empty.")
+    data["Date"] = pd.to_datetime(data["Date"], errors="raise")
+    dates = data["Date"]
+    if dates.isna().any() or not dates.eq(dates.dt.to_period("M").dt.to_timestamp()).all():
+        raise ValueError("Dates must be nonmissing month-start dates.")
+    if dates.duplicated().any() or not dates.is_monotonic_increasing:
+        raise ValueError("Dates must be unique and ordered.")
+    expected_dates = pd.date_range(dates.min(), dates.max(), freq="MS")
+    if len(expected_dates) != len(data):
+        raise ValueError("Snapshot has missing calendar months; row shifts would be invalid.")
+    if metadata.get("region_code") != "US":
+        raise ValueError("This benchmark contract currently supports the US only.")
+    source = metadata["news_source"]["source_code"]
+    for column in ("Experiment_News_Source", "News_Source"):
+        if column in data and not data[column].eq(source).all():
+            raise ValueError(f"{column} does not agree with the named metadata source.")
+    coverage = metadata["coverage"]
+    observed = {"row_count": len(data), "first_month": str(dates.min().date()),
+                "last_month": str(dates.max().date())}
+    if any(coverage.get(key) != value for key, value in observed.items()):
+        raise ValueError("Snapshot dates or row count disagree with metadata coverage.")
+    numeric = [*REQUIRED_MACRO_COLUMNS, *MACRO_TRANSFORM_COLUMNS, *MACRO_BENCHMARK_FEATURES]
+    for column in numeric:
+        data[column] = pd.to_numeric(data[column], errors="raise")
+        if np.isinf(data[column].to_numpy()).any():
+            raise ValueError(f"Infinite values in {column}.")
+    if data[list(REQUIRED_MACRO_COLUMNS)].isna().any().any():
+        raise ValueError("Missing raw macroeconomic values.")
+    for column in ("CPIAUCSL", "INDPRO", "MCOILWTICO"):
+        if data[column].le(0).any():
+            raise ValueError(f"Nonpositive values invalidate the specified transformation: {column}.")
+
+    # Reuse the original transformation implementation, independently of saved derived values.
+    recalculated = prepare_experiment_frame(
+        data[["Date", *REQUIRED_MACRO_COLUMNS]], data[["Date"]], source_code=source
+    )
+    checks = []
+    for column in (*MACRO_TRANSFORM_COLUMNS, *MACRO_BENCHMARK_FEATURES):
+        actual = data[column].to_numpy(dtype=float)
+        expected = recalculated[column].to_numpy(dtype=float)
+        if not np.allclose(actual, expected, rtol=1e-9, atol=1e-10, equal_nan=True):
+            raise ValueError(f"Saved transformation or lag does not reproduce: {column}.")
+        finite = np.isfinite(expected)
+        checks.append({
+            "column": column, "matches_recomputed": True,
+            "missing_count": int(np.isnan(actual).sum()),
+            "maximum_absolute_difference": float(np.max(np.abs(actual[finite] - expected[finite])))
+            if finite.any() else 0.0,
+        })
+    return data, metadata, checks
+
+
+def build_macro_benchmark_contract(
+    path: str | Path,
+    *,
+    metadata_path: str | Path | None = None,
+    test_start: str = "2017-01-01",
+    test_end: str = "2023-12-01",
+    timing_policy: str = "month_end_next_month_forecast",
+) -> tuple[pd.DataFrame, dict[str, Any], pd.DataFrame]:
+    """Prepare Part A only. No estimator is fitted and no forecasts are generated.
+
+    Forecast month t at the end of t-1, using reference-month t-2 inputs.
+    Release availability is an explicit conservative assumption, not a vintage audit.
+    """
+    if timing_policy != "month_end_next_month_forecast":
+        raise ValueError("Supported timing_policy: month_end_next_month_forecast.")
+    path = Path(path)
+    metadata_path = Path(metadata_path) if metadata_path else path.with_name(
+        path.stem + "_metadata.json"
+    )
+    data, metadata, checks = load_macro_benchmark_snapshot(path, metadata_path)
+    first, last = pd.Timestamp(test_start), pd.Timestamp(test_end)
+    if any(pd.isna(x) or x != x.to_period("M").to_timestamp() for x in (first, last)) or first > last:
+        raise ValueError("Test boundaries must be ordered month-start dates.")
+    # Audit the old lag-1 snapshot above, then align a separate benchmark frame.
+    # A reference-month t-1 CPI is not yet published at the end of t-1.
+    aligned_columns = {
+        "Inflation_MoM": "Inflation_Lag2",
+        "Oil_Price_Growth": "Oil_Price_Growth_Lag2",
+        "Unemployment_Change": "Unemployment_Change_Lag2",
+        "IP_Growth_MoM": "IP_Growth_MoM_Lag2",
+        "Fed_Funds_Change": "Fed_Funds_Change_Lag2",
+    }
+    for original, aligned in aligned_columns.items():
+        data[aligned] = data[original].shift(2)
+    features = list(aligned_columns.values())
+    required = ["Inflation_MoM", *features]
+    eligible = np.isfinite(data[required]).all(axis=1)
+    in_scope = data["Date"].le(last)
+    sample = data.loc[eligible & in_scope, ["Date", *required]].copy()
+    sample["TargetAssumedAvailableBy"] = sample["Date"] + pd.offsets.MonthEnd(2)
+    first_origin = first - pd.Timedelta(days=1)
+    training = sample.loc[sample["TargetAssumedAvailableBy"] <= first_origin]
+    test = sample.loc[sample["Date"].between(first, last)]
+    expected_test = pd.date_range(first, last, freq="MS")
+    if training.empty:
+        raise ValueError("No complete initial training sample.")
+    if not pd.DatetimeIndex(test["Date"]).equals(expected_test):
+        missing = expected_test.difference(pd.DatetimeIndex(test["Date"]))
+        raise ValueError(f"Evaluation sample is incomplete: {missing.strftime('%Y-%m-%d').tolist()}")
+    excluded = []
+    for index in data.index[~eligible | ~in_scope]:
+        reasons = [f"missing {c}" for c in required if not np.isfinite(data.at[index, c])]
+        if not in_scope.at[index]:
+            reasons.append("after evaluation end")
+        excluded.append({"date": str(data.at[index, "Date"].date()), "reasons": reasons})
+    sample["Sample"] = np.select(
+        [sample["TargetAssumedAvailableBy"] <= first_origin, sample["Date"] >= first],
+        ["initial_train", "evaluation"], default="pretest_target_unreleased_at_first_origin",
+    )
+    schedule = pd.DataFrame({"TargetMonth": test["Date"].to_numpy()})
+    schedule["ForecastOrigin"] = schedule["TargetMonth"] - pd.Timedelta(days=1)
+    schedule["OriginConvention"] = "end of day, America/New_York"
+    schedule["LatestPredictorMonth"] = schedule["TargetMonth"] - pd.DateOffset(months=2)
+    schedule["TrainingTargetEnd"] = schedule["LatestPredictorMonth"]
+    schedule["PredictorsAssumedAvailableBy"] = schedule["LatestPredictorMonth"] + pd.offsets.MonthEnd(2)
+    schedule["EligibleTrainingRows"] = [
+        int(sample["TargetAssumedAvailableBy"].le(origin).sum()) for origin in schedule["ForecastOrigin"]
+    ]
+    timing = {
+        "policy": timing_policy,
+        "description": "Forecast month t at the end of t-1, using all five predictors from reference month t-2.",
+        "reference_month_step": 2,
+        "calendar_target_months_ahead": 1,
+        "origin_timezone": "America/New_York",
+        "origin_time": "end of day",
+        "availability_rule": "Assume each monthly observation is available by the end of the following month; all five predictors use the same conservative two-month reference lag.",
+        "training_rule": "Use common complete rows whose TargetAssumedAvailableBy is no later than ForecastOrigin. A pre-test reference month is not an eligible label until its assumed release date.",
+        "historical_release_dates_verified": False,
+        "availability_status": "assumption; exceptional release delays have not been exhaustively audited",
+        "baseline_interpretation": "Direct regression on inflation at calendar lag 2. This is neither the old lag-1 AR(1) nor an AR(2) containing both lags, and is not a recursive two-step AR(1) forecast.",
+        "live_use": "Require actual publication timestamps and saved vintages; reject or explicitly revise the information set if a required observation is not released. Do not fill from later releases or partial monthly values.",
+    }
+    contract = {
+        "schema_version": 1, "experiment": "us_macro_benchmark_part_a",
+        "created_at_utc": datetime.now(timezone.utc).isoformat(),
+        "status": "part_a_complete_under_documented_assumptions",
+        "ready_for_part_b": True,
+        "models_fitted": False,
+        "dataset": {"filename": path.name, "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+                    "metadata_filename": metadata_path.name,
+                    "metadata_sha256": hashlib.sha256(metadata_path.read_bytes()).hexdigest(),
+                    "snapshot_created_at_utc": metadata.get("created_at_utc"),
+                    "region": metadata["region_code"], "news_source": metadata["news_source"],
+                    "news_used_as_predictor": False},
+        "target": "Inflation_MoM", "target_units": "percent monthly CPI change",
+        "baseline_features": features[:1], "macro_features": features[1:],
+        "planned_subset_count_including_baseline": 16,
+        "transformations": {"Inflation_MoM": "100 * CPI monthly percentage change",
+                            **metadata["macro_transformations"]},
+        "timing": timing,
+        "vintage_policy": {
+            "classification": "historical pseudo-out-of-sample using the saved, potentially revised data snapshot",
+            "vintages_present": False, "real_time_backtest": False,
+            "evidence": "Snapshot has one value per series/month; metadata contains no observation-level release or vintage dates.",
+            "limitation": "Chronological lagging does not remove revisions made after a historical forecast origin.",
+        },
+        "sample": {"source_rows": len(data), "common_rows": len(sample),
+                   "initial_train_rows": len(training), "initial_train_start": str(training["Date"].min().date()),
+                   "initial_train_end": str(training["Date"].max().date()),
+                   "test_rows": len(test), "test_start": str(first.date()), "test_end": str(last.date()),
+                   "excluded_rows": excluded,
+                   "pretest_unreleased_at_first_origin": sample.loc[
+                       sample["Sample"].eq("pretest_target_unreleased_at_first_origin"), "Date"
+                   ].dt.strftime("%Y-%m-%d").tolist(),
+                   "eligibility_rule": "Finite target and all five candidate predictors, shared by every subset; no imputation.",
+                   "evaluation_dates": test["Date"].dt.strftime("%Y-%m-%d").tolist()},
+        "validation": {"ordered_unique_complete_calendar": True, "raw_macro_complete_finite": True,
+                       "transformation_checks": checks},
+        "selection_policy": "Pre-specify delayed-information autoregression and full macro references; select smaller subsets using pre-2017 chronological validation only. Test-period rankings are exploratory.",
+    }
+    return sample.reset_index(drop=True), contract, schedule
+
+
+def export_macro_benchmark_contract(
+    path: str | Path,
+    output_dir: str | Path,
+    **kwargs,
+) -> dict[str, Path]:
+    """Save the audited sample, metadata contract, and assumed origin schedule."""
+    sample, contract, schedule = build_macro_benchmark_contract(path, **kwargs)
+    policy_path = Path(__file__).resolve().parents[1] / "database" / "metadata" / "macro_availability_policy.json"
+    contract["availability_audit"] = json.loads(policy_path.read_text(encoding="utf-8"))
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    paths = {"sample": output_dir / "common_sample.csv", "contract": output_dir / "experiment_contract.json",
+             "schedule": output_dir / "forecast_schedule.csv", "report": output_dir / "CONTRACT.md"}
+    sample.to_csv(paths["sample"], index=False)
+    schedule.to_csv(paths["schedule"], index=False)
+    paths["contract"].write_text(json.dumps(contract, indent=2, allow_nan=False) + "\n", encoding="utf-8")
+    summary = contract["sample"]
+    lines = [
+        "# Macroeconomic benchmark: Part A contract", "",
+        f"Generated: {contract['created_at_utc']}", "",
+        f"Status: **{contract['status']}**. No models fitted.", "",
+        "## Dataset and common sample", "",
+        "| Item | Value |", "|---|---|",
+        f"| Source snapshot | {contract['dataset']['filename']} |",
+        f"| Region / named source | {contract['dataset']['region']} / {contract['dataset']['news_source']['source_code']} |",
+        f"| Source rows / eligible rows | {summary['source_rows']} / {summary['common_rows']} |",
+        f"| Initial training | {summary['initial_train_start']} through {summary['initial_train_end']}: {summary['initial_train_rows']} months |",
+        f"| Evaluation | {summary['test_start']} through {summary['test_end']}: {summary['test_rows']} months |",
+        "", "All sixteen planned subsets use the same finite target and predictor sample. Sentiment is not required for eligibility.",
+        "", "## Timing and vintage interpretation", "", contract["timing"]["description"], "",
+        contract["timing"]["availability_rule"], "",
+        contract["timing"]["baseline_interpretation"], "",
+        f"Pre-test target months not yet available at the first origin: {', '.join(summary['pretest_unreleased_at_first_origin']) or 'none'}. They remain in the sample and become eligible only at later origins.", "",
+        "Historical release dates have not been reconstructed. The input is a potentially revised historical snapshot, not historical vintages. A row lag does not eliminate revision look-ahead.",
+        "", "## Excluded observations", "",
+    ]
+    lines.extend(f"- {row['date']}: {', '.join(row['reasons'])}." for row in summary["excluded_rows"])
+    lines.extend(["", "## Series availability audit", ""])
+    for item in contract["availability_audit"]["series"]:
+        references = " ".join(f"[Source {i + 1}]({url})" for i, url in enumerate(item["source_urls"]))
+        lines.append(f"- **{item['series']}:** {item['availability']} {item['revision']} {references}")
+    lines.extend(["", "## Reproducibility", "",
+                  f"Dataset SHA-256: `{contract['dataset']['sha256']}`.", "",
+                  "See [the machine-readable contract](experiment_contract.json), [common sample](common_sample.csv), and [origin schedule](forecast_schedule.csv).",
+                  "The schedule uses assumed availability dates, never observed release dates. Live forecasts require a separate actual-release check.", ""])
+    paths["report"].write_text("\n".join(lines), encoding="utf-8")
+    return paths
