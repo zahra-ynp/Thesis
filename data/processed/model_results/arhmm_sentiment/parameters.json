@@ -1,0 +1,2411 @@
+{
+  "models": {
+    "AR-HMM inflation only (lag 1)": {
+      "features": [
+        "Inflation_Lag1"
+      ],
+      "estimator": "expanding-window two-state AR-HMM",
+      "fits_by_origin": [
+        {
+          "target_month": "2017-01-01",
+          "origin": "2017-01-31",
+          "training_end": "2016-12-01",
+          "training_rows": 118,
+          "converged": true
+        },
+        {
+          "target_month": "2017-02-01",
+          "origin": "2017-02-28",
+          "training_end": "2017-01-01",
+          "training_rows": 119,
+          "converged": true
+        },
+        {
+          "target_month": "2017-03-01",
+          "origin": "2017-03-31",
+          "training_end": "2017-02-01",
+          "training_rows": 120,
+          "converged": true
+        },
+        {
+          "target_month": "2017-04-01",
+          "origin": "2017-04-30",
+          "training_end": "2017-03-01",
+          "training_rows": 121,
+          "converged": true
+        },
+        {
+          "target_month": "2017-05-01",
+          "origin": "2017-05-31",
+          "training_end": "2017-04-01",
+          "training_rows": 122,
+          "converged": true
+        },
+        {
+          "target_month": "2017-06-01",
+          "origin": "2017-06-30",
+          "training_end": "2017-05-01",
+          "training_rows": 123,
+          "converged": true
+        },
+        {
+          "target_month": "2017-07-01",
+          "origin": "2017-07-31",
+          "training_end": "2017-06-01",
+          "training_rows": 124,
+          "converged": true
+        },
+        {
+          "target_month": "2017-08-01",
+          "origin": "2017-08-31",
+          "training_end": "2017-07-01",
+          "training_rows": 125,
+          "converged": true
+        },
+        {
+          "target_month": "2017-09-01",
+          "origin": "2017-09-30",
+          "training_end": "2017-08-01",
+          "training_rows": 126,
+          "converged": true
+        },
+        {
+          "target_month": "2017-10-01",
+          "origin": "2017-10-31",
+          "training_end": "2017-09-01",
+          "training_rows": 127,
+          "converged": true
+        },
+        {
+          "target_month": "2017-11-01",
+          "origin": "2017-11-30",
+          "training_end": "2017-10-01",
+          "training_rows": 128,
+          "converged": true
+        },
+        {
+          "target_month": "2017-12-01",
+          "origin": "2017-12-31",
+          "training_end": "2017-11-01",
+          "training_rows": 129,
+          "converged": true
+        },
+        {
+          "target_month": "2018-01-01",
+          "origin": "2018-01-31",
+          "training_end": "2017-12-01",
+          "training_rows": 130,
+          "converged": true
+        },
+        {
+          "target_month": "2018-02-01",
+          "origin": "2018-02-28",
+          "training_end": "2018-01-01",
+          "training_rows": 131,
+          "converged": true
+        },
+        {
+          "target_month": "2018-03-01",
+          "origin": "2018-03-31",
+          "training_end": "2018-02-01",
+          "training_rows": 132,
+          "converged": true
+        },
+        {
+          "target_month": "2018-04-01",
+          "origin": "2018-04-30",
+          "training_end": "2018-03-01",
+          "training_rows": 133,
+          "converged": true
+        },
+        {
+          "target_month": "2018-05-01",
+          "origin": "2018-05-31",
+          "training_end": "2018-04-01",
+          "training_rows": 134,
+          "converged": true
+        },
+        {
+          "target_month": "2018-06-01",
+          "origin": "2018-06-30",
+          "training_end": "2018-05-01",
+          "training_rows": 135,
+          "converged": true
+        },
+        {
+          "target_month": "2018-07-01",
+          "origin": "2018-07-31",
+          "training_end": "2018-06-01",
+          "training_rows": 136,
+          "converged": true
+        },
+        {
+          "target_month": "2018-08-01",
+          "origin": "2018-08-31",
+          "training_end": "2018-07-01",
+          "training_rows": 137,
+          "converged": true
+        },
+        {
+          "target_month": "2018-09-01",
+          "origin": "2018-09-30",
+          "training_end": "2018-08-01",
+          "training_rows": 138,
+          "converged": true
+        },
+        {
+          "target_month": "2018-10-01",
+          "origin": "2018-10-31",
+          "training_end": "2018-09-01",
+          "training_rows": 139,
+          "converged": true
+        },
+        {
+          "target_month": "2018-11-01",
+          "origin": "2018-11-30",
+          "training_end": "2018-10-01",
+          "training_rows": 140,
+          "converged": true
+        },
+        {
+          "target_month": "2018-12-01",
+          "origin": "2018-12-31",
+          "training_end": "2018-11-01",
+          "training_rows": 141,
+          "converged": true
+        },
+        {
+          "target_month": "2019-01-01",
+          "origin": "2019-01-31",
+          "training_end": "2018-12-01",
+          "training_rows": 142,
+          "converged": true
+        },
+        {
+          "target_month": "2019-02-01",
+          "origin": "2019-02-28",
+          "training_end": "2019-01-01",
+          "training_rows": 143,
+          "converged": true
+        },
+        {
+          "target_month": "2019-03-01",
+          "origin": "2019-03-31",
+          "training_end": "2019-02-01",
+          "training_rows": 144,
+          "converged": true
+        },
+        {
+          "target_month": "2019-04-01",
+          "origin": "2019-04-30",
+          "training_end": "2019-03-01",
+          "training_rows": 145,
+          "converged": true
+        },
+        {
+          "target_month": "2019-05-01",
+          "origin": "2019-05-31",
+          "training_end": "2019-04-01",
+          "training_rows": 146,
+          "converged": true
+        },
+        {
+          "target_month": "2019-06-01",
+          "origin": "2019-06-30",
+          "training_end": "2019-05-01",
+          "training_rows": 147,
+          "converged": true
+        },
+        {
+          "target_month": "2019-07-01",
+          "origin": "2019-07-31",
+          "training_end": "2019-06-01",
+          "training_rows": 148,
+          "converged": true
+        },
+        {
+          "target_month": "2019-08-01",
+          "origin": "2019-08-31",
+          "training_end": "2019-07-01",
+          "training_rows": 149,
+          "converged": true
+        },
+        {
+          "target_month": "2019-09-01",
+          "origin": "2019-09-30",
+          "training_end": "2019-08-01",
+          "training_rows": 150,
+          "converged": true
+        },
+        {
+          "target_month": "2019-10-01",
+          "origin": "2019-10-31",
+          "training_end": "2019-09-01",
+          "training_rows": 151,
+          "converged": true
+        },
+        {
+          "target_month": "2019-11-01",
+          "origin": "2019-11-30",
+          "training_end": "2019-10-01",
+          "training_rows": 152,
+          "converged": true
+        },
+        {
+          "target_month": "2019-12-01",
+          "origin": "2019-12-31",
+          "training_end": "2019-11-01",
+          "training_rows": 153,
+          "converged": true
+        },
+        {
+          "target_month": "2020-01-01",
+          "origin": "2020-01-31",
+          "training_end": "2019-12-01",
+          "training_rows": 154,
+          "converged": true
+        },
+        {
+          "target_month": "2020-02-01",
+          "origin": "2020-02-29",
+          "training_end": "2020-01-01",
+          "training_rows": 155,
+          "converged": true
+        },
+        {
+          "target_month": "2020-03-01",
+          "origin": "2020-03-31",
+          "training_end": "2020-02-01",
+          "training_rows": 156,
+          "converged": true
+        },
+        {
+          "target_month": "2020-04-01",
+          "origin": "2020-04-30",
+          "training_end": "2020-03-01",
+          "training_rows": 157,
+          "converged": true
+        },
+        {
+          "target_month": "2020-05-01",
+          "origin": "2020-05-31",
+          "training_end": "2020-04-01",
+          "training_rows": 158,
+          "converged": true
+        },
+        {
+          "target_month": "2020-06-01",
+          "origin": "2020-06-30",
+          "training_end": "2020-05-01",
+          "training_rows": 159,
+          "converged": true
+        },
+        {
+          "target_month": "2020-07-01",
+          "origin": "2020-07-31",
+          "training_end": "2020-06-01",
+          "training_rows": 160,
+          "converged": true
+        },
+        {
+          "target_month": "2020-08-01",
+          "origin": "2020-08-31",
+          "training_end": "2020-07-01",
+          "training_rows": 161,
+          "converged": true
+        },
+        {
+          "target_month": "2020-09-01",
+          "origin": "2020-09-30",
+          "training_end": "2020-08-01",
+          "training_rows": 162,
+          "converged": true
+        },
+        {
+          "target_month": "2020-10-01",
+          "origin": "2020-10-31",
+          "training_end": "2020-09-01",
+          "training_rows": 163,
+          "converged": true
+        },
+        {
+          "target_month": "2020-11-01",
+          "origin": "2020-11-30",
+          "training_end": "2020-10-01",
+          "training_rows": 164,
+          "converged": true
+        },
+        {
+          "target_month": "2020-12-01",
+          "origin": "2020-12-31",
+          "training_end": "2020-11-01",
+          "training_rows": 165,
+          "converged": true
+        },
+        {
+          "target_month": "2021-01-01",
+          "origin": "2021-01-31",
+          "training_end": "2020-12-01",
+          "training_rows": 166,
+          "converged": true
+        },
+        {
+          "target_month": "2021-02-01",
+          "origin": "2021-02-28",
+          "training_end": "2021-01-01",
+          "training_rows": 167,
+          "converged": true
+        },
+        {
+          "target_month": "2021-03-01",
+          "origin": "2021-03-31",
+          "training_end": "2021-02-01",
+          "training_rows": 168,
+          "converged": true
+        },
+        {
+          "target_month": "2021-04-01",
+          "origin": "2021-04-30",
+          "training_end": "2021-03-01",
+          "training_rows": 169,
+          "converged": true
+        },
+        {
+          "target_month": "2021-05-01",
+          "origin": "2021-05-31",
+          "training_end": "2021-04-01",
+          "training_rows": 170,
+          "converged": true
+        },
+        {
+          "target_month": "2021-06-01",
+          "origin": "2021-06-30",
+          "training_end": "2021-05-01",
+          "training_rows": 171,
+          "converged": true
+        },
+        {
+          "target_month": "2021-07-01",
+          "origin": "2021-07-31",
+          "training_end": "2021-06-01",
+          "training_rows": 172,
+          "converged": true
+        },
+        {
+          "target_month": "2021-08-01",
+          "origin": "2021-08-31",
+          "training_end": "2021-07-01",
+          "training_rows": 173,
+          "converged": true
+        },
+        {
+          "target_month": "2021-09-01",
+          "origin": "2021-09-30",
+          "training_end": "2021-08-01",
+          "training_rows": 174,
+          "converged": true
+        },
+        {
+          "target_month": "2021-10-01",
+          "origin": "2021-10-31",
+          "training_end": "2021-09-01",
+          "training_rows": 175,
+          "converged": true
+        },
+        {
+          "target_month": "2021-11-01",
+          "origin": "2021-11-30",
+          "training_end": "2021-10-01",
+          "training_rows": 176,
+          "converged": true
+        },
+        {
+          "target_month": "2021-12-01",
+          "origin": "2021-12-31",
+          "training_end": "2021-11-01",
+          "training_rows": 177,
+          "converged": true
+        },
+        {
+          "target_month": "2022-01-01",
+          "origin": "2022-01-31",
+          "training_end": "2021-12-01",
+          "training_rows": 178,
+          "converged": true
+        },
+        {
+          "target_month": "2022-02-01",
+          "origin": "2022-02-28",
+          "training_end": "2022-01-01",
+          "training_rows": 179,
+          "converged": true
+        },
+        {
+          "target_month": "2022-03-01",
+          "origin": "2022-03-31",
+          "training_end": "2022-02-01",
+          "training_rows": 180,
+          "converged": true
+        },
+        {
+          "target_month": "2022-04-01",
+          "origin": "2022-04-30",
+          "training_end": "2022-03-01",
+          "training_rows": 181,
+          "converged": true
+        },
+        {
+          "target_month": "2022-05-01",
+          "origin": "2022-05-31",
+          "training_end": "2022-04-01",
+          "training_rows": 182,
+          "converged": true
+        },
+        {
+          "target_month": "2022-06-01",
+          "origin": "2022-06-30",
+          "training_end": "2022-05-01",
+          "training_rows": 183,
+          "converged": true
+        },
+        {
+          "target_month": "2022-07-01",
+          "origin": "2022-07-31",
+          "training_end": "2022-06-01",
+          "training_rows": 184,
+          "converged": true
+        },
+        {
+          "target_month": "2022-08-01",
+          "origin": "2022-08-31",
+          "training_end": "2022-07-01",
+          "training_rows": 185,
+          "converged": true
+        },
+        {
+          "target_month": "2022-09-01",
+          "origin": "2022-09-30",
+          "training_end": "2022-08-01",
+          "training_rows": 186,
+          "converged": true
+        },
+        {
+          "target_month": "2022-10-01",
+          "origin": "2022-10-31",
+          "training_end": "2022-09-01",
+          "training_rows": 187,
+          "converged": true
+        },
+        {
+          "target_month": "2022-11-01",
+          "origin": "2022-11-30",
+          "training_end": "2022-10-01",
+          "training_rows": 188,
+          "converged": true
+        },
+        {
+          "target_month": "2022-12-01",
+          "origin": "2022-12-31",
+          "training_end": "2022-11-01",
+          "training_rows": 189,
+          "converged": true
+        },
+        {
+          "target_month": "2023-01-01",
+          "origin": "2023-01-31",
+          "training_end": "2022-12-01",
+          "training_rows": 190,
+          "converged": true
+        },
+        {
+          "target_month": "2023-02-01",
+          "origin": "2023-02-28",
+          "training_end": "2023-01-01",
+          "training_rows": 191,
+          "converged": true
+        },
+        {
+          "target_month": "2023-03-01",
+          "origin": "2023-03-31",
+          "training_end": "2023-02-01",
+          "training_rows": 192,
+          "converged": true
+        },
+        {
+          "target_month": "2023-04-01",
+          "origin": "2023-04-30",
+          "training_end": "2023-03-01",
+          "training_rows": 193,
+          "converged": true
+        },
+        {
+          "target_month": "2023-05-01",
+          "origin": "2023-05-31",
+          "training_end": "2023-04-01",
+          "training_rows": 194,
+          "converged": true
+        },
+        {
+          "target_month": "2023-06-01",
+          "origin": "2023-06-30",
+          "training_end": "2023-05-01",
+          "training_rows": 195,
+          "converged": true
+        },
+        {
+          "target_month": "2023-07-01",
+          "origin": "2023-07-31",
+          "training_end": "2023-06-01",
+          "training_rows": 196,
+          "converged": true
+        },
+        {
+          "target_month": "2023-08-01",
+          "origin": "2023-08-31",
+          "training_end": "2023-07-01",
+          "training_rows": 197,
+          "converged": true
+        },
+        {
+          "target_month": "2023-09-01",
+          "origin": "2023-09-30",
+          "training_end": "2023-08-01",
+          "training_rows": 198,
+          "converged": true
+        },
+        {
+          "target_month": "2023-10-01",
+          "origin": "2023-10-31",
+          "training_end": "2023-09-01",
+          "training_rows": 199,
+          "converged": true
+        },
+        {
+          "target_month": "2023-11-01",
+          "origin": "2023-11-30",
+          "training_end": "2023-10-01",
+          "training_rows": 200,
+          "converged": true
+        },
+        {
+          "target_month": "2023-12-01",
+          "origin": "2023-12-31",
+          "training_end": "2023-11-01",
+          "training_rows": 201,
+          "converged": true
+        }
+      ]
+    },
+    "AR-HMM inflation + sentiment": {
+      "features": [
+        "Inflation_Lag1",
+        "Sentiment_Current"
+      ],
+      "estimator": "expanding-window two-state AR-HMM",
+      "fits_by_origin": [
+        {
+          "target_month": "2017-01-01",
+          "origin": "2017-01-31",
+          "training_end": "2016-12-01",
+          "training_rows": 118,
+          "converged": true
+        },
+        {
+          "target_month": "2017-02-01",
+          "origin": "2017-02-28",
+          "training_end": "2017-01-01",
+          "training_rows": 119,
+          "converged": true
+        },
+        {
+          "target_month": "2017-03-01",
+          "origin": "2017-03-31",
+          "training_end": "2017-02-01",
+          "training_rows": 120,
+          "converged": true
+        },
+        {
+          "target_month": "2017-04-01",
+          "origin": "2017-04-30",
+          "training_end": "2017-03-01",
+          "training_rows": 121,
+          "converged": true
+        },
+        {
+          "target_month": "2017-05-01",
+          "origin": "2017-05-31",
+          "training_end": "2017-04-01",
+          "training_rows": 122,
+          "converged": true
+        },
+        {
+          "target_month": "2017-06-01",
+          "origin": "2017-06-30",
+          "training_end": "2017-05-01",
+          "training_rows": 123,
+          "converged": true
+        },
+        {
+          "target_month": "2017-07-01",
+          "origin": "2017-07-31",
+          "training_end": "2017-06-01",
+          "training_rows": 124,
+          "converged": true
+        },
+        {
+          "target_month": "2017-08-01",
+          "origin": "2017-08-31",
+          "training_end": "2017-07-01",
+          "training_rows": 125,
+          "converged": true
+        },
+        {
+          "target_month": "2017-09-01",
+          "origin": "2017-09-30",
+          "training_end": "2017-08-01",
+          "training_rows": 126,
+          "converged": true
+        },
+        {
+          "target_month": "2017-10-01",
+          "origin": "2017-10-31",
+          "training_end": "2017-09-01",
+          "training_rows": 127,
+          "converged": true
+        },
+        {
+          "target_month": "2017-11-01",
+          "origin": "2017-11-30",
+          "training_end": "2017-10-01",
+          "training_rows": 128,
+          "converged": true
+        },
+        {
+          "target_month": "2017-12-01",
+          "origin": "2017-12-31",
+          "training_end": "2017-11-01",
+          "training_rows": 129,
+          "converged": true
+        },
+        {
+          "target_month": "2018-01-01",
+          "origin": "2018-01-31",
+          "training_end": "2017-12-01",
+          "training_rows": 130,
+          "converged": true
+        },
+        {
+          "target_month": "2018-02-01",
+          "origin": "2018-02-28",
+          "training_end": "2018-01-01",
+          "training_rows": 131,
+          "converged": true
+        },
+        {
+          "target_month": "2018-03-01",
+          "origin": "2018-03-31",
+          "training_end": "2018-02-01",
+          "training_rows": 132,
+          "converged": true
+        },
+        {
+          "target_month": "2018-04-01",
+          "origin": "2018-04-30",
+          "training_end": "2018-03-01",
+          "training_rows": 133,
+          "converged": true
+        },
+        {
+          "target_month": "2018-05-01",
+          "origin": "2018-05-31",
+          "training_end": "2018-04-01",
+          "training_rows": 134,
+          "converged": true
+        },
+        {
+          "target_month": "2018-06-01",
+          "origin": "2018-06-30",
+          "training_end": "2018-05-01",
+          "training_rows": 135,
+          "converged": true
+        },
+        {
+          "target_month": "2018-07-01",
+          "origin": "2018-07-31",
+          "training_end": "2018-06-01",
+          "training_rows": 136,
+          "converged": true
+        },
+        {
+          "target_month": "2018-08-01",
+          "origin": "2018-08-31",
+          "training_end": "2018-07-01",
+          "training_rows": 137,
+          "converged": true
+        },
+        {
+          "target_month": "2018-09-01",
+          "origin": "2018-09-30",
+          "training_end": "2018-08-01",
+          "training_rows": 138,
+          "converged": true
+        },
+        {
+          "target_month": "2018-10-01",
+          "origin": "2018-10-31",
+          "training_end": "2018-09-01",
+          "training_rows": 139,
+          "converged": true
+        },
+        {
+          "target_month": "2018-11-01",
+          "origin": "2018-11-30",
+          "training_end": "2018-10-01",
+          "training_rows": 140,
+          "converged": true
+        },
+        {
+          "target_month": "2018-12-01",
+          "origin": "2018-12-31",
+          "training_end": "2018-11-01",
+          "training_rows": 141,
+          "converged": true
+        },
+        {
+          "target_month": "2019-01-01",
+          "origin": "2019-01-31",
+          "training_end": "2018-12-01",
+          "training_rows": 142,
+          "converged": true
+        },
+        {
+          "target_month": "2019-02-01",
+          "origin": "2019-02-28",
+          "training_end": "2019-01-01",
+          "training_rows": 143,
+          "converged": true
+        },
+        {
+          "target_month": "2019-03-01",
+          "origin": "2019-03-31",
+          "training_end": "2019-02-01",
+          "training_rows": 144,
+          "converged": true
+        },
+        {
+          "target_month": "2019-04-01",
+          "origin": "2019-04-30",
+          "training_end": "2019-03-01",
+          "training_rows": 145,
+          "converged": true
+        },
+        {
+          "target_month": "2019-05-01",
+          "origin": "2019-05-31",
+          "training_end": "2019-04-01",
+          "training_rows": 146,
+          "converged": true
+        },
+        {
+          "target_month": "2019-06-01",
+          "origin": "2019-06-30",
+          "training_end": "2019-05-01",
+          "training_rows": 147,
+          "converged": true
+        },
+        {
+          "target_month": "2019-07-01",
+          "origin": "2019-07-31",
+          "training_end": "2019-06-01",
+          "training_rows": 148,
+          "converged": true
+        },
+        {
+          "target_month": "2019-08-01",
+          "origin": "2019-08-31",
+          "training_end": "2019-07-01",
+          "training_rows": 149,
+          "converged": true
+        },
+        {
+          "target_month": "2019-09-01",
+          "origin": "2019-09-30",
+          "training_end": "2019-08-01",
+          "training_rows": 150,
+          "converged": true
+        },
+        {
+          "target_month": "2019-10-01",
+          "origin": "2019-10-31",
+          "training_end": "2019-09-01",
+          "training_rows": 151,
+          "converged": true
+        },
+        {
+          "target_month": "2019-11-01",
+          "origin": "2019-11-30",
+          "training_end": "2019-10-01",
+          "training_rows": 152,
+          "converged": true
+        },
+        {
+          "target_month": "2019-12-01",
+          "origin": "2019-12-31",
+          "training_end": "2019-11-01",
+          "training_rows": 153,
+          "converged": true
+        },
+        {
+          "target_month": "2020-01-01",
+          "origin": "2020-01-31",
+          "training_end": "2019-12-01",
+          "training_rows": 154,
+          "converged": true
+        },
+        {
+          "target_month": "2020-02-01",
+          "origin": "2020-02-29",
+          "training_end": "2020-01-01",
+          "training_rows": 155,
+          "converged": true
+        },
+        {
+          "target_month": "2020-03-01",
+          "origin": "2020-03-31",
+          "training_end": "2020-02-01",
+          "training_rows": 156,
+          "converged": true
+        },
+        {
+          "target_month": "2020-04-01",
+          "origin": "2020-04-30",
+          "training_end": "2020-03-01",
+          "training_rows": 157,
+          "converged": true
+        },
+        {
+          "target_month": "2020-05-01",
+          "origin": "2020-05-31",
+          "training_end": "2020-04-01",
+          "training_rows": 158,
+          "converged": true
+        },
+        {
+          "target_month": "2020-06-01",
+          "origin": "2020-06-30",
+          "training_end": "2020-05-01",
+          "training_rows": 159,
+          "converged": true
+        },
+        {
+          "target_month": "2020-07-01",
+          "origin": "2020-07-31",
+          "training_end": "2020-06-01",
+          "training_rows": 160,
+          "converged": true
+        },
+        {
+          "target_month": "2020-08-01",
+          "origin": "2020-08-31",
+          "training_end": "2020-07-01",
+          "training_rows": 161,
+          "converged": true
+        },
+        {
+          "target_month": "2020-09-01",
+          "origin": "2020-09-30",
+          "training_end": "2020-08-01",
+          "training_rows": 162,
+          "converged": true
+        },
+        {
+          "target_month": "2020-10-01",
+          "origin": "2020-10-31",
+          "training_end": "2020-09-01",
+          "training_rows": 163,
+          "converged": true
+        },
+        {
+          "target_month": "2020-11-01",
+          "origin": "2020-11-30",
+          "training_end": "2020-10-01",
+          "training_rows": 164,
+          "converged": true
+        },
+        {
+          "target_month": "2020-12-01",
+          "origin": "2020-12-31",
+          "training_end": "2020-11-01",
+          "training_rows": 165,
+          "converged": true
+        },
+        {
+          "target_month": "2021-01-01",
+          "origin": "2021-01-31",
+          "training_end": "2020-12-01",
+          "training_rows": 166,
+          "converged": true
+        },
+        {
+          "target_month": "2021-02-01",
+          "origin": "2021-02-28",
+          "training_end": "2021-01-01",
+          "training_rows": 167,
+          "converged": true
+        },
+        {
+          "target_month": "2021-03-01",
+          "origin": "2021-03-31",
+          "training_end": "2021-02-01",
+          "training_rows": 168,
+          "converged": true
+        },
+        {
+          "target_month": "2021-04-01",
+          "origin": "2021-04-30",
+          "training_end": "2021-03-01",
+          "training_rows": 169,
+          "converged": true
+        },
+        {
+          "target_month": "2021-05-01",
+          "origin": "2021-05-31",
+          "training_end": "2021-04-01",
+          "training_rows": 170,
+          "converged": true
+        },
+        {
+          "target_month": "2021-06-01",
+          "origin": "2021-06-30",
+          "training_end": "2021-05-01",
+          "training_rows": 171,
+          "converged": true
+        },
+        {
+          "target_month": "2021-07-01",
+          "origin": "2021-07-31",
+          "training_end": "2021-06-01",
+          "training_rows": 172,
+          "converged": true
+        },
+        {
+          "target_month": "2021-08-01",
+          "origin": "2021-08-31",
+          "training_end": "2021-07-01",
+          "training_rows": 173,
+          "converged": true
+        },
+        {
+          "target_month": "2021-09-01",
+          "origin": "2021-09-30",
+          "training_end": "2021-08-01",
+          "training_rows": 174,
+          "converged": true
+        },
+        {
+          "target_month": "2021-10-01",
+          "origin": "2021-10-31",
+          "training_end": "2021-09-01",
+          "training_rows": 175,
+          "converged": true
+        },
+        {
+          "target_month": "2021-11-01",
+          "origin": "2021-11-30",
+          "training_end": "2021-10-01",
+          "training_rows": 176,
+          "converged": true
+        },
+        {
+          "target_month": "2021-12-01",
+          "origin": "2021-12-31",
+          "training_end": "2021-11-01",
+          "training_rows": 177,
+          "converged": true
+        },
+        {
+          "target_month": "2022-01-01",
+          "origin": "2022-01-31",
+          "training_end": "2021-12-01",
+          "training_rows": 178,
+          "converged": true
+        },
+        {
+          "target_month": "2022-02-01",
+          "origin": "2022-02-28",
+          "training_end": "2022-01-01",
+          "training_rows": 179,
+          "converged": true
+        },
+        {
+          "target_month": "2022-03-01",
+          "origin": "2022-03-31",
+          "training_end": "2022-02-01",
+          "training_rows": 180,
+          "converged": true
+        },
+        {
+          "target_month": "2022-04-01",
+          "origin": "2022-04-30",
+          "training_end": "2022-03-01",
+          "training_rows": 181,
+          "converged": true
+        },
+        {
+          "target_month": "2022-05-01",
+          "origin": "2022-05-31",
+          "training_end": "2022-04-01",
+          "training_rows": 182,
+          "converged": true
+        },
+        {
+          "target_month": "2022-06-01",
+          "origin": "2022-06-30",
+          "training_end": "2022-05-01",
+          "training_rows": 183,
+          "converged": true
+        },
+        {
+          "target_month": "2022-07-01",
+          "origin": "2022-07-31",
+          "training_end": "2022-06-01",
+          "training_rows": 184,
+          "converged": true
+        },
+        {
+          "target_month": "2022-08-01",
+          "origin": "2022-08-31",
+          "training_end": "2022-07-01",
+          "training_rows": 185,
+          "converged": true
+        },
+        {
+          "target_month": "2022-09-01",
+          "origin": "2022-09-30",
+          "training_end": "2022-08-01",
+          "training_rows": 186,
+          "converged": true
+        },
+        {
+          "target_month": "2022-10-01",
+          "origin": "2022-10-31",
+          "training_end": "2022-09-01",
+          "training_rows": 187,
+          "converged": true
+        },
+        {
+          "target_month": "2022-11-01",
+          "origin": "2022-11-30",
+          "training_end": "2022-10-01",
+          "training_rows": 188,
+          "converged": true
+        },
+        {
+          "target_month": "2022-12-01",
+          "origin": "2022-12-31",
+          "training_end": "2022-11-01",
+          "training_rows": 189,
+          "converged": true
+        },
+        {
+          "target_month": "2023-01-01",
+          "origin": "2023-01-31",
+          "training_end": "2022-12-01",
+          "training_rows": 190,
+          "converged": true
+        },
+        {
+          "target_month": "2023-02-01",
+          "origin": "2023-02-28",
+          "training_end": "2023-01-01",
+          "training_rows": 191,
+          "converged": true
+        },
+        {
+          "target_month": "2023-03-01",
+          "origin": "2023-03-31",
+          "training_end": "2023-02-01",
+          "training_rows": 192,
+          "converged": true
+        },
+        {
+          "target_month": "2023-04-01",
+          "origin": "2023-04-30",
+          "training_end": "2023-03-01",
+          "training_rows": 193,
+          "converged": true
+        },
+        {
+          "target_month": "2023-05-01",
+          "origin": "2023-05-31",
+          "training_end": "2023-04-01",
+          "training_rows": 194,
+          "converged": true
+        },
+        {
+          "target_month": "2023-06-01",
+          "origin": "2023-06-30",
+          "training_end": "2023-05-01",
+          "training_rows": 195,
+          "converged": true
+        },
+        {
+          "target_month": "2023-07-01",
+          "origin": "2023-07-31",
+          "training_end": "2023-06-01",
+          "training_rows": 196,
+          "converged": true
+        },
+        {
+          "target_month": "2023-08-01",
+          "origin": "2023-08-31",
+          "training_end": "2023-07-01",
+          "training_rows": 197,
+          "converged": true
+        },
+        {
+          "target_month": "2023-09-01",
+          "origin": "2023-09-30",
+          "training_end": "2023-08-01",
+          "training_rows": 198,
+          "converged": true
+        },
+        {
+          "target_month": "2023-10-01",
+          "origin": "2023-10-31",
+          "training_end": "2023-09-01",
+          "training_rows": 199,
+          "converged": true
+        },
+        {
+          "target_month": "2023-11-01",
+          "origin": "2023-11-30",
+          "training_end": "2023-10-01",
+          "training_rows": 200,
+          "converged": true
+        },
+        {
+          "target_month": "2023-12-01",
+          "origin": "2023-12-31",
+          "training_end": "2023-11-01",
+          "training_rows": 201,
+          "converged": true
+        }
+      ]
+    },
+    "AR-HMM + Oil + Industry": {
+      "features": [
+        "Inflation_Lag1",
+        "Oil_Price_Growth_Lag1",
+        "IP_Growth_MoM_Lag1"
+      ],
+      "estimator": "expanding-window two-state AR-HMM",
+      "fits_by_origin": [
+        {
+          "target_month": "2017-01-01",
+          "origin": "2017-01-31",
+          "training_end": "2016-12-01",
+          "training_rows": 118,
+          "converged": true
+        },
+        {
+          "target_month": "2017-02-01",
+          "origin": "2017-02-28",
+          "training_end": "2017-01-01",
+          "training_rows": 119,
+          "converged": true
+        },
+        {
+          "target_month": "2017-03-01",
+          "origin": "2017-03-31",
+          "training_end": "2017-02-01",
+          "training_rows": 120,
+          "converged": true
+        },
+        {
+          "target_month": "2017-04-01",
+          "origin": "2017-04-30",
+          "training_end": "2017-03-01",
+          "training_rows": 121,
+          "converged": true
+        },
+        {
+          "target_month": "2017-05-01",
+          "origin": "2017-05-31",
+          "training_end": "2017-04-01",
+          "training_rows": 122,
+          "converged": true
+        },
+        {
+          "target_month": "2017-06-01",
+          "origin": "2017-06-30",
+          "training_end": "2017-05-01",
+          "training_rows": 123,
+          "converged": true
+        },
+        {
+          "target_month": "2017-07-01",
+          "origin": "2017-07-31",
+          "training_end": "2017-06-01",
+          "training_rows": 124,
+          "converged": true
+        },
+        {
+          "target_month": "2017-08-01",
+          "origin": "2017-08-31",
+          "training_end": "2017-07-01",
+          "training_rows": 125,
+          "converged": true
+        },
+        {
+          "target_month": "2017-09-01",
+          "origin": "2017-09-30",
+          "training_end": "2017-08-01",
+          "training_rows": 126,
+          "converged": true
+        },
+        {
+          "target_month": "2017-10-01",
+          "origin": "2017-10-31",
+          "training_end": "2017-09-01",
+          "training_rows": 127,
+          "converged": true
+        },
+        {
+          "target_month": "2017-11-01",
+          "origin": "2017-11-30",
+          "training_end": "2017-10-01",
+          "training_rows": 128,
+          "converged": true
+        },
+        {
+          "target_month": "2017-12-01",
+          "origin": "2017-12-31",
+          "training_end": "2017-11-01",
+          "training_rows": 129,
+          "converged": true
+        },
+        {
+          "target_month": "2018-01-01",
+          "origin": "2018-01-31",
+          "training_end": "2017-12-01",
+          "training_rows": 130,
+          "converged": true
+        },
+        {
+          "target_month": "2018-02-01",
+          "origin": "2018-02-28",
+          "training_end": "2018-01-01",
+          "training_rows": 131,
+          "converged": true
+        },
+        {
+          "target_month": "2018-03-01",
+          "origin": "2018-03-31",
+          "training_end": "2018-02-01",
+          "training_rows": 132,
+          "converged": true
+        },
+        {
+          "target_month": "2018-04-01",
+          "origin": "2018-04-30",
+          "training_end": "2018-03-01",
+          "training_rows": 133,
+          "converged": true
+        },
+        {
+          "target_month": "2018-05-01",
+          "origin": "2018-05-31",
+          "training_end": "2018-04-01",
+          "training_rows": 134,
+          "converged": true
+        },
+        {
+          "target_month": "2018-06-01",
+          "origin": "2018-06-30",
+          "training_end": "2018-05-01",
+          "training_rows": 135,
+          "converged": true
+        },
+        {
+          "target_month": "2018-07-01",
+          "origin": "2018-07-31",
+          "training_end": "2018-06-01",
+          "training_rows": 136,
+          "converged": true
+        },
+        {
+          "target_month": "2018-08-01",
+          "origin": "2018-08-31",
+          "training_end": "2018-07-01",
+          "training_rows": 137,
+          "converged": true
+        },
+        {
+          "target_month": "2018-09-01",
+          "origin": "2018-09-30",
+          "training_end": "2018-08-01",
+          "training_rows": 138,
+          "converged": true
+        },
+        {
+          "target_month": "2018-10-01",
+          "origin": "2018-10-31",
+          "training_end": "2018-09-01",
+          "training_rows": 139,
+          "converged": true
+        },
+        {
+          "target_month": "2018-11-01",
+          "origin": "2018-11-30",
+          "training_end": "2018-10-01",
+          "training_rows": 140,
+          "converged": true
+        },
+        {
+          "target_month": "2018-12-01",
+          "origin": "2018-12-31",
+          "training_end": "2018-11-01",
+          "training_rows": 141,
+          "converged": true
+        },
+        {
+          "target_month": "2019-01-01",
+          "origin": "2019-01-31",
+          "training_end": "2018-12-01",
+          "training_rows": 142,
+          "converged": true
+        },
+        {
+          "target_month": "2019-02-01",
+          "origin": "2019-02-28",
+          "training_end": "2019-01-01",
+          "training_rows": 143,
+          "converged": true
+        },
+        {
+          "target_month": "2019-03-01",
+          "origin": "2019-03-31",
+          "training_end": "2019-02-01",
+          "training_rows": 144,
+          "converged": true
+        },
+        {
+          "target_month": "2019-04-01",
+          "origin": "2019-04-30",
+          "training_end": "2019-03-01",
+          "training_rows": 145,
+          "converged": true
+        },
+        {
+          "target_month": "2019-05-01",
+          "origin": "2019-05-31",
+          "training_end": "2019-04-01",
+          "training_rows": 146,
+          "converged": true
+        },
+        {
+          "target_month": "2019-06-01",
+          "origin": "2019-06-30",
+          "training_end": "2019-05-01",
+          "training_rows": 147,
+          "converged": true
+        },
+        {
+          "target_month": "2019-07-01",
+          "origin": "2019-07-31",
+          "training_end": "2019-06-01",
+          "training_rows": 148,
+          "converged": true
+        },
+        {
+          "target_month": "2019-08-01",
+          "origin": "2019-08-31",
+          "training_end": "2019-07-01",
+          "training_rows": 149,
+          "converged": true
+        },
+        {
+          "target_month": "2019-09-01",
+          "origin": "2019-09-30",
+          "training_end": "2019-08-01",
+          "training_rows": 150,
+          "converged": true
+        },
+        {
+          "target_month": "2019-10-01",
+          "origin": "2019-10-31",
+          "training_end": "2019-09-01",
+          "training_rows": 151,
+          "converged": true
+        },
+        {
+          "target_month": "2019-11-01",
+          "origin": "2019-11-30",
+          "training_end": "2019-10-01",
+          "training_rows": 152,
+          "converged": true
+        },
+        {
+          "target_month": "2019-12-01",
+          "origin": "2019-12-31",
+          "training_end": "2019-11-01",
+          "training_rows": 153,
+          "converged": true
+        },
+        {
+          "target_month": "2020-01-01",
+          "origin": "2020-01-31",
+          "training_end": "2019-12-01",
+          "training_rows": 154,
+          "converged": true
+        },
+        {
+          "target_month": "2020-02-01",
+          "origin": "2020-02-29",
+          "training_end": "2020-01-01",
+          "training_rows": 155,
+          "converged": true
+        },
+        {
+          "target_month": "2020-03-01",
+          "origin": "2020-03-31",
+          "training_end": "2020-02-01",
+          "training_rows": 156,
+          "converged": true
+        },
+        {
+          "target_month": "2020-04-01",
+          "origin": "2020-04-30",
+          "training_end": "2020-03-01",
+          "training_rows": 157,
+          "converged": true
+        },
+        {
+          "target_month": "2020-05-01",
+          "origin": "2020-05-31",
+          "training_end": "2020-04-01",
+          "training_rows": 158,
+          "converged": true
+        },
+        {
+          "target_month": "2020-06-01",
+          "origin": "2020-06-30",
+          "training_end": "2020-05-01",
+          "training_rows": 159,
+          "converged": true
+        },
+        {
+          "target_month": "2020-07-01",
+          "origin": "2020-07-31",
+          "training_end": "2020-06-01",
+          "training_rows": 160,
+          "converged": true
+        },
+        {
+          "target_month": "2020-08-01",
+          "origin": "2020-08-31",
+          "training_end": "2020-07-01",
+          "training_rows": 161,
+          "converged": true
+        },
+        {
+          "target_month": "2020-09-01",
+          "origin": "2020-09-30",
+          "training_end": "2020-08-01",
+          "training_rows": 162,
+          "converged": true
+        },
+        {
+          "target_month": "2020-10-01",
+          "origin": "2020-10-31",
+          "training_end": "2020-09-01",
+          "training_rows": 163,
+          "converged": true
+        },
+        {
+          "target_month": "2020-11-01",
+          "origin": "2020-11-30",
+          "training_end": "2020-10-01",
+          "training_rows": 164,
+          "converged": true
+        },
+        {
+          "target_month": "2020-12-01",
+          "origin": "2020-12-31",
+          "training_end": "2020-11-01",
+          "training_rows": 165,
+          "converged": true
+        },
+        {
+          "target_month": "2021-01-01",
+          "origin": "2021-01-31",
+          "training_end": "2020-12-01",
+          "training_rows": 166,
+          "converged": true
+        },
+        {
+          "target_month": "2021-02-01",
+          "origin": "2021-02-28",
+          "training_end": "2021-01-01",
+          "training_rows": 167,
+          "converged": true
+        },
+        {
+          "target_month": "2021-03-01",
+          "origin": "2021-03-31",
+          "training_end": "2021-02-01",
+          "training_rows": 168,
+          "converged": true
+        },
+        {
+          "target_month": "2021-04-01",
+          "origin": "2021-04-30",
+          "training_end": "2021-03-01",
+          "training_rows": 169,
+          "converged": true
+        },
+        {
+          "target_month": "2021-05-01",
+          "origin": "2021-05-31",
+          "training_end": "2021-04-01",
+          "training_rows": 170,
+          "converged": true
+        },
+        {
+          "target_month": "2021-06-01",
+          "origin": "2021-06-30",
+          "training_end": "2021-05-01",
+          "training_rows": 171,
+          "converged": true
+        },
+        {
+          "target_month": "2021-07-01",
+          "origin": "2021-07-31",
+          "training_end": "2021-06-01",
+          "training_rows": 172,
+          "converged": true
+        },
+        {
+          "target_month": "2021-08-01",
+          "origin": "2021-08-31",
+          "training_end": "2021-07-01",
+          "training_rows": 173,
+          "converged": true
+        },
+        {
+          "target_month": "2021-09-01",
+          "origin": "2021-09-30",
+          "training_end": "2021-08-01",
+          "training_rows": 174,
+          "converged": true
+        },
+        {
+          "target_month": "2021-10-01",
+          "origin": "2021-10-31",
+          "training_end": "2021-09-01",
+          "training_rows": 175,
+          "converged": true
+        },
+        {
+          "target_month": "2021-11-01",
+          "origin": "2021-11-30",
+          "training_end": "2021-10-01",
+          "training_rows": 176,
+          "converged": true
+        },
+        {
+          "target_month": "2021-12-01",
+          "origin": "2021-12-31",
+          "training_end": "2021-11-01",
+          "training_rows": 177,
+          "converged": true
+        },
+        {
+          "target_month": "2022-01-01",
+          "origin": "2022-01-31",
+          "training_end": "2021-12-01",
+          "training_rows": 178,
+          "converged": true
+        },
+        {
+          "target_month": "2022-02-01",
+          "origin": "2022-02-28",
+          "training_end": "2022-01-01",
+          "training_rows": 179,
+          "converged": true
+        },
+        {
+          "target_month": "2022-03-01",
+          "origin": "2022-03-31",
+          "training_end": "2022-02-01",
+          "training_rows": 180,
+          "converged": true
+        },
+        {
+          "target_month": "2022-04-01",
+          "origin": "2022-04-30",
+          "training_end": "2022-03-01",
+          "training_rows": 181,
+          "converged": true
+        },
+        {
+          "target_month": "2022-05-01",
+          "origin": "2022-05-31",
+          "training_end": "2022-04-01",
+          "training_rows": 182,
+          "converged": true
+        },
+        {
+          "target_month": "2022-06-01",
+          "origin": "2022-06-30",
+          "training_end": "2022-05-01",
+          "training_rows": 183,
+          "converged": true
+        },
+        {
+          "target_month": "2022-07-01",
+          "origin": "2022-07-31",
+          "training_end": "2022-06-01",
+          "training_rows": 184,
+          "converged": true
+        },
+        {
+          "target_month": "2022-08-01",
+          "origin": "2022-08-31",
+          "training_end": "2022-07-01",
+          "training_rows": 185,
+          "converged": true
+        },
+        {
+          "target_month": "2022-09-01",
+          "origin": "2022-09-30",
+          "training_end": "2022-08-01",
+          "training_rows": 186,
+          "converged": true
+        },
+        {
+          "target_month": "2022-10-01",
+          "origin": "2022-10-31",
+          "training_end": "2022-09-01",
+          "training_rows": 187,
+          "converged": true
+        },
+        {
+          "target_month": "2022-11-01",
+          "origin": "2022-11-30",
+          "training_end": "2022-10-01",
+          "training_rows": 188,
+          "converged": true
+        },
+        {
+          "target_month": "2022-12-01",
+          "origin": "2022-12-31",
+          "training_end": "2022-11-01",
+          "training_rows": 189,
+          "converged": true
+        },
+        {
+          "target_month": "2023-01-01",
+          "origin": "2023-01-31",
+          "training_end": "2022-12-01",
+          "training_rows": 190,
+          "converged": true
+        },
+        {
+          "target_month": "2023-02-01",
+          "origin": "2023-02-28",
+          "training_end": "2023-01-01",
+          "training_rows": 191,
+          "converged": true
+        },
+        {
+          "target_month": "2023-03-01",
+          "origin": "2023-03-31",
+          "training_end": "2023-02-01",
+          "training_rows": 192,
+          "converged": true
+        },
+        {
+          "target_month": "2023-04-01",
+          "origin": "2023-04-30",
+          "training_end": "2023-03-01",
+          "training_rows": 193,
+          "converged": true
+        },
+        {
+          "target_month": "2023-05-01",
+          "origin": "2023-05-31",
+          "training_end": "2023-04-01",
+          "training_rows": 194,
+          "converged": true
+        },
+        {
+          "target_month": "2023-06-01",
+          "origin": "2023-06-30",
+          "training_end": "2023-05-01",
+          "training_rows": 195,
+          "converged": true
+        },
+        {
+          "target_month": "2023-07-01",
+          "origin": "2023-07-31",
+          "training_end": "2023-06-01",
+          "training_rows": 196,
+          "converged": true
+        },
+        {
+          "target_month": "2023-08-01",
+          "origin": "2023-08-31",
+          "training_end": "2023-07-01",
+          "training_rows": 197,
+          "converged": true
+        },
+        {
+          "target_month": "2023-09-01",
+          "origin": "2023-09-30",
+          "training_end": "2023-08-01",
+          "training_rows": 198,
+          "converged": true
+        },
+        {
+          "target_month": "2023-10-01",
+          "origin": "2023-10-31",
+          "training_end": "2023-09-01",
+          "training_rows": 199,
+          "converged": true
+        },
+        {
+          "target_month": "2023-11-01",
+          "origin": "2023-11-30",
+          "training_end": "2023-10-01",
+          "training_rows": 200,
+          "converged": true
+        },
+        {
+          "target_month": "2023-12-01",
+          "origin": "2023-12-31",
+          "training_end": "2023-11-01",
+          "training_rows": 201,
+          "converged": true
+        }
+      ]
+    },
+    "AR-HMM + Oil + Industry + sentiment": {
+      "features": [
+        "Inflation_Lag1",
+        "Oil_Price_Growth_Lag1",
+        "IP_Growth_MoM_Lag1",
+        "Sentiment_Current"
+      ],
+      "estimator": "expanding-window two-state AR-HMM",
+      "fits_by_origin": [
+        {
+          "target_month": "2017-01-01",
+          "origin": "2017-01-31",
+          "training_end": "2016-12-01",
+          "training_rows": 118,
+          "converged": true
+        },
+        {
+          "target_month": "2017-02-01",
+          "origin": "2017-02-28",
+          "training_end": "2017-01-01",
+          "training_rows": 119,
+          "converged": true
+        },
+        {
+          "target_month": "2017-03-01",
+          "origin": "2017-03-31",
+          "training_end": "2017-02-01",
+          "training_rows": 120,
+          "converged": true
+        },
+        {
+          "target_month": "2017-04-01",
+          "origin": "2017-04-30",
+          "training_end": "2017-03-01",
+          "training_rows": 121,
+          "converged": true
+        },
+        {
+          "target_month": "2017-05-01",
+          "origin": "2017-05-31",
+          "training_end": "2017-04-01",
+          "training_rows": 122,
+          "converged": true
+        },
+        {
+          "target_month": "2017-06-01",
+          "origin": "2017-06-30",
+          "training_end": "2017-05-01",
+          "training_rows": 123,
+          "converged": true
+        },
+        {
+          "target_month": "2017-07-01",
+          "origin": "2017-07-31",
+          "training_end": "2017-06-01",
+          "training_rows": 124,
+          "converged": true
+        },
+        {
+          "target_month": "2017-08-01",
+          "origin": "2017-08-31",
+          "training_end": "2017-07-01",
+          "training_rows": 125,
+          "converged": true
+        },
+        {
+          "target_month": "2017-09-01",
+          "origin": "2017-09-30",
+          "training_end": "2017-08-01",
+          "training_rows": 126,
+          "converged": true
+        },
+        {
+          "target_month": "2017-10-01",
+          "origin": "2017-10-31",
+          "training_end": "2017-09-01",
+          "training_rows": 127,
+          "converged": true
+        },
+        {
+          "target_month": "2017-11-01",
+          "origin": "2017-11-30",
+          "training_end": "2017-10-01",
+          "training_rows": 128,
+          "converged": true
+        },
+        {
+          "target_month": "2017-12-01",
+          "origin": "2017-12-31",
+          "training_end": "2017-11-01",
+          "training_rows": 129,
+          "converged": true
+        },
+        {
+          "target_month": "2018-01-01",
+          "origin": "2018-01-31",
+          "training_end": "2017-12-01",
+          "training_rows": 130,
+          "converged": true
+        },
+        {
+          "target_month": "2018-02-01",
+          "origin": "2018-02-28",
+          "training_end": "2018-01-01",
+          "training_rows": 131,
+          "converged": true
+        },
+        {
+          "target_month": "2018-03-01",
+          "origin": "2018-03-31",
+          "training_end": "2018-02-01",
+          "training_rows": 132,
+          "converged": true
+        },
+        {
+          "target_month": "2018-04-01",
+          "origin": "2018-04-30",
+          "training_end": "2018-03-01",
+          "training_rows": 133,
+          "converged": true
+        },
+        {
+          "target_month": "2018-05-01",
+          "origin": "2018-05-31",
+          "training_end": "2018-04-01",
+          "training_rows": 134,
+          "converged": true
+        },
+        {
+          "target_month": "2018-06-01",
+          "origin": "2018-06-30",
+          "training_end": "2018-05-01",
+          "training_rows": 135,
+          "converged": true
+        },
+        {
+          "target_month": "2018-07-01",
+          "origin": "2018-07-31",
+          "training_end": "2018-06-01",
+          "training_rows": 136,
+          "converged": true
+        },
+        {
+          "target_month": "2018-08-01",
+          "origin": "2018-08-31",
+          "training_end": "2018-07-01",
+          "training_rows": 137,
+          "converged": true
+        },
+        {
+          "target_month": "2018-09-01",
+          "origin": "2018-09-30",
+          "training_end": "2018-08-01",
+          "training_rows": 138,
+          "converged": true
+        },
+        {
+          "target_month": "2018-10-01",
+          "origin": "2018-10-31",
+          "training_end": "2018-09-01",
+          "training_rows": 139,
+          "converged": true
+        },
+        {
+          "target_month": "2018-11-01",
+          "origin": "2018-11-30",
+          "training_end": "2018-10-01",
+          "training_rows": 140,
+          "converged": true
+        },
+        {
+          "target_month": "2018-12-01",
+          "origin": "2018-12-31",
+          "training_end": "2018-11-01",
+          "training_rows": 141,
+          "converged": true
+        },
+        {
+          "target_month": "2019-01-01",
+          "origin": "2019-01-31",
+          "training_end": "2018-12-01",
+          "training_rows": 142,
+          "converged": true
+        },
+        {
+          "target_month": "2019-02-01",
+          "origin": "2019-02-28",
+          "training_end": "2019-01-01",
+          "training_rows": 143,
+          "converged": true
+        },
+        {
+          "target_month": "2019-03-01",
+          "origin": "2019-03-31",
+          "training_end": "2019-02-01",
+          "training_rows": 144,
+          "converged": true
+        },
+        {
+          "target_month": "2019-04-01",
+          "origin": "2019-04-30",
+          "training_end": "2019-03-01",
+          "training_rows": 145,
+          "converged": true
+        },
+        {
+          "target_month": "2019-05-01",
+          "origin": "2019-05-31",
+          "training_end": "2019-04-01",
+          "training_rows": 146,
+          "converged": true
+        },
+        {
+          "target_month": "2019-06-01",
+          "origin": "2019-06-30",
+          "training_end": "2019-05-01",
+          "training_rows": 147,
+          "converged": true
+        },
+        {
+          "target_month": "2019-07-01",
+          "origin": "2019-07-31",
+          "training_end": "2019-06-01",
+          "training_rows": 148,
+          "converged": true
+        },
+        {
+          "target_month": "2019-08-01",
+          "origin": "2019-08-31",
+          "training_end": "2019-07-01",
+          "training_rows": 149,
+          "converged": true
+        },
+        {
+          "target_month": "2019-09-01",
+          "origin": "2019-09-30",
+          "training_end": "2019-08-01",
+          "training_rows": 150,
+          "converged": true
+        },
+        {
+          "target_month": "2019-10-01",
+          "origin": "2019-10-31",
+          "training_end": "2019-09-01",
+          "training_rows": 151,
+          "converged": true
+        },
+        {
+          "target_month": "2019-11-01",
+          "origin": "2019-11-30",
+          "training_end": "2019-10-01",
+          "training_rows": 152,
+          "converged": true
+        },
+        {
+          "target_month": "2019-12-01",
+          "origin": "2019-12-31",
+          "training_end": "2019-11-01",
+          "training_rows": 153,
+          "converged": true
+        },
+        {
+          "target_month": "2020-01-01",
+          "origin": "2020-01-31",
+          "training_end": "2019-12-01",
+          "training_rows": 154,
+          "converged": true
+        },
+        {
+          "target_month": "2020-02-01",
+          "origin": "2020-02-29",
+          "training_end": "2020-01-01",
+          "training_rows": 155,
+          "converged": true
+        },
+        {
+          "target_month": "2020-03-01",
+          "origin": "2020-03-31",
+          "training_end": "2020-02-01",
+          "training_rows": 156,
+          "converged": true
+        },
+        {
+          "target_month": "2020-04-01",
+          "origin": "2020-04-30",
+          "training_end": "2020-03-01",
+          "training_rows": 157,
+          "converged": true
+        },
+        {
+          "target_month": "2020-05-01",
+          "origin": "2020-05-31",
+          "training_end": "2020-04-01",
+          "training_rows": 158,
+          "converged": true
+        },
+        {
+          "target_month": "2020-06-01",
+          "origin": "2020-06-30",
+          "training_end": "2020-05-01",
+          "training_rows": 159,
+          "converged": true
+        },
+        {
+          "target_month": "2020-07-01",
+          "origin": "2020-07-31",
+          "training_end": "2020-06-01",
+          "training_rows": 160,
+          "converged": true
+        },
+        {
+          "target_month": "2020-08-01",
+          "origin": "2020-08-31",
+          "training_end": "2020-07-01",
+          "training_rows": 161,
+          "converged": true
+        },
+        {
+          "target_month": "2020-09-01",
+          "origin": "2020-09-30",
+          "training_end": "2020-08-01",
+          "training_rows": 162,
+          "converged": true
+        },
+        {
+          "target_month": "2020-10-01",
+          "origin": "2020-10-31",
+          "training_end": "2020-09-01",
+          "training_rows": 163,
+          "converged": true
+        },
+        {
+          "target_month": "2020-11-01",
+          "origin": "2020-11-30",
+          "training_end": "2020-10-01",
+          "training_rows": 164,
+          "converged": true
+        },
+        {
+          "target_month": "2020-12-01",
+          "origin": "2020-12-31",
+          "training_end": "2020-11-01",
+          "training_rows": 165,
+          "converged": true
+        },
+        {
+          "target_month": "2021-01-01",
+          "origin": "2021-01-31",
+          "training_end": "2020-12-01",
+          "training_rows": 166,
+          "converged": true
+        },
+        {
+          "target_month": "2021-02-01",
+          "origin": "2021-02-28",
+          "training_end": "2021-01-01",
+          "training_rows": 167,
+          "converged": true
+        },
+        {
+          "target_month": "2021-03-01",
+          "origin": "2021-03-31",
+          "training_end": "2021-02-01",
+          "training_rows": 168,
+          "converged": true
+        },
+        {
+          "target_month": "2021-04-01",
+          "origin": "2021-04-30",
+          "training_end": "2021-03-01",
+          "training_rows": 169,
+          "converged": true
+        },
+        {
+          "target_month": "2021-05-01",
+          "origin": "2021-05-31",
+          "training_end": "2021-04-01",
+          "training_rows": 170,
+          "converged": true
+        },
+        {
+          "target_month": "2021-06-01",
+          "origin": "2021-06-30",
+          "training_end": "2021-05-01",
+          "training_rows": 171,
+          "converged": true
+        },
+        {
+          "target_month": "2021-07-01",
+          "origin": "2021-07-31",
+          "training_end": "2021-06-01",
+          "training_rows": 172,
+          "converged": true
+        },
+        {
+          "target_month": "2021-08-01",
+          "origin": "2021-08-31",
+          "training_end": "2021-07-01",
+          "training_rows": 173,
+          "converged": true
+        },
+        {
+          "target_month": "2021-09-01",
+          "origin": "2021-09-30",
+          "training_end": "2021-08-01",
+          "training_rows": 174,
+          "converged": true
+        },
+        {
+          "target_month": "2021-10-01",
+          "origin": "2021-10-31",
+          "training_end": "2021-09-01",
+          "training_rows": 175,
+          "converged": true
+        },
+        {
+          "target_month": "2021-11-01",
+          "origin": "2021-11-30",
+          "training_end": "2021-10-01",
+          "training_rows": 176,
+          "converged": true
+        },
+        {
+          "target_month": "2021-12-01",
+          "origin": "2021-12-31",
+          "training_end": "2021-11-01",
+          "training_rows": 177,
+          "converged": true
+        },
+        {
+          "target_month": "2022-01-01",
+          "origin": "2022-01-31",
+          "training_end": "2021-12-01",
+          "training_rows": 178,
+          "converged": true
+        },
+        {
+          "target_month": "2022-02-01",
+          "origin": "2022-02-28",
+          "training_end": "2022-01-01",
+          "training_rows": 179,
+          "converged": true
+        },
+        {
+          "target_month": "2022-03-01",
+          "origin": "2022-03-31",
+          "training_end": "2022-02-01",
+          "training_rows": 180,
+          "converged": true
+        },
+        {
+          "target_month": "2022-04-01",
+          "origin": "2022-04-30",
+          "training_end": "2022-03-01",
+          "training_rows": 181,
+          "converged": true
+        },
+        {
+          "target_month": "2022-05-01",
+          "origin": "2022-05-31",
+          "training_end": "2022-04-01",
+          "training_rows": 182,
+          "converged": true
+        },
+        {
+          "target_month": "2022-06-01",
+          "origin": "2022-06-30",
+          "training_end": "2022-05-01",
+          "training_rows": 183,
+          "converged": true
+        },
+        {
+          "target_month": "2022-07-01",
+          "origin": "2022-07-31",
+          "training_end": "2022-06-01",
+          "training_rows": 184,
+          "converged": true
+        },
+        {
+          "target_month": "2022-08-01",
+          "origin": "2022-08-31",
+          "training_end": "2022-07-01",
+          "training_rows": 185,
+          "converged": true
+        },
+        {
+          "target_month": "2022-09-01",
+          "origin": "2022-09-30",
+          "training_end": "2022-08-01",
+          "training_rows": 186,
+          "converged": true
+        },
+        {
+          "target_month": "2022-10-01",
+          "origin": "2022-10-31",
+          "training_end": "2022-09-01",
+          "training_rows": 187,
+          "converged": true
+        },
+        {
+          "target_month": "2022-11-01",
+          "origin": "2022-11-30",
+          "training_end": "2022-10-01",
+          "training_rows": 188,
+          "converged": true
+        },
+        {
+          "target_month": "2022-12-01",
+          "origin": "2022-12-31",
+          "training_end": "2022-11-01",
+          "training_rows": 189,
+          "converged": true
+        },
+        {
+          "target_month": "2023-01-01",
+          "origin": "2023-01-31",
+          "training_end": "2022-12-01",
+          "training_rows": 190,
+          "converged": true
+        },
+        {
+          "target_month": "2023-02-01",
+          "origin": "2023-02-28",
+          "training_end": "2023-01-01",
+          "training_rows": 191,
+          "converged": true
+        },
+        {
+          "target_month": "2023-03-01",
+          "origin": "2023-03-31",
+          "training_end": "2023-02-01",
+          "training_rows": 192,
+          "converged": true
+        },
+        {
+          "target_month": "2023-04-01",
+          "origin": "2023-04-30",
+          "training_end": "2023-03-01",
+          "training_rows": 193,
+          "converged": true
+        },
+        {
+          "target_month": "2023-05-01",
+          "origin": "2023-05-31",
+          "training_end": "2023-04-01",
+          "training_rows": 194,
+          "converged": true
+        },
+        {
+          "target_month": "2023-06-01",
+          "origin": "2023-06-30",
+          "training_end": "2023-05-01",
+          "training_rows": 195,
+          "converged": true
+        },
+        {
+          "target_month": "2023-07-01",
+          "origin": "2023-07-31",
+          "training_end": "2023-06-01",
+          "training_rows": 196,
+          "converged": true
+        },
+        {
+          "target_month": "2023-08-01",
+          "origin": "2023-08-31",
+          "training_end": "2023-07-01",
+          "training_rows": 197,
+          "converged": true
+        },
+        {
+          "target_month": "2023-09-01",
+          "origin": "2023-09-30",
+          "training_end": "2023-08-01",
+          "training_rows": 198,
+          "converged": true
+        },
+        {
+          "target_month": "2023-10-01",
+          "origin": "2023-10-31",
+          "training_end": "2023-09-01",
+          "training_rows": 199,
+          "converged": true
+        },
+        {
+          "target_month": "2023-11-01",
+          "origin": "2023-11-30",
+          "training_end": "2023-10-01",
+          "training_rows": 200,
+          "converged": true
+        },
+        {
+          "target_month": "2023-12-01",
+          "origin": "2023-12-31",
+          "training_end": "2023-11-01",
+          "training_rows": 201,
+          "converged": true
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "dataset": "us_nyt_monthly_experiment.csv",
+    "region": "US",
+    "news_source": "NYT",
+    "target": "Inflation_MoM",
+    "test_start": "2017-01-01",
+    "test_end": "2023-12-01",
+    "test_rows": 84,
+    "initial_train_start": "2007-03-01",
+    "initial_train_end": "2016-12-01",
+    "initial_train_rows": 118,
+    "predictor_lag": 1,
+    "estimator": "expanding-window two-state AR-HMM",
+    "experiment": "us_arhmm_sentiment_expanding",
+    "best_macro_model": "AR-HMM + Oil + Industry",
+    "sentiment_feature": "Sentiment_Current"
+  }
+}

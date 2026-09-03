@@ -146,7 +146,10 @@ def save_result_bundle(results: Mapping[str, object], output_dir: str | Path, *,
         {"model": model, **forecast_metrics(combined["Actual"], combined[model])}
         for model in parameters
     ]).sort_values("rmse").reset_index(drop=True)
-    baseline = next((name for name in ("Inflation only (lag 1)", "Inflation only (lag 2)") if name in parameters), None)
+    baseline = next((name for name in (
+        "Inflation only (lag 1)", "Inflation only (lag 2)",
+        "AR-HMM inflation only (lag 1)",
+    ) if name in parameters), None)
     if baseline is not None:
         base_rmse = float(metrics.loc[metrics["model"].eq(baseline), "rmse"].iloc[0])
         metrics["rmse_improvement_pct"] = 100 * (base_rmse - metrics["rmse"]) / base_rmse

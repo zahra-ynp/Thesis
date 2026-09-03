@@ -1,0 +1,5 @@
+model,rmse,mae,mean_error_actual_minus_forecast,rmse_improvement_pct,macro_count,features,test_months
+AR-HMM inflation + sentiment,0.26333045680987865,0.19654461573402185,0.05763356713539633,4.792066491272857,1,"Inflation_Lag1, Sentiment_Current",84
+AR-HMM + Oil + Industry,0.2699615722760102,0.20359842105434792,0.07446522611448621,2.3945663766394776,2,"Inflation_Lag1, Oil_Price_Growth_Lag1, IP_Growth_MoM_Lag1",84
+AR-HMM inflation only (lag 1),0.2765845734754244,0.20260064212979323,0.06541624669034968,0.0,0,Inflation_Lag1,84
+AR-HMM + Oil + Industry + sentiment,0.2912917378268597,0.21732072265848928,0.07585280714631848,-5.3174203342696735,3,"Inflation_Lag1, Oil_Price_Growth_Lag1, IP_Growth_MoM_Lag1, Sentiment_Current",84

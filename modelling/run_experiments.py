@@ -16,7 +16,7 @@ import pandas as pd
 
 from modelling.data_pipeline import add_lags, export_macro_benchmark_contract, load_macro_benchmark_snapshot, MACRO_BENCHMARK_FEATURES
 from modelling.evaluation import compare_results
-from modelling.models import ForecastResult, fit_ar1, fit_ar_hmm, fit_arx_sentiment, fit_hmm, fit_lasso, fit_expanding_macro
+from modelling.models import ForecastResult, fit_ar1, fit_ar_hmm, fit_arx_sentiment, fit_hmm, fit_lasso, fit_expanding_macro, fit_expanding_ar_hmm
 from modelling.sentiment import add_sentiment_lags
 
 
@@ -197,6 +197,113 @@ def run_sentiment_comparison(path: Path = DEFAULT_DATASET, *, macro_dir: Path | 
     return forecasts, compare_results(results), best_name
 
 
+def run_expanding_arhmm_benchmark(
+    path: Path = DEFAULT_DATASET,
+    *,
+    test_start="2017-01-01",
+    test_end="2023-12-01",
+):
+    """Run expanding-window AR-HMM macro and sentiment comparisons."""
+    data, metadata, _ = load_macro_benchmark_snapshot(path)
+    benchmark_features = list(MACRO_BENCHMARK_FEATURES)
+    required = ["Inflation_MoM", *benchmark_features]
+    sample = data.loc[
+        data[required].notna().all(axis=1) & data["Date"].le(test_end)
+    ].copy()
+    sample["TargetAssumedAvailableBy"] = sample["Date"] + pd.offsets.MonthEnd(2)
+    dates = sample.loc[sample["Date"].between(test_start, test_end), "Date"]
+    expected_dates = pd.date_range(test_start, test_end, freq="MS")
+    if not pd.DatetimeIndex(dates).equals(expected_dates):
+        raise ValueError("The expanding AR-HMM evaluation period is incomplete.")
+    schedule = pd.DataFrame({
+        "TargetMonth": dates,
+        "ForecastOrigin": dates + pd.offsets.MonthEnd(0),
+    })
+    initial_train = sample.loc[sample["Date"] < pd.Timestamp(test_start)]
+    if initial_train.empty:
+        raise ValueError("The initial expanding AR-HMM training sample is empty.")
+
+    labels = ["Oil", "Unemployment", "Industry", "Fed rate"]
+    macro_columns = benchmark_features[1:]
+    baseline_name = "AR-HMM inflation only (lag 1)"
+    feature_map = {}
+    macro_results = {}
+    for size in range(5):
+        for subset in combinations(range(4), size):
+            name = (
+                baseline_name
+                if not subset
+                else "AR-HMM + " + " + ".join(labels[index] for index in subset)
+            )
+            features = [
+                "Inflation_Lag1",
+                *[macro_columns[index] for index in subset],
+            ]
+            feature_map[name] = features
+            macro_results[name] = fit_expanding_ar_hmm(
+                sample, schedule, features=features, name=name
+            )
+            print(f"Completed {name}")
+
+    macro_metrics = compare_results(macro_results)
+    macro_metrics["macro_count"] = macro_metrics["model"].map(
+        lambda name: len(feature_map[name]) - 1
+    )
+    best_macro_name = macro_metrics.loc[
+        macro_metrics["macro_count"] > 0, "model"
+    ].iloc[0]
+
+    sentiment_sample = sample.copy()
+    sentiment_sample["Sentiment_Current"] = sentiment_sample["News_Sentiment"]
+    if sentiment_sample["Sentiment_Current"].isna().any():
+        raise ValueError("Sentiment is missing on the expanding AR-HMM sample.")
+    sentiment_name = "AR-HMM inflation + sentiment"
+    best_sentiment_name = best_macro_name + " + sentiment"
+    sentiment_results = {
+        baseline_name: macro_results[baseline_name],
+        sentiment_name: fit_expanding_ar_hmm(
+            sentiment_sample,
+            schedule,
+            features=["Inflation_Lag1", "Sentiment_Current"],
+            name=sentiment_name,
+        ),
+        best_macro_name: macro_results[best_macro_name],
+        best_sentiment_name: fit_expanding_ar_hmm(
+            sentiment_sample,
+            schedule,
+            features=[*feature_map[best_macro_name], "Sentiment_Current"],
+            name=best_sentiment_name,
+        ),
+    }
+    metadata_common = {
+        "dataset": Path(path).name,
+        "region": metadata["region_code"],
+        "news_source": metadata["news_source"]["source_code"],
+        "target": "Inflation_MoM",
+        "test_start": test_start,
+        "test_end": test_end,
+        "test_rows": len(dates),
+        "initial_train_start": str(initial_train["Date"].min().date()),
+        "initial_train_end": str(initial_train["Date"].max().date()),
+        "initial_train_rows": len(initial_train),
+        "predictor_lag": 1,
+        "estimator": "expanding-window two-state AR-HMM",
+    }
+    macro_metadata = {
+        **metadata_common,
+        "experiment": "us_arhmm_macro_lag1_expanding",
+        "baseline_features": ["Inflation_Lag1"],
+        "macro_features": macro_columns,
+    }
+    sentiment_metadata = {
+        **metadata_common,
+        "experiment": "us_arhmm_sentiment_expanding",
+        "best_macro_model": best_macro_name,
+        "sentiment_feature": "Sentiment_Current",
+    }
+    return macro_results, sentiment_results, macro_metadata, sentiment_metadata
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -207,6 +314,11 @@ def main() -> None:
     parser.add_argument("--data", type=Path, default=DEFAULT_DATASET)
     parser.add_argument("--output", type=Path, default=None)
     parser.add_argument("--macro", action="store_true", help="Run all 16 macro combinations and save one result bundle.")
+    parser.add_argument(
+        "--arhmm-expanding",
+        action="store_true",
+        help="Run expanding AR-HMM macro and sentiment comparisons and save both bundles.",
+    )
     parser.add_argument("--test-start", default="2017-01-01")
     parser.add_argument("--test-end", default="2023-12-01", help="End of Part A evaluation sample.")
     parser.add_argument("--prepare-macro-contract", action="store_true", help="Audit and export Part A only; fits no models.")
@@ -219,6 +331,30 @@ def main() -> None:
         help="Validate inputs and show the intended run without fitting models.",
     )
     args = parser.parse_args()
+
+    if args.arhmm_expanding:
+        if args.macro or args.prepare_macro_contract or args.check_only:
+            parser.error("Use --arhmm-expanding on its own to generate both AR-HMM bundles.")
+        from modelling.evaluation import save_result_bundle
+        macro_results, sentiment_results, macro_metadata, sentiment_metadata = (
+            run_expanding_arhmm_benchmark(
+                args.data, test_start=args.test_start, test_end=args.test_end
+            )
+        )
+        destination = args.output or DEFAULT_OUTPUT.parent
+        macro_metrics = save_result_bundle(
+            macro_results, destination / "arhmm_macro", metadata=macro_metadata
+        )
+        sentiment_metrics = save_result_bundle(
+            sentiment_results,
+            destination / "arhmm_sentiment",
+            metadata=sentiment_metadata,
+        )
+        print("\nExpanding AR-HMM macro comparison:\n")
+        print(macro_metrics.to_string(index=False))
+        print("\nExpanding AR-HMM sentiment comparison:\n")
+        print(sentiment_metrics.to_string(index=False))
+        return
 
     if args.macro:
         from modelling.evaluation import save_result_bundle

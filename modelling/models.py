@@ -225,6 +225,127 @@ def fit_ar_hmm(
     return ForecastResult(name, output.reset_index(drop=True), parameters, fitted)
 
 
+def fit_expanding_ar_hmm(
+    sample: pd.DataFrame,
+    schedule: pd.DataFrame,
+    *,
+    features: Sequence[str],
+    name: str,
+    target: str = "Inflation_MoM",
+    n_states: int = 2,
+    maxiter: int = 2000,
+    search_reps: int = 30,
+    random_seed: int = 42,
+) -> ForecastResult:
+    """Refit an AR-HMM at every scheduled origin using all available targets."""
+    required = {"Date", "TargetAssumedAvailableBy", target, *features}
+    missing = required - set(sample.columns)
+    if missing:
+        raise ValueError(f"Missing expanding AR-HMM columns: {sorted(missing)}")
+    schedule_missing = {"ForecastOrigin", "TargetMonth"} - set(schedule.columns)
+    if schedule_missing:
+        raise ValueError(f"Missing schedule columns: {sorted(schedule_missing)}")
+
+    import statsmodels.api as sm
+
+    frame = sample.copy()
+    frame["Date"] = pd.to_datetime(frame["Date"])
+    frame["TargetAssumedAvailableBy"] = pd.to_datetime(
+        frame["TargetAssumedAvailableBy"]
+    )
+    rows, diagnostics = [], []
+    start_params = None
+    fitted = None
+
+    for item in schedule.itertuples(index=False):
+        origin = pd.Timestamp(item.ForecastOrigin)
+        target_date = pd.Timestamp(item.TargetMonth)
+        train = frame.loc[
+            frame["TargetAssumedAvailableBy"] <= origin,
+            ["Date", target, *features],
+        ].dropna()
+        target_row = frame.loc[frame["Date"] == target_date, [target, *features]]
+        if len(target_row) != 1 or len(train) <= len(features) + n_states:
+            raise ValueError(
+                f"Insufficient data for expanding AR-HMM {name} "
+                f"at {target_date.date()}."
+            )
+        if not np.isfinite(train[[target, *features]].to_numpy(dtype=float)).all():
+            raise ValueError(f"Nonfinite training data for {name} at {target_date.date()}.")
+        next_features = target_row.iloc[0][list(features)].to_numpy(dtype=float)
+        if not np.isfinite(next_features).all():
+            raise ValueError(f"Nonfinite predictors for {name} at {target_date.date()}.")
+
+        model = sm.tsa.MarkovRegression(
+            train[target],
+            k_regimes=n_states,
+            trend="c",
+            exog=train[list(features)],
+            switching_exog=True,
+            switching_variance=False,
+        )
+        np.random.seed(random_seed)
+        if start_params is None:
+            fitted = model.fit(
+                disp=False, maxiter=maxiter, search_reps=search_reps
+            )
+        else:
+            fitted = model.fit(
+                start_params=start_params,
+                disp=False,
+                maxiter=maxiter,
+                search_reps=0,
+            )
+            if not fitted.mle_retvals.get("converged", False):
+                np.random.seed(random_seed)
+                fitted = model.fit(
+                    disp=False, maxiter=maxiter, search_reps=search_reps
+                )
+        if not fitted.mle_retvals.get("converged", False):
+            raise RuntimeError(f"AR-HMM did not converge for {name} at {target_date.date()}.")
+        start_params = np.asarray(fitted.params)
+
+        constants = np.array([
+            fitted.params[f"const[{state}]"] for state in range(n_states)
+        ])
+        coefficients = np.array([
+            [
+                fitted.params[f"x{feature_index + 1}[{state}]"]
+                for feature_index in range(len(features))
+            ]
+            for state in range(n_states)
+        ])
+        transition = np.asarray(fitted.regime_transition[:, :, 0])
+        filtered = np.asarray(
+            fitted.filtered_marginal_probabilities.iloc[-1], dtype=float
+        )
+        predicted_probabilities = transition @ filtered
+        state_forecasts = constants + coefficients @ next_features
+        prediction = float(predicted_probabilities @ state_forecasts)
+        actual = float(target_row.iloc[0][target])
+        rows.append({
+            "Date": target_date,
+            "Actual": actual,
+            "Forecast": prediction,
+            "Error": actual - prediction,
+        })
+        diagnostics.append({
+            "target_month": str(target_date.date()),
+            "origin": str(origin.date()),
+            "training_end": str(train["Date"].max().date()),
+            "training_rows": int(len(train)),
+            "converged": True,
+        })
+
+    if fitted is None:
+        raise ValueError("The expanding AR-HMM schedule is empty.")
+    return ForecastResult(name, pd.DataFrame(rows), {
+        "features": list(features),
+        "estimator": "expanding-window two-state AR-HMM",
+        "fits_by_origin": diagnostics,
+    }, fitted)
+
+
 def fit_lasso(
     data: pd.DataFrame,
     *,
