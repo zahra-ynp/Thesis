@@ -65,12 +65,11 @@ modelling/
   run_experiments.py       Repeatable experiment runner
   notebooks/               Two active thesis notebooks
   notebooks/archive/       Preserved historical notebooks
-  ARCHITECTURE.md          Extension rules and workflow reference
   streamlit_app.py         Dashboard
 data/
   raw/                     Source data
   processed/modelling_datasets/ Prepared datasets and metadata used by models
-  processed/model_results/ One CSV and one JSON per model notebook
+  processed/model_results/ baseline/ and macro/ bundles;/
 ```
 
 ## Setup
@@ -112,7 +111,7 @@ The old learning notebooks are preserved under `modelling/notebooks/archive/`. R
 python -m modelling.run_experiments --model all --check-only
 ```
 
-To re-estimate all existing models, omit `--check-only`. Results are written to `data/processed/model_results/modelling_dataset/`, leaving the historical result files intact.
+To re-estimate all existing models, omit `--check-only`. Results are written as a coherent bundle under `data/processed/model_results/baseline/`.
 
 ## Dashboard
 
@@ -129,15 +128,6 @@ The dashboard uses the database connection defined in `.env`.
 - [Data lineage](database/metadata/data_lineage.jsonld)
 - [Dataset metadata](database/metadata/dataset_metadata.jsonld)
 - [Entity-Relationship diagram](database/docs/ER.png)
-
-## Next Steps
-
-- Add oil-price growth, unemployment changes, and industrial-production growth to the forecasting experiments.
-- Validate NYT sentiment against the FinSen baseline.
-- Consider Ridge and Random Forest after the macroeconomic extension.
-- Extend the validated workflow to the euro area using Eurostat and ECB data.
-- Connect the final forecasts and regime probabilities to the dashboard.
-
 ## License
 
 Project code, metadata, and eligible derived outputs are licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). Source datasets remain subject to their providers' terms.
