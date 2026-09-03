@@ -5,9 +5,9 @@
       "Inflation_Lag1": 0.5228078504704156
     },
     "ARX + sentiment": {
-      "const": 0.12356090811575268,
-      "Inflation_Lag1": 0.5212917292771229,
-      "Sentiment_Lag1": 0.17958538930940504
+      "const": 0.09442043398644001,
+      "Inflation_Lag1": 0.5224623734328903,
+      "News_Sentiment": 0.0833028635700842
     },
     "HMM": {
       "state_means": [
