@@ -153,7 +153,15 @@ def save_result_bundle(results: Mapping[str, object], output_dir: str | Path, *,
     if baseline is not None:
         base_rmse = float(metrics.loc[metrics["model"].eq(baseline), "rmse"].iloc[0])
         metrics["rmse_improvement_pct"] = 100 * (base_rmse - metrics["rmse"]) / base_rmse
-        metrics["macro_count"] = metrics["model"].map(lambda n: len(parameters[n]["features"]) - 1)
+        experiment = str((metadata or {}).get("experiment", ""))
+        count_column = (
+            "sentiment_feature_count"
+            if "sentiment_aggregations" in experiment
+            else "macro_count"
+        )
+        metrics[count_column] = metrics["model"].map(
+            lambda n: len(parameters[n]["features"]) - 1
+        )
         metrics["features"] = metrics["model"].map(lambda n: ", ".join(parameters[n]["features"]))
         metrics["test_months"] = len(combined)
     combined.reset_index().to_csv(output_dir / "forecasts.csv", index=False)

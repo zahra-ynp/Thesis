@@ -17,7 +17,10 @@ import pandas as pd
 from modelling.data_pipeline import add_lags, export_macro_benchmark_contract, load_macro_benchmark_snapshot, MACRO_BENCHMARK_FEATURES
 from modelling.evaluation import compare_results
 from modelling.models import ForecastResult, fit_ar1, fit_ar_hmm, fit_arx_sentiment, fit_hmm, fit_lasso, fit_expanding_macro, fit_expanding_ar_hmm
-from modelling.sentiment import add_sentiment_lags
+from modelling.sentiment import (
+    ALTERNATIVE_FINBERT_FEATURES,
+    add_sentiment_lags,
+)
 
 
 DEFAULT_DATASET = (
@@ -25,6 +28,13 @@ DEFAULT_DATASET = (
 )
 DEFAULT_OUTPUT = PROJECT_ROOT / "data" / "processed" / "model_results" / "baseline"
 DEFAULT_CONTRACT_OUTPUT = PROJECT_ROOT / "data" / "processed" / "modelling_datasets" / "macro_benchmark"
+
+SENTIMENT_AGGREGATION_LABELS = {
+    "News_Sentiment": "mean sentiment (baseline)",
+    "Sentiment_Median": "median sentiment",
+    "Negative_Share": "negative share",
+    "Sentiment_Std": "sentiment dispersion",
+}
 
 
 def prepare_model_frame(path: Path) -> pd.DataFrame:
@@ -197,6 +207,78 @@ def run_sentiment_comparison(path: Path = DEFAULT_DATASET, *, macro_dir: Path | 
     return forecasts, compare_results(results), best_name
 
 
+def run_sentiment_aggregation_comparison(
+    path: Path = DEFAULT_DATASET,
+    *,
+    test_start="2017-01-01",
+    test_end="2023-12-01",
+):
+    """Compare FinBERT monthly aggregations in AR and AR-HMM models.
+
+    Every sentiment representation is tested separately with inflation lag 1.
+    Generic mean FinBERT sentiment is the sentiment baseline, and an
+    inflation-only specification is retained as the forecasting benchmark.
+    """
+    data, metadata, _ = load_macro_benchmark_snapshot(path)
+    sentiment_features = list(ALTERNATIVE_FINBERT_FEATURES)
+    missing = set(sentiment_features) - set(data.columns)
+    if missing:
+        raise ValueError(
+            "The modelling dataset is missing sentiment aggregations: "
+            f"{sorted(missing)}"
+        )
+
+    required = ["Inflation_MoM", "Inflation_Lag1", *sentiment_features]
+    sample = data.loc[data[required].notna().all(axis=1) & data["Date"].le(test_end)].copy()
+    sample["TargetAssumedAvailableBy"] = sample["Date"] + pd.offsets.MonthEnd(2)
+    dates = sample.loc[sample["Date"].between(test_start, test_end), "Date"]
+    expected_dates = pd.date_range(test_start, test_end, freq="MS")
+    if not pd.DatetimeIndex(dates).equals(expected_dates):
+        raise ValueError("The sentiment aggregation evaluation period is incomplete.")
+    schedule = pd.DataFrame({
+        "TargetMonth": dates,
+        "ForecastOrigin": dates + pd.offsets.MonthEnd(0),
+    })
+
+    ar_specifications = {"Inflation only (lag 1)": ["Inflation_Lag1"]}
+    arhmm_specifications = {"AR-HMM inflation only (lag 1)": ["Inflation_Lag1"]}
+    for feature, label in SENTIMENT_AGGREGATION_LABELS.items():
+        ar_specifications[f"Inflation + {label}"] = ["Inflation_Lag1", feature]
+        arhmm_specifications[f"AR-HMM + {label}"] = ["Inflation_Lag1", feature]
+
+    ar_results = {
+        name: fit_expanding_macro(sample, schedule, features=features, name=name)
+        for name, features in ar_specifications.items()
+    }
+    arhmm_results = {}
+    for name, features in arhmm_specifications.items():
+        arhmm_results[name] = fit_expanding_ar_hmm(
+            sample, schedule, features=features, name=name
+        )
+        print(f"Completed {name}")
+
+    metadata_common = {
+        "dataset": Path(path).name,
+        "region": metadata["region_code"],
+        "news_source": metadata["news_source"]["source_code"],
+        "target": "Inflation_MoM",
+        "test_start": test_start,
+        "test_end": test_end,
+        "test_rows": len(dates),
+        "predictor_timing": "month t sentiment observed by month end is used for month t inflation",
+        "sentiment_lag_months": 0,
+        "sentiment_features": SENTIMENT_AGGREGATION_LABELS,
+        "sentiment_baseline": "News_Sentiment (monthly mean)",
+        "comparison_policy": "one sentiment aggregation per model",
+    }
+    return (
+        ar_results,
+        arhmm_results,
+        {**metadata_common, "experiment": "us_ar_sentiment_aggregations"},
+        {**metadata_common, "experiment": "us_arhmm_sentiment_aggregations"},
+    )
+
+
 def run_expanding_arhmm_benchmark(
     path: Path = DEFAULT_DATASET,
     *,
@@ -319,6 +401,11 @@ def main() -> None:
         action="store_true",
         help="Run expanding AR-HMM macro and sentiment comparisons and save both bundles.",
     )
+    parser.add_argument(
+        "--sentiment-aggregations",
+        action="store_true",
+        help="Compare mean, median, negative share, and dispersion in AR and AR-HMM.",
+    )
     parser.add_argument("--test-start", default="2017-01-01")
     parser.add_argument("--test-end", default="2023-12-01", help="End of Part A evaluation sample.")
     parser.add_argument("--prepare-macro-contract", action="store_true", help="Audit and export Part A only; fits no models.")
@@ -331,6 +418,30 @@ def main() -> None:
         help="Validate inputs and show the intended run without fitting models.",
     )
     args = parser.parse_args()
+
+    if args.sentiment_aggregations:
+        if args.macro or args.arhmm_expanding or args.prepare_macro_contract or args.check_only:
+            parser.error("Use --sentiment-aggregations on its own.")
+        from modelling.evaluation import save_result_bundle
+        ar_results, arhmm_results, ar_metadata, arhmm_metadata = (
+            run_sentiment_aggregation_comparison(
+                args.data, test_start=args.test_start, test_end=args.test_end
+            )
+        )
+        destination = args.output or DEFAULT_OUTPUT.parent
+        ar_metrics = save_result_bundle(
+            ar_results, destination / "ar_sentiment_aggregations", metadata=ar_metadata
+        )
+        arhmm_metrics = save_result_bundle(
+            arhmm_results,
+            destination / "arhmm_sentiment_aggregations",
+            metadata=arhmm_metadata,
+        )
+        print("\nAR sentiment aggregation comparison:\n")
+        print(ar_metrics.to_string(index=False))
+        print("\nAR-HMM sentiment aggregation comparison:\n")
+        print(arhmm_metrics.to_string(index=False))
+        return
 
     if args.arhmm_expanding:
         if args.macro or args.prepare_macro_contract or args.check_only:
