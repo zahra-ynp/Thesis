@@ -1,0 +1,6 @@
+model,rmse,mae,mean_error_actual_minus_forecast,rmse_improvement_pct,sentiment_feature_count,features,test_months
+AR-HMM + mean sentiment (baseline),0.26333045680987865,0.19654461573402185,0.05763356713539633,4.792066491272857,1,"Inflation_Lag1, News_Sentiment",84
+AR-HMM + negative share,0.2728409395957723,0.19843688544762042,0.06060215051823487,1.3535222997477598,1,"Inflation_Lag1, Negative_Share",84
+AR-HMM + median sentiment,0.2762993968355039,0.20020793753370938,0.06107396464586272,0.10310648794945991,1,"Inflation_Lag1, Sentiment_Median",84
+AR-HMM inflation only (lag 1),0.2765845734754244,0.20260064212979323,0.06541624669034968,0.0,0,Inflation_Lag1,84
+AR-HMM + sentiment dispersion,0.2902744909274773,0.20554194856204286,0.05918878952476698,-4.949631600935723,1,"Inflation_Lag1, Sentiment_Std",84

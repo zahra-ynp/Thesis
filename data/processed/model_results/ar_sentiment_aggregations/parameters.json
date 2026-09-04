@@ -1,0 +1,4604 @@
+{
+  "models": {
+    "Inflation only (lag 1)": {
+      "features": [
+        "Inflation_Lag1"
+      ],
+      "estimator": "expanding-window ordinary least squares",
+      "coefficients_by_origin": [
+        {
+          "target_month": "2017-01-01",
+          "origin": "2017-01-31",
+          "training_end": "2016-12-01",
+          "training_rows": 118,
+          "coefficients": {
+            "intercept": 0.06939241466935309,
+            "Inflation_Lag1": 0.5228078504704156
+          }
+        },
+        {
+          "target_month": "2017-02-01",
+          "origin": "2017-02-28",
+          "training_end": "2017-01-01",
+          "training_rows": 119,
+          "coefficients": {
+            "intercept": 0.07084218975838198,
+            "Inflation_Lag1": 0.5245262540529172
+          }
+        },
+        {
+          "target_month": "2017-03-01",
+          "origin": "2017-03-31",
+          "training_end": "2017-02-01",
+          "training_rows": 120,
+          "coefficients": {
+            "intercept": 0.07019560424521123,
+            "Inflation_Lag1": 0.5219816873705403
+          }
+        },
+        {
+          "target_month": "2017-04-01",
+          "origin": "2017-04-30",
+          "training_end": "2017-03-01",
+          "training_rows": 121,
+          "coefficients": {
+            "intercept": 0.06856280196387361,
+            "Inflation_Lag1": 0.5218458377809649
+          }
+        },
+        {
+          "target_month": "2017-05-01",
+          "origin": "2017-05-31",
+          "training_end": "2017-04-01",
+          "training_rows": 122,
+          "coefficients": {
+            "intercept": 0.06939988477147124,
+            "Inflation_Lag1": 0.5205889494732254
+          }
+        },
+        {
+          "target_month": "2017-06-01",
+          "origin": "2017-06-30",
+          "training_end": "2017-05-01",
+          "training_rows": 123,
+          "coefficients": {
+            "intercept": 0.067618737846967,
+            "Inflation_Lag1": 0.5210271507253355
+          }
+        },
+        {
+          "target_month": "2017-07-01",
+          "origin": "2017-07-31",
+          "training_end": "2017-06-01",
+          "training_rows": 124,
+          "coefficients": {
+            "intercept": 0.06802510636289107,
+            "Inflation_Lag1": 0.5203414810459152
+          }
+        },
+        {
+          "target_month": "2017-08-01",
+          "origin": "2017-08-31",
+          "training_end": "2017-07-01",
+          "training_rows": 125,
+          "coefficients": {
+            "intercept": 0.06740526614140727,
+            "Inflation_Lag1": 0.5207951584954479
+          }
+        },
+        {
+          "target_month": "2017-09-01",
+          "origin": "2017-09-30",
+          "training_end": "2017-08-01",
+          "training_rows": 126,
+          "coefficients": {
+            "intercept": 0.07018700369980968,
+            "Inflation_Lag1": 0.5180655547776383
+          }
+        },
+        {
+          "target_month": "2017-10-01",
+          "origin": "2017-10-31",
+          "training_end": "2017-09-01",
+          "training_rows": 127,
+          "coefficients": {
+            "intercept": 0.07140897007418534,
+            "Inflation_Lag1": 0.5226478840655864
+          }
+        },
+        {
+          "target_month": "2017-11-01",
+          "origin": "2017-11-30",
+          "training_end": "2017-10-01",
+          "training_rows": 128,
+          "coefficients": {
+            "intercept": 0.07049168993534367,
+            "Inflation_Lag1": 0.5152004641306129
+          }
+        },
+        {
+          "target_month": "2017-12-01",
+          "origin": "2017-12-31",
+          "training_end": "2017-11-01",
+          "training_rows": 129,
+          "coefficients": {
+            "intercept": 0.07183823228249704,
+            "Inflation_Lag1": 0.5143041239455234
+          }
+        },
+        {
+          "target_month": "2018-01-01",
+          "origin": "2018-01-31",
+          "training_end": "2017-12-01",
+          "training_rows": 130,
+          "coefficients": {
+            "intercept": 0.07184853849775828,
+            "Inflation_Lag1": 0.514319135184356
+          }
+        },
+        {
+          "target_month": "2018-02-01",
+          "origin": "2018-02-28",
+          "training_end": "2018-01-01",
+          "training_rows": 131,
+          "coefficients": {
+            "intercept": 0.07354523644644823,
+            "Inflation_Lag1": 0.5154731389224358
+          }
+        },
+        {
+          "target_month": "2018-03-01",
+          "origin": "2018-03-31",
+          "training_end": "2018-02-01",
+          "training_rows": 132,
+          "coefficients": {
+            "intercept": 0.07344401887689155,
+            "Inflation_Lag1": 0.514968781150655
+          }
+        },
+        {
+          "target_month": "2018-04-01",
+          "origin": "2018-04-30",
+          "training_end": "2018-03-01",
+          "training_rows": 133,
+          "coefficients": {
+            "intercept": 0.07226285746567436,
+            "Inflation_Lag1": 0.5132246182711014
+          }
+        },
+        {
+          "target_month": "2018-05-01",
+          "origin": "2018-05-31",
+          "training_end": "2018-04-01",
+          "training_rows": 134,
+          "coefficients": {
+            "intercept": 0.07388042198430562,
+            "Inflation_Lag1": 0.5113509717380464
+          }
+        },
+        {
+          "target_month": "2018-06-01",
+          "origin": "2018-06-30",
+          "training_end": "2018-05-01",
+          "training_rows": 135,
+          "coefficients": {
+            "intercept": 0.073995134928851,
+            "Inflation_Lag1": 0.5115074471223685
+          }
+        },
+        {
+          "target_month": "2018-07-01",
+          "origin": "2018-07-31",
+          "training_end": "2018-06-01",
+          "training_rows": 136,
+          "coefficients": {
+            "intercept": 0.07335024143980788,
+            "Inflation_Lag1": 0.5109518700418152
+          }
+        },
+        {
+          "target_month": "2018-08-01",
+          "origin": "2018-08-31",
+          "training_end": "2018-07-01",
+          "training_rows": 137,
+          "coefficients": {
+            "intercept": 0.07301685222400778,
+            "Inflation_Lag1": 0.5111586274181813
+          }
+        },
+        {
+          "target_month": "2018-09-01",
+          "origin": "2018-09-30",
+          "training_end": "2018-08-01",
+          "training_rows": 138,
+          "coefficients": {
+            "intercept": 0.0735532742296948,
+            "Inflation_Lag1": 0.5107702773277473
+          }
+        },
+        {
+          "target_month": "2018-10-01",
+          "origin": "2018-10-31",
+          "training_end": "2018-09-01",
+          "training_rows": 139,
+          "coefficients": {
+            "intercept": 0.07383849971385761,
+            "Inflation_Lag1": 0.5108516457065672
+          }
+        },
+        {
+          "target_month": "2018-11-01",
+          "origin": "2018-11-30",
+          "training_end": "2018-10-01",
+          "training_rows": 140,
+          "coefficients": {
+            "intercept": 0.0741952080825483,
+            "Inflation_Lag1": 0.5110755949091971
+          }
+        },
+        {
+          "target_month": "2018-12-01",
+          "origin": "2018-12-31",
+          "training_end": "2018-11-01",
+          "training_rows": 141,
+          "coefficients": {
+            "intercept": 0.07257524685729573,
+            "Inflation_Lag1": 0.5094343091844687
+          }
+        },
+        {
+          "target_month": "2019-01-01",
+          "origin": "2019-01-31",
+          "training_end": "2018-12-01",
+          "training_rows": 142,
+          "coefficients": {
+            "intercept": 0.07288378887042395,
+            "Inflation_Lag1": 0.5088807662988803
+          }
+        },
+        {
+          "target_month": "2019-02-01",
+          "origin": "2019-02-28",
+          "training_end": "2019-01-01",
+          "training_rows": 143,
+          "coefficients": {
+            "intercept": 0.07137197554151756,
+            "Inflation_Lag1": 0.5101176696075383
+          }
+        },
+        {
+          "target_month": "2019-03-01",
+          "origin": "2019-03-31",
+          "training_end": "2019-02-01",
+          "training_rows": 144,
+          "coefficients": {
+            "intercept": 0.07398360637675726,
+            "Inflation_Lag1": 0.5052468635663885
+          }
+        },
+        {
+          "target_month": "2019-04-01",
+          "origin": "2019-04-30",
+          "training_end": "2019-03-01",
+          "training_rows": 145,
+          "coefficients": {
+            "intercept": 0.07476971814850851,
+            "Inflation_Lag1": 0.5069992883260843
+          }
+        },
+        {
+          "target_month": "2019-05-01",
+          "origin": "2019-05-31",
+          "training_end": "2019-04-01",
+          "training_rows": 146,
+          "coefficients": {
+            "intercept": 0.07522833705449324,
+            "Inflation_Lag1": 0.5088977008975022
+          }
+        },
+        {
+          "target_month": "2019-06-01",
+          "origin": "2019-06-30",
+          "training_end": "2019-05-01",
+          "training_rows": 147,
+          "coefficients": {
+            "intercept": 0.07421938048620667,
+            "Inflation_Lag1": 0.5047879509759692
+          }
+        },
+        {
+          "target_month": "2019-07-01",
+          "origin": "2019-07-31",
+          "training_end": "2019-06-01",
+          "training_rows": 148,
+          "coefficients": {
+            "intercept": 0.07323191122404514,
+            "Inflation_Lag1": 0.5059707311317387
+          }
+        },
+        {
+          "target_month": "2019-08-01",
+          "origin": "2019-08-31",
+          "training_end": "2019-07-01",
+          "training_rows": 149,
+          "coefficients": {
+            "intercept": 0.07477656442410552,
+            "Inflation_Lag1": 0.5035034486829604
+          }
+        },
+        {
+          "target_month": "2019-09-01",
+          "origin": "2019-09-30",
+          "training_end": "2019-08-01",
+          "training_rows": 150,
+          "coefficients": {
+            "intercept": 0.0742036776631629,
+            "Inflation_Lag1": 0.5029131818317106
+          }
+        },
+        {
+          "target_month": "2019-10-01",
+          "origin": "2019-10-31",
+          "training_end": "2019-09-01",
+          "training_rows": 151,
+          "coefficients": {
+            "intercept": 0.07445085604535125,
+            "Inflation_Lag1": 0.5027551179282275
+          }
+        },
+        {
+          "target_month": "2019-11-01",
+          "origin": "2019-11-30",
+          "training_end": "2019-10-01",
+          "training_rows": 152,
+          "coefficients": {
+            "intercept": 0.07531052897548154,
+            "Inflation_Lag1": 0.5027654830150544
+          }
+        },
+        {
+          "target_month": "2019-12-01",
+          "origin": "2019-12-31",
+          "training_end": "2019-11-01",
+          "training_rows": 153,
+          "coefficients": {
+            "intercept": 0.07563230490191618,
+            "Inflation_Lag1": 0.5033971430795278
+          }
+        },
+        {
+          "target_month": "2020-01-01",
+          "origin": "2020-01-31",
+          "training_end": "2019-12-01",
+          "training_rows": 154,
+          "coefficients": {
+            "intercept": 0.07600132342507014,
+            "Inflation_Lag1": 0.5041128991996456
+          }
+        },
+        {
+          "target_month": "2020-02-01",
+          "origin": "2020-02-29",
+          "training_end": "2020-01-01",
+          "training_rows": 155,
+          "coefficients": {
+            "intercept": 0.07585289871519964,
+            "Inflation_Lag1": 0.5037958294000756
+          }
+        },
+        {
+          "target_month": "2020-03-01",
+          "origin": "2020-03-31",
+          "training_end": "2020-02-01",
+          "training_rows": 156,
+          "coefficients": {
+            "intercept": 0.07510455789016965,
+            "Inflation_Lag1": 0.5034475169367041
+          }
+        },
+        {
+          "target_month": "2020-04-01",
+          "origin": "2020-04-30",
+          "training_end": "2020-03-01",
+          "training_rows": 157,
+          "coefficients": {
+            "intercept": 0.07089001728122878,
+            "Inflation_Lag1": 0.5079622859970635
+          }
+        },
+        {
+          "target_month": "2020-05-01",
+          "origin": "2020-05-31",
+          "training_end": "2020-04-01",
+          "training_rows": 158,
+          "coefficients": {
+            "intercept": 0.06260786180441812,
+            "Inflation_Lag1": 0.5362635469536606
+          }
+        },
+        {
+          "target_month": "2020-06-01",
+          "origin": "2020-06-30",
+          "training_end": "2020-05-01",
+          "training_rows": 159,
+          "coefficients": {
+            "intercept": 0.06689497566328086,
+            "Inflation_Lag1": 0.5185294541803566
+          }
+        },
+        {
+          "target_month": "2020-07-01",
+          "origin": "2020-07-31",
+          "training_end": "2020-06-01",
+          "training_rows": 160,
+          "coefficients": {
+            "intercept": 0.07087683129960301,
+            "Inflation_Lag1": 0.5110203419798127
+          }
+        },
+        {
+          "target_month": "2020-08-01",
+          "origin": "2020-08-31",
+          "training_end": "2020-07-01",
+          "training_rows": 161,
+          "coefficients": {
+            "intercept": 0.07141495804019338,
+            "Inflation_Lag1": 0.515467513664476
+          }
+        },
+        {
+          "target_month": "2020-09-01",
+          "origin": "2020-09-30",
+          "training_end": "2020-08-01",
+          "training_rows": 162,
+          "coefficients": {
+            "intercept": 0.07151361139780331,
+            "Inflation_Lag1": 0.5164276804206849
+          }
+        },
+        {
+          "target_month": "2020-10-01",
+          "origin": "2020-10-31",
+          "training_end": "2020-09-01",
+          "training_rows": 163,
+          "coefficients": {
+            "intercept": 0.07150743705108457,
+            "Inflation_Lag1": 0.516403455921274
+          }
+        },
+        {
+          "target_month": "2020-11-01",
+          "origin": "2020-11-30",
+          "training_end": "2020-10-01",
+          "training_rows": 164,
+          "coefficients": {
+            "intercept": 0.07109497239213892,
+            "Inflation_Lag1": 0.5157686850221573
+          }
+        },
+        {
+          "target_month": "2020-12-01",
+          "origin": "2020-12-31",
+          "training_end": "2020-11-01",
+          "training_rows": 165,
+          "coefficients": {
+            "intercept": 0.07167978463419171,
+            "Inflation_Lag1": 0.5156049350813927
+          }
+        },
+        {
+          "target_month": "2021-01-01",
+          "origin": "2021-01-31",
+          "training_end": "2020-12-01",
+          "training_rows": 166,
+          "coefficients": {
+            "intercept": 0.07296715224971857,
+            "Inflation_Lag1": 0.5168859281955412
+          }
+        },
+        {
+          "target_month": "2021-02-01",
+          "origin": "2021-02-28",
+          "training_end": "2021-01-01",
+          "training_rows": 167,
+          "coefficients": {
+            "intercept": 0.07280442727323914,
+            "Inflation_Lag1": 0.5158843131026986
+          }
+        },
+        {
+          "target_month": "2021-03-01",
+          "origin": "2021-03-31",
+          "training_end": "2021-02-01",
+          "training_rows": 168,
+          "coefficients": {
+            "intercept": 0.07350676555542092,
+            "Inflation_Lag1": 0.5167567001986186
+          }
+        },
+        {
+          "target_month": "2021-04-01",
+          "origin": "2021-04-30",
+          "training_end": "2021-03-01",
+          "training_rows": 169,
+          "coefficients": {
+            "intercept": 0.07460748511466708,
+            "Inflation_Lag1": 0.5201928107694652
+          }
+        },
+        {
+          "target_month": "2021-05-01",
+          "origin": "2021-05-31",
+          "training_end": "2021-04-01",
+          "training_rows": 170,
+          "coefficients": {
+            "intercept": 0.07517637403945886,
+            "Inflation_Lag1": 0.5269729454803163
+          }
+        },
+        {
+          "target_month": "2021-06-01",
+          "origin": "2021-06-30",
+          "training_end": "2021-05-01",
+          "training_rows": 171,
+          "coefficients": {
+            "intercept": 0.07543675894662015,
+            "Inflation_Lag1": 0.5348957593344645
+          }
+        },
+        {
+          "target_month": "2021-07-01",
+          "origin": "2021-07-31",
+          "training_end": "2021-06-01",
+          "training_rows": 172,
+          "coefficients": {
+            "intercept": 0.07567678890187661,
+            "Inflation_Lag1": 0.5483659619012043
+          }
+        },
+        {
+          "target_month": "2021-08-01",
+          "origin": "2021-08-31",
+          "training_end": "2021-07-01",
+          "training_rows": 173,
+          "coefficients": {
+            "intercept": 0.07577711932925617,
+            "Inflation_Lag1": 0.5450302529614939
+          }
+        },
+        {
+          "target_month": "2021-09-01",
+          "origin": "2021-09-30",
+          "training_end": "2021-08-01",
+          "training_rows": 174,
+          "coefficients": {
+            "intercept": 0.07566188713933274,
+            "Inflation_Lag1": 0.5442418939946726
+          }
+        },
+        {
+          "target_month": "2021-10-01",
+          "origin": "2021-10-31",
+          "training_end": "2021-09-01",
+          "training_rows": 175,
+          "coefficients": {
+            "intercept": 0.07666111048162849,
+            "Inflation_Lag1": 0.5458509216994025
+          }
+        },
+        {
+          "target_month": "2021-11-01",
+          "origin": "2021-11-30",
+          "training_end": "2021-10-01",
+          "training_rows": 176,
+          "coefficients": {
+            "intercept": 0.07839484163514053,
+            "Inflation_Lag1": 0.5570734629244343
+          }
+        },
+        {
+          "target_month": "2021-12-01",
+          "origin": "2021-12-31",
+          "training_end": "2021-11-01",
+          "training_rows": 177,
+          "coefficients": {
+            "intercept": 0.07777943513387786,
+            "Inflation_Lag1": 0.5684396575502089
+          }
+        },
+        {
+          "target_month": "2022-01-01",
+          "origin": "2022-01-31",
+          "training_end": "2021-12-01",
+          "training_rows": 178,
+          "coefficients": {
+            "intercept": 0.07760447758693102,
+            "Inflation_Lag1": 0.5733951934029577
+          }
+        },
+        {
+          "target_month": "2022-02-01",
+          "origin": "2022-02-28",
+          "training_end": "2022-01-01",
+          "training_rows": 179,
+          "coefficients": {
+            "intercept": 0.07764614469295268,
+            "Inflation_Lag1": 0.5772145221346822
+          }
+        },
+        {
+          "target_month": "2022-03-01",
+          "origin": "2022-03-31",
+          "training_end": "2022-02-01",
+          "training_rows": 180,
+          "coefficients": {
+            "intercept": 0.07796194034303994,
+            "Inflation_Lag1": 0.5835593302749639
+          }
+        },
+        {
+          "target_month": "2022-04-01",
+          "origin": "2022-04-30",
+          "training_end": "2022-03-01",
+          "training_rows": 181,
+          "coefficients": {
+            "intercept": 0.07813251497407307,
+            "Inflation_Lag1": 0.601462959617676
+          }
+        },
+        {
+          "target_month": "2022-05-01",
+          "origin": "2022-05-31",
+          "training_end": "2022-04-01",
+          "training_rows": 182,
+          "coefficients": {
+            "intercept": 0.07985538483490333,
+            "Inflation_Lag1": 0.5797693788741118
+          }
+        },
+        {
+          "target_month": "2022-06-01",
+          "origin": "2022-06-30",
+          "training_end": "2022-05-01",
+          "training_rows": 183,
+          "coefficients": {
+            "intercept": 0.08280481459482238,
+            "Inflation_Lag1": 0.584048869047637
+          }
+        },
+        {
+          "target_month": "2022-07-01",
+          "origin": "2022-07-31",
+          "training_end": "2022-06-01",
+          "training_rows": 184,
+          "coefficients": {
+            "intercept": 0.08145830762053025,
+            "Inflation_Lag1": 0.6081138050797648
+          }
+        },
+        {
+          "target_month": "2022-08-01",
+          "origin": "2022-08-31",
+          "training_end": "2022-07-01",
+          "training_rows": 185,
+          "coefficients": {
+            "intercept": 0.08573225946107403,
+            "Inflation_Lag1": 0.5638382096234811
+          }
+        },
+        {
+          "target_month": "2022-09-01",
+          "origin": "2022-09-30",
+          "training_end": "2022-08-01",
+          "training_rows": 186,
+          "coefficients": {
+            "intercept": 0.08562062313559546,
+            "Inflation_Lag1": 0.563994744337979
+          }
+        },
+        {
+          "target_month": "2022-10-01",
+          "origin": "2022-10-31",
+          "training_end": "2022-09-01",
+          "training_rows": 187,
+          "coefficients": {
+            "intercept": 0.08764797614835962,
+            "Inflation_Lag1": 0.5619682939969367
+          }
+        },
+        {
+          "target_month": "2022-11-01",
+          "origin": "2022-11-30",
+          "training_end": "2022-10-01",
+          "training_rows": 188,
+          "coefficients": {
+            "intercept": 0.08838116792179047,
+            "Inflation_Lag1": 0.5644991615640004
+          }
+        },
+        {
+          "target_month": "2022-12-01",
+          "origin": "2022-12-31",
+          "training_end": "2022-11-01",
+          "training_rows": 189,
+          "coefficients": {
+            "intercept": 0.0881237657043314,
+            "Inflation_Lag1": 0.562042052951493
+          }
+        },
+        {
+          "target_month": "2023-01-01",
+          "origin": "2023-01-31",
+          "training_end": "2022-12-01",
+          "training_rows": 190,
+          "coefficients": {
+            "intercept": 0.08709323106549875,
+            "Inflation_Lag1": 0.5614239521658424
+          }
+        },
+        {
+          "target_month": "2023-02-01",
+          "origin": "2023-02-28",
+          "training_end": "2023-01-01",
+          "training_rows": 191,
+          "coefficients": {
+            "intercept": 0.09016538840743529,
+            "Inflation_Lag1": 0.5575085242574616
+          }
+        },
+        {
+          "target_month": "2023-03-01",
+          "origin": "2023-03-31",
+          "training_end": "2023-02-01",
+          "training_rows": 192,
+          "coefficients": {
+            "intercept": 0.09007777663484849,
+            "Inflation_Lag1": 0.5568247971768256
+          }
+        },
+        {
+          "target_month": "2023-04-01",
+          "origin": "2023-04-30",
+          "training_end": "2023-03-01",
+          "training_rows": 193,
+          "coefficients": {
+            "intercept": 0.08947335746073339,
+            "Inflation_Lag1": 0.5557793721577239
+          }
+        },
+        {
+          "target_month": "2023-05-01",
+          "origin": "2023-05-31",
+          "training_end": "2023-04-01",
+          "training_rows": 194,
+          "coefficients": {
+            "intercept": 0.09055187753944637,
+            "Inflation_Lag1": 0.5550763826700388
+          }
+        },
+        {
+          "target_month": "2023-06-01",
+          "origin": "2023-06-30",
+          "training_end": "2023-05-01",
+          "training_rows": 195,
+          "coefficients": {
+            "intercept": 0.09010434259542403,
+            "Inflation_Lag1": 0.5543216754289024
+          }
+        },
+        {
+          "target_month": "2023-07-01",
+          "origin": "2023-07-31",
+          "training_end": "2023-06-01",
+          "training_rows": 196,
+          "coefficients": {
+            "intercept": 0.0903504890664018,
+            "Inflation_Lag1": 0.5542299057614087
+          }
+        },
+        {
+          "target_month": "2023-08-01",
+          "origin": "2023-08-31",
+          "training_end": "2023-07-01",
+          "training_rows": 197,
+          "coefficients": {
+            "intercept": 0.09025825329750951,
+            "Inflation_Lag1": 0.5542122943926847
+          }
+        },
+        {
+          "target_month": "2023-09-01",
+          "origin": "2023-09-30",
+          "training_end": "2023-08-01",
+          "training_rows": 198,
+          "coefficients": {
+            "intercept": 0.09172164505823119,
+            "Inflation_Lag1": 0.5540911840144769
+          }
+        },
+        {
+          "target_month": "2023-10-01",
+          "origin": "2023-10-31",
+          "training_end": "2023-09-01",
+          "training_rows": 199,
+          "coefficients": {
+            "intercept": 0.09179170707594118,
+            "Inflation_Lag1": 0.554493296456099
+          }
+        },
+        {
+          "target_month": "2023-11-01",
+          "origin": "2023-11-30",
+          "training_end": "2023-10-01",
+          "training_rows": 200,
+          "coefficients": {
+            "intercept": 0.09124348998357329,
+            "Inflation_Lag1": 0.5530008749332205
+          }
+        },
+        {
+          "target_month": "2023-12-01",
+          "origin": "2023-12-31",
+          "training_end": "2023-11-01",
+          "training_rows": 201,
+          "coefficients": {
+            "intercept": 0.09113064612077686,
+            "Inflation_Lag1": 0.5530670899302961
+          }
+        }
+      ]
+    },
+    "Inflation + mean sentiment (baseline)": {
+      "features": [
+        "Inflation_Lag1",
+        "News_Sentiment"
+      ],
+      "estimator": "expanding-window ordinary least squares",
+      "coefficients_by_origin": [
+        {
+          "target_month": "2017-01-01",
+          "origin": "2017-01-31",
+          "training_end": "2016-12-01",
+          "training_rows": 118,
+          "coefficients": {
+            "intercept": 0.09442043398644008,
+            "Inflation_Lag1": 0.5224623734328904,
+            "News_Sentiment": 0.08330286357008437
+          }
+        },
+        {
+          "target_month": "2017-02-01",
+          "origin": "2017-02-28",
+          "training_end": "2017-01-01",
+          "training_rows": 119,
+          "coefficients": {
+            "intercept": 0.10718740240184832,
+            "Inflation_Lag1": 0.5238505697152013,
+            "News_Sentiment": 0.12145378134731422
+          }
+        },
+        {
+          "target_month": "2017-03-01",
+          "origin": "2017-03-31",
+          "training_end": "2017-02-01",
+          "training_rows": 120,
+          "coefficients": {
+            "intercept": 0.09851567390342736,
+            "Inflation_Lag1": 0.5211427666797506,
+            "News_Sentiment": 0.09490043246148439
+          }
+        },
+        {
+          "target_month": "2017-04-01",
+          "origin": "2017-04-30",
+          "training_end": "2017-03-01",
+          "training_rows": 121,
+          "coefficients": {
+            "intercept": 0.07228272517273036,
+            "Inflation_Lag1": 0.521731662731322,
+            "News_Sentiment": 0.012583669528194674
+          }
+        },
+        {
+          "target_month": "2017-05-01",
+          "origin": "2017-05-31",
+          "training_end": "2017-04-01",
+          "training_rows": 122,
+          "coefficients": {
+            "intercept": 0.07096558532644957,
+            "Inflation_Lag1": 0.5205335726815652,
+            "News_Sentiment": 0.005279577609236363
+          }
+        },
+        {
+          "target_month": "2017-06-01",
+          "origin": "2017-06-30",
+          "training_end": "2017-05-01",
+          "training_rows": 123,
+          "coefficients": {
+            "intercept": 0.06022225463722109,
+            "Inflation_Lag1": 0.5212823862522027,
+            "News_Sentiment": -0.025043051182859988
+          }
+        },
+        {
+          "target_month": "2017-07-01",
+          "origin": "2017-07-31",
+          "training_end": "2017-06-01",
+          "training_rows": 124,
+          "coefficients": {
+            "intercept": 0.060637520063494314,
+            "Inflation_Lag1": 0.5205960640828737,
+            "News_Sentiment": -0.025013635697872627
+          }
+        },
+        {
+          "target_month": "2017-08-01",
+          "origin": "2017-08-31",
+          "training_end": "2017-07-01",
+          "training_rows": 125,
+          "coefficients": {
+            "intercept": 0.06009079211356569,
+            "Inflation_Lag1": 0.5210477810334875,
+            "News_Sentiment": -0.02476337099223397
+          }
+        },
+        {
+          "target_month": "2017-09-01",
+          "origin": "2017-09-30",
+          "training_end": "2017-08-01",
+          "training_rows": 126,
+          "coefficients": {
+            "intercept": 0.06224869887674562,
+            "Inflation_Lag1": 0.5183413752409238,
+            "News_Sentiment": -0.026869459535681484
+          }
+        },
+        {
+          "target_month": "2017-10-01",
+          "origin": "2017-10-31",
+          "training_end": "2017-09-01",
+          "training_rows": 127,
+          "coefficients": {
+            "intercept": 0.07007487015018796,
+            "Inflation_Lag1": 0.5227022950021488,
+            "News_Sentiment": -0.004522847746578129
+          }
+        },
+        {
+          "target_month": "2017-11-01",
+          "origin": "2017-11-30",
+          "training_end": "2017-10-01",
+          "training_rows": 128,
+          "coefficients": {
+            "intercept": 0.07273942186562507,
+            "Inflation_Lag1": 0.5151191622121665,
+            "News_Sentiment": 0.0076159217811746505
+          }
+        },
+        {
+          "target_month": "2017-12-01",
+          "origin": "2017-12-31",
+          "training_end": "2017-11-01",
+          "training_rows": 129,
+          "coefficients": {
+            "intercept": 0.08853252137534685,
+            "Inflation_Lag1": 0.5138150439079562,
+            "News_Sentiment": 0.05718247253855391
+          }
+        },
+        {
+          "target_month": "2018-01-01",
+          "origin": "2018-01-31",
+          "training_end": "2017-12-01",
+          "training_rows": 130,
+          "coefficients": {
+            "intercept": 0.0885118476243324,
+            "Inflation_Lag1": 0.5138052018936254,
+            "News_Sentiment": 0.057135744448091164
+          }
+        },
+        {
+          "target_month": "2018-02-01",
+          "origin": "2018-02-28",
+          "training_end": "2018-01-01",
+          "training_rows": 131,
+          "coefficients": {
+            "intercept": 0.09890934565204335,
+            "Inflation_Lag1": 0.5146267545306477,
+            "News_Sentiment": 0.08727848242366631
+          }
+        },
+        {
+          "target_month": "2018-03-01",
+          "origin": "2018-03-31",
+          "training_end": "2018-02-01",
+          "training_rows": 132,
+          "coefficients": {
+            "intercept": 0.09880116065225882,
+            "Inflation_Lag1": 0.5141205209246472,
+            "News_Sentiment": 0.08725595359258659
+          }
+        },
+        {
+          "target_month": "2018-04-01",
+          "origin": "2018-04-30",
+          "training_end": "2018-03-01",
+          "training_rows": 133,
+          "coefficients": {
+            "intercept": 0.09419725569733174,
+            "Inflation_Lag1": 0.5124425856709707,
+            "News_Sentiment": 0.0755880163261759
+          }
+        },
+        {
+          "target_month": "2018-05-01",
+          "origin": "2018-05-31",
+          "training_end": "2018-04-01",
+          "training_rows": 134,
+          "coefficients": {
+            "intercept": 0.09525486910464866,
+            "Inflation_Lag1": 0.5105792539229198,
+            "News_Sentiment": 0.07362875242267963
+          }
+        },
+        {
+          "target_month": "2018-06-01",
+          "origin": "2018-06-30",
+          "training_end": "2018-05-01",
+          "training_rows": 135,
+          "coefficients": {
+            "intercept": 0.09528574178652117,
+            "Inflation_Lag1": 0.51075043833287,
+            "News_Sentiment": 0.07331120686219905
+          }
+        },
+        {
+          "target_month": "2018-07-01",
+          "origin": "2018-07-31",
+          "training_end": "2018-06-01",
+          "training_rows": 136,
+          "coefficients": {
+            "intercept": 0.09257806689067653,
+            "Inflation_Lag1": 0.5102378633825994,
+            "News_Sentiment": 0.06632477783839424
+          }
+        },
+        {
+          "target_month": "2018-08-01",
+          "origin": "2018-08-31",
+          "training_end": "2018-07-01",
+          "training_rows": 137,
+          "coefficients": {
+            "intercept": 0.0911331370258605,
+            "Inflation_Lag1": 0.5105130864100048,
+            "News_Sentiment": 0.06265147398162474
+          }
+        },
+        {
+          "target_month": "2018-09-01",
+          "origin": "2018-09-30",
+          "training_end": "2018-08-01",
+          "training_rows": 138,
+          "coefficients": {
+            "intercept": 0.09034465487219796,
+            "Inflation_Lag1": 0.5101460360376693,
+            "News_Sentiment": 0.05793938261055659
+          }
+        },
+        {
+          "target_month": "2018-10-01",
+          "origin": "2018-10-31",
+          "training_end": "2018-09-01",
+          "training_rows": 139,
+          "coefficients": {
+            "intercept": 0.09160918074463328,
+            "Inflation_Lag1": 0.5101736213245085,
+            "News_Sentiment": 0.06150444314012221
+          }
+        },
+        {
+          "target_month": "2018-11-01",
+          "origin": "2018-11-30",
+          "training_end": "2018-10-01",
+          "training_rows": 140,
+          "coefficients": {
+            "intercept": 0.09159028262626041,
+            "Inflation_Lag1": 0.5104194049236249,
+            "News_Sentiment": 0.060165471887567434
+          }
+        },
+        {
+          "target_month": "2018-12-01",
+          "origin": "2018-12-31",
+          "training_end": "2018-11-01",
+          "training_rows": 141,
+          "coefficients": {
+            "intercept": 0.08472075133991998,
+            "Inflation_Lag1": 0.5089538985226248,
+            "News_Sentiment": 0.042081670994937204
+          }
+        },
+        {
+          "target_month": "2019-01-01",
+          "origin": "2019-01-31",
+          "training_end": "2018-12-01",
+          "training_rows": 142,
+          "coefficients": {
+            "intercept": 0.08416756120347992,
+            "Inflation_Lag1": 0.5083637600842891,
+            "News_Sentiment": 0.03895636585218554
+          }
+        },
+        {
+          "target_month": "2019-02-01",
+          "origin": "2019-02-28",
+          "training_end": "2019-01-01",
+          "training_rows": 143,
+          "coefficients": {
+            "intercept": 0.08503818356749192,
+            "Inflation_Lag1": 0.5094758564749285,
+            "News_Sentiment": 0.047111599890880096
+          }
+        },
+        {
+          "target_month": "2019-03-01",
+          "origin": "2019-03-31",
+          "training_end": "2019-02-01",
+          "training_rows": 144,
+          "coefficients": {
+            "intercept": 0.08797239048524548,
+            "Inflation_Lag1": 0.5045942572844697,
+            "News_Sentiment": 0.04823187814461799
+          }
+        },
+        {
+          "target_month": "2019-04-01",
+          "origin": "2019-04-30",
+          "training_end": "2019-03-01",
+          "training_rows": 145,
+          "coefficients": {
+            "intercept": 0.08715683538690366,
+            "Inflation_Lag1": 0.5064436641301182,
+            "News_Sentiment": 0.04267577204916245
+          }
+        },
+        {
+          "target_month": "2019-05-01",
+          "origin": "2019-05-31",
+          "training_end": "2019-04-01",
+          "training_rows": 146,
+          "coefficients": {
+            "intercept": 0.08608399129746598,
+            "Inflation_Lag1": 0.5084494205067305,
+            "News_Sentiment": 0.03736779279540803
+          }
+        },
+        {
+          "target_month": "2019-06-01",
+          "origin": "2019-06-30",
+          "training_end": "2019-05-01",
+          "training_rows": 147,
+          "coefficients": {
+            "intercept": 0.09354945343139674,
+            "Inflation_Lag1": 0.5041674792606871,
+            "News_Sentiment": 0.06639008444386507
+          }
+        },
+        {
+          "target_month": "2019-07-01",
+          "origin": "2019-07-31",
+          "training_end": "2019-06-01",
+          "training_rows": 148,
+          "coefficients": {
+            "intercept": 0.0927916284923533,
+            "Inflation_Lag1": 0.5053375398573297,
+            "News_Sentiment": 0.06716305123110428
+          }
+        },
+        {
+          "target_month": "2019-08-01",
+          "origin": "2019-08-31",
+          "training_end": "2019-07-01",
+          "training_rows": 149,
+          "coefficients": {
+            "intercept": 0.09364915534901651,
+            "Inflation_Lag1": 0.502876916425206,
+            "News_Sentiment": 0.06476943983786304
+          }
+        },
+        {
+          "target_month": "2019-09-01",
+          "origin": "2019-09-30",
+          "training_end": "2019-08-01",
+          "training_rows": 150,
+          "coefficients": {
+            "intercept": 0.09452072554813656,
+            "Inflation_Lag1": 0.5022663355324015,
+            "News_Sentiment": 0.06963752859665007
+          }
+        },
+        {
+          "target_month": "2019-10-01",
+          "origin": "2019-10-31",
+          "training_end": "2019-09-01",
+          "training_rows": 151,
+          "coefficients": {
+            "intercept": 0.09426512283369361,
+            "Inflation_Lag1": 0.5021057413459209,
+            "News_Sentiment": 0.06780965859481675
+          }
+        },
+        {
+          "target_month": "2019-11-01",
+          "origin": "2019-11-30",
+          "training_end": "2019-10-01",
+          "training_rows": 152,
+          "coefficients": {
+            "intercept": 0.09354726925283319,
+            "Inflation_Lag1": 0.5021687591163341,
+            "News_Sentiment": 0.06233826263369374
+          }
+        },
+        {
+          "target_month": "2019-12-01",
+          "origin": "2019-12-31",
+          "training_end": "2019-11-01",
+          "training_rows": 153,
+          "coefficients": {
+            "intercept": 0.09318704503921174,
+            "Inflation_Lag1": 0.5028500298824172,
+            "News_Sentiment": 0.059960246055970556
+          }
+        },
+        {
+          "target_month": "2020-01-01",
+          "origin": "2020-01-31",
+          "training_end": "2019-12-01",
+          "training_rows": 154,
+          "coefficients": {
+            "intercept": 0.09420794784352289,
+            "Inflation_Lag1": 0.5035205474492289,
+            "News_Sentiment": 0.06223002485684331
+          }
+        },
+        {
+          "target_month": "2020-02-01",
+          "origin": "2020-02-29",
+          "training_end": "2020-01-01",
+          "training_rows": 155,
+          "coefficients": {
+            "intercept": 0.0943977420260823,
+            "Inflation_Lag1": 0.5032267481156295,
+            "News_Sentiment": 0.06333203638487361
+          }
+        },
+        {
+          "target_month": "2020-03-01",
+          "origin": "2020-03-31",
+          "training_end": "2020-02-01",
+          "training_rows": 156,
+          "coefficients": {
+            "intercept": 0.09790189473666067,
+            "Inflation_Lag1": 0.5027852835948781,
+            "News_Sentiment": 0.07759757423607161
+          }
+        },
+        {
+          "target_month": "2020-04-01",
+          "origin": "2020-04-30",
+          "training_end": "2020-03-01",
+          "training_rows": 157,
+          "coefficients": {
+            "intercept": 0.09198354734650968,
+            "Inflation_Lag1": 0.5073573573567479,
+            "News_Sentiment": 0.07182366861514261
+          }
+        },
+        {
+          "target_month": "2020-05-01",
+          "origin": "2020-05-31",
+          "training_end": "2020-04-01",
+          "training_rows": 158,
+          "coefficients": {
+            "intercept": 0.10102858319155866,
+            "Inflation_Lag1": 0.5344289656717206,
+            "News_Sentiment": 0.1300866027600867
+          }
+        },
+        {
+          "target_month": "2020-06-01",
+          "origin": "2020-06-30",
+          "training_end": "2020-05-01",
+          "training_rows": 159,
+          "coefficients": {
+            "intercept": 0.09746777979572976,
+            "Inflation_Lag1": 0.5161794733982519,
+            "News_Sentiment": 0.10277768025991896
+          }
+        },
+        {
+          "target_month": "2020-07-01",
+          "origin": "2020-07-31",
+          "training_end": "2020-06-01",
+          "training_rows": 160,
+          "coefficients": {
+            "intercept": 0.08504937956961008,
+            "Inflation_Lag1": 0.5098149361566554,
+            "News_Sentiment": 0.04742872781856833
+          }
+        },
+        {
+          "target_month": "2020-08-01",
+          "origin": "2020-08-31",
+          "training_end": "2020-07-01",
+          "training_rows": 161,
+          "coefficients": {
+            "intercept": 0.08062010490348409,
+            "Inflation_Lag1": 0.5147697666280129,
+            "News_Sentiment": 0.030771077687080428
+          }
+        },
+        {
+          "target_month": "2020-09-01",
+          "origin": "2020-09-30",
+          "training_end": "2020-08-01",
+          "training_rows": 162,
+          "coefficients": {
+            "intercept": 0.0794049745480952,
+            "Inflation_Lag1": 0.515923445877225,
+            "News_Sentiment": 0.02634733407542794
+          }
+        },
+        {
+          "target_month": "2020-10-01",
+          "origin": "2020-10-31",
+          "training_end": "2020-09-01",
+          "training_rows": 163,
+          "coefficients": {
+            "intercept": 0.07940670078731639,
+            "Inflation_Lag1": 0.5159195802366626,
+            "News_Sentiment": 0.0263562420840896
+          }
+        },
+        {
+          "target_month": "2020-11-01",
+          "origin": "2020-11-30",
+          "training_end": "2020-10-01",
+          "training_rows": 164,
+          "coefficients": {
+            "intercept": 0.08164437658661661,
+            "Inflation_Lag1": 0.5151664049689991,
+            "News_Sentiment": 0.03510695227871424
+          }
+        },
+        {
+          "target_month": "2020-12-01",
+          "origin": "2020-12-31",
+          "training_end": "2020-11-01",
+          "training_rows": 165,
+          "coefficients": {
+            "intercept": 0.08152491965684824,
+            "Inflation_Lag1": 0.5150411969514381,
+            "News_Sentiment": 0.03273837393726714
+          }
+        },
+        {
+          "target_month": "2021-01-01",
+          "origin": "2021-01-31",
+          "training_end": "2020-12-01",
+          "training_rows": 166,
+          "coefficients": {
+            "intercept": 0.08201557437091758,
+            "Inflation_Lag1": 0.5163703670550104,
+            "News_Sentiment": 0.03008095707368924
+          }
+        },
+        {
+          "target_month": "2021-02-01",
+          "origin": "2021-02-28",
+          "training_end": "2021-01-01",
+          "training_rows": 167,
+          "coefficients": {
+            "intercept": 0.08207835299781019,
+            "Inflation_Lag1": 0.51536805050399,
+            "News_Sentiment": 0.03082413024079428
+          }
+        },
+        {
+          "target_month": "2021-03-01",
+          "origin": "2021-03-31",
+          "training_end": "2021-02-01",
+          "training_rows": 168,
+          "coefficients": {
+            "intercept": 0.08363239454412752,
+            "Inflation_Lag1": 0.5161866443446095,
+            "News_Sentiment": 0.0336713125401219
+          }
+        },
+        {
+          "target_month": "2021-04-01",
+          "origin": "2021-04-30",
+          "training_end": "2021-03-01",
+          "training_rows": 169,
+          "coefficients": {
+            "intercept": 0.08656198515154465,
+            "Inflation_Lag1": 0.5195036926122304,
+            "News_Sentiment": 0.03976980479604503
+          }
+        },
+        {
+          "target_month": "2021-05-01",
+          "origin": "2021-05-31",
+          "training_end": "2021-04-01",
+          "training_rows": 170,
+          "coefficients": {
+            "intercept": 0.09752857766921683,
+            "Inflation_Lag1": 0.5253344212172018,
+            "News_Sentiment": 0.07445774917107367
+          }
+        },
+        {
+          "target_month": "2021-06-01",
+          "origin": "2021-06-30",
+          "training_end": "2021-05-01",
+          "training_rows": 171,
+          "coefficients": {
+            "intercept": 0.09120955038049186,
+            "Inflation_Lag1": 0.5339365910344065,
+            "News_Sentiment": 0.05251945282522852
+          }
+        },
+        {
+          "target_month": "2021-07-01",
+          "origin": "2021-07-31",
+          "training_end": "2021-06-01",
+          "training_rows": 172,
+          "coefficients": {
+            "intercept": 0.09249694865383208,
+            "Inflation_Lag1": 0.5473201277821591,
+            "News_Sentiment": 0.05600828916273193
+          }
+        },
+        {
+          "target_month": "2021-08-01",
+          "origin": "2021-08-31",
+          "training_end": "2021-07-01",
+          "training_rows": 173,
+          "coefficients": {
+            "intercept": 0.09170070201659479,
+            "Inflation_Lag1": 0.5439131042223164,
+            "News_Sentiment": 0.053010089558917395
+          }
+        },
+        {
+          "target_month": "2021-09-01",
+          "origin": "2021-09-30",
+          "training_end": "2021-08-01",
+          "training_rows": 174,
+          "coefficients": {
+            "intercept": 0.09134107032555498,
+            "Inflation_Lag1": 0.543115871469061,
+            "News_Sentiment": 0.05220900893470409
+          }
+        },
+        {
+          "target_month": "2021-10-01",
+          "origin": "2021-10-31",
+          "training_end": "2021-09-01",
+          "training_rows": 175,
+          "coefficients": {
+            "intercept": 0.08330664587289052,
+            "Inflation_Lag1": 0.5454066613836941,
+            "News_Sentiment": 0.022063178525661253
+          }
+        },
+        {
+          "target_month": "2021-11-01",
+          "origin": "2021-11-30",
+          "training_end": "2021-10-01",
+          "training_rows": 176,
+          "coefficients": {
+            "intercept": 0.08172394261394418,
+            "Inflation_Lag1": 0.556856062110026,
+            "News_Sentiment": 0.011049999968491264
+          }
+        },
+        {
+          "target_month": "2021-12-01",
+          "origin": "2021-12-31",
+          "training_end": "2021-11-01",
+          "training_rows": 177,
+          "coefficients": {
+            "intercept": 0.08441052997805666,
+            "Inflation_Lag1": 0.5679319922243062,
+            "News_Sentiment": 0.02199656525819682
+          }
+        },
+        {
+          "target_month": "2022-01-01",
+          "origin": "2022-01-31",
+          "training_end": "2021-12-01",
+          "training_rows": 178,
+          "coefficients": {
+            "intercept": 0.08189532872345656,
+            "Inflation_Lag1": 0.573120302497492,
+            "News_Sentiment": 0.014239840489220834
+          }
+        },
+        {
+          "target_month": "2022-02-01",
+          "origin": "2022-02-28",
+          "training_end": "2022-01-01",
+          "training_rows": 179,
+          "coefficients": {
+            "intercept": 0.0791855305928935,
+            "Inflation_Lag1": 0.5771320377995117,
+            "News_Sentiment": 0.005108101880829219
+          }
+        },
+        {
+          "target_month": "2022-03-01",
+          "origin": "2022-03-31",
+          "training_end": "2022-02-01",
+          "training_rows": 180,
+          "coefficients": {
+            "intercept": 0.07292393461097528,
+            "Inflation_Lag1": 0.583777563538865,
+            "News_Sentiment": -0.016708957173444672
+          }
+        },
+        {
+          "target_month": "2022-04-01",
+          "origin": "2022-04-30",
+          "training_end": "2022-03-01",
+          "training_rows": 181,
+          "coefficients": {
+            "intercept": 0.07959527300583548,
+            "Inflation_Lag1": 0.6013921766193457,
+            "News_Sentiment": 0.004851590758499169
+          }
+        },
+        {
+          "target_month": "2022-05-01",
+          "origin": "2022-05-31",
+          "training_end": "2022-04-01",
+          "training_rows": 182,
+          "coefficients": {
+            "intercept": 0.0903326811201255,
+            "Inflation_Lag1": 0.5794546385102843,
+            "News_Sentiment": 0.03480132476804737
+          }
+        },
+        {
+          "target_month": "2022-06-01",
+          "origin": "2022-06-30",
+          "training_end": "2022-05-01",
+          "training_rows": 183,
+          "coefficients": {
+            "intercept": 0.08907253334256703,
+            "Inflation_Lag1": 0.5838648084613385,
+            "News_Sentiment": 0.02080934551707203
+          }
+        },
+        {
+          "target_month": "2022-07-01",
+          "origin": "2022-07-31",
+          "training_end": "2022-06-01",
+          "training_rows": 184,
+          "coefficients": {
+            "intercept": 0.06916198449322052,
+            "Inflation_Lag1": 0.6082147405098877,
+            "News_Sentiment": -0.04087322138807248
+          }
+        },
+        {
+          "target_month": "2022-08-01",
+          "origin": "2022-08-31",
+          "training_end": "2022-07-01",
+          "training_rows": 185,
+          "coefficients": {
+            "intercept": 0.08284313417860363,
+            "Inflation_Lag1": 0.5638313934422159,
+            "News_Sentiment": -0.009613314113152638
+          }
+        },
+        {
+          "target_month": "2022-09-01",
+          "origin": "2022-09-30",
+          "training_end": "2022-08-01",
+          "training_rows": 186,
+          "coefficients": {
+            "intercept": 0.08231387857071422,
+            "Inflation_Lag1": 0.5639661066204857,
+            "News_Sentiment": -0.011052267948079064
+          }
+        },
+        {
+          "target_month": "2022-10-01",
+          "origin": "2022-10-31",
+          "training_end": "2022-09-01",
+          "training_rows": 187,
+          "coefficients": {
+            "intercept": 0.08658573446434618,
+            "Inflation_Lag1": 0.5619581220713941,
+            "News_Sentiment": -0.0035535978509071975
+          }
+        },
+        {
+          "target_month": "2022-11-01",
+          "origin": "2022-11-30",
+          "training_end": "2022-10-01",
+          "training_rows": 188,
+          "coefficients": {
+            "intercept": 0.08826591458705114,
+            "Inflation_Lag1": 0.5644981512451814,
+            "News_Sentiment": -0.00038565645041538366
+          }
+        },
+        {
+          "target_month": "2022-12-01",
+          "origin": "2022-12-31",
+          "training_end": "2022-11-01",
+          "training_rows": 189,
+          "coefficients": {
+            "intercept": 0.08683767733794658,
+            "Inflation_Lag1": 0.5620341460930791,
+            "News_Sentiment": -0.004304642749241638
+          }
+        },
+        {
+          "target_month": "2023-01-01",
+          "origin": "2023-01-31",
+          "training_end": "2022-12-01",
+          "training_rows": 190,
+          "coefficients": {
+            "intercept": 0.08590186516500067,
+            "Inflation_Lag1": 0.5614166012342217,
+            "News_Sentiment": -0.003987449927217335
+          }
+        },
+        {
+          "target_month": "2023-02-01",
+          "origin": "2023-02-28",
+          "training_end": "2023-01-01",
+          "training_rows": 191,
+          "coefficients": {
+            "intercept": 0.08974262106423528,
+            "Inflation_Lag1": 0.5575057911864187,
+            "News_Sentiment": -0.0014153093762274138
+          }
+        },
+        {
+          "target_month": "2023-03-01",
+          "origin": "2023-03-31",
+          "training_end": "2023-02-01",
+          "training_rows": 192,
+          "coefficients": {
+            "intercept": 0.08865520644959354,
+            "Inflation_Lag1": 0.5568252555491746,
+            "News_Sentiment": -0.004766520814680653
+          }
+        },
+        {
+          "target_month": "2023-04-01",
+          "origin": "2023-04-30",
+          "training_end": "2023-03-01",
+          "training_rows": 193,
+          "coefficients": {
+            "intercept": 0.0863277452271724,
+            "Inflation_Lag1": 0.5557846623395643,
+            "News_Sentiment": -0.010548097826741099
+          }
+        },
+        {
+          "target_month": "2023-05-01",
+          "origin": "2023-05-31",
+          "training_end": "2023-04-01",
+          "training_rows": 194,
+          "coefficients": {
+            "intercept": 0.08633375886300718,
+            "Inflation_Lag1": 0.5550852837035838,
+            "News_Sentiment": -0.0141351841209848
+          }
+        },
+        {
+          "target_month": "2023-06-01",
+          "origin": "2023-06-30",
+          "training_end": "2023-05-01",
+          "training_rows": 195,
+          "coefficients": {
+            "intercept": 0.08546486904367165,
+            "Inflation_Lag1": 0.5543334873184849,
+            "News_Sentiment": -0.015551183561062776
+          }
+        },
+        {
+          "target_month": "2023-07-01",
+          "origin": "2023-07-31",
+          "training_end": "2023-06-01",
+          "training_rows": 196,
+          "coefficients": {
+            "intercept": 0.08724005527508978,
+            "Inflation_Lag1": 0.5542339135242857,
+            "News_Sentiment": -0.010461358037523238
+          }
+        },
+        {
+          "target_month": "2023-08-01",
+          "origin": "2023-08-31",
+          "training_end": "2023-07-01",
+          "training_rows": 197,
+          "coefficients": {
+            "intercept": 0.08677957927295869,
+            "Inflation_Lag1": 0.5542181336516299,
+            "News_Sentiment": -0.011723607895580357
+          }
+        },
+        {
+          "target_month": "2023-09-01",
+          "origin": "2023-09-30",
+          "training_end": "2023-08-01",
+          "training_rows": 198,
+          "coefficients": {
+            "intercept": 0.08924696502019273,
+            "Inflation_Lag1": 0.5540952671740637,
+            "News_Sentiment": -0.008342953759012284
+          }
+        },
+        {
+          "target_month": "2023-10-01",
+          "origin": "2023-10-31",
+          "training_end": "2023-09-01",
+          "training_rows": 199,
+          "coefficients": {
+            "intercept": 0.0887221541628207,
+            "Inflation_Lag1": 0.5544822552692765,
+            "News_Sentiment": -0.010339006382028504
+          }
+        },
+        {
+          "target_month": "2023-11-01",
+          "origin": "2023-11-30",
+          "training_end": "2023-10-01",
+          "training_rows": 200,
+          "coefficients": {
+            "intercept": 0.08827504919239143,
+            "Inflation_Lag1": 0.5529898975522665,
+            "News_Sentiment": -0.009998064436845144
+          }
+        },
+        {
+          "target_month": "2023-12-01",
+          "origin": "2023-12-31",
+          "training_end": "2023-11-01",
+          "training_rows": 201,
+          "coefficients": {
+            "intercept": 0.08794428625715874,
+            "Inflation_Lag1": 0.553052883990288,
+            "News_Sentiment": -0.0107458610462971
+          }
+        }
+      ]
+    },
+    "Inflation + median sentiment": {
+      "features": [
+        "Inflation_Lag1",
+        "Sentiment_Median"
+      ],
+      "estimator": "expanding-window ordinary least squares",
+      "coefficients_by_origin": [
+        {
+          "target_month": "2017-01-01",
+          "origin": "2017-01-31",
+          "training_end": "2016-12-01",
+          "training_rows": 118,
+          "coefficients": {
+            "intercept": 0.06428289345894263,
+            "Inflation_Lag1": 0.5222528146145031,
+            "Sentiment_Median": -0.017746424078675105
+          }
+        },
+        {
+          "target_month": "2017-02-01",
+          "origin": "2017-02-28",
+          "training_end": "2017-01-01",
+          "training_rows": 119,
+          "coefficients": {
+            "intercept": 0.07062836582536623,
+            "Inflation_Lag1": 0.5245043928494332,
+            "Sentiment_Median": -0.0007470613707311613
+          }
+        },
+        {
+          "target_month": "2017-03-01",
+          "origin": "2017-03-31",
+          "training_end": "2017-02-01",
+          "training_rows": 120,
+          "coefficients": {
+            "intercept": 0.06647945579766822,
+            "Inflation_Lag1": 0.5216800036599933,
+            "Sentiment_Median": -0.013054862199064599
+          }
+        },
+        {
+          "target_month": "2017-04-01",
+          "origin": "2017-04-30",
+          "training_end": "2017-03-01",
+          "training_rows": 121,
+          "coefficients": {
+            "intercept": 0.05933749004853392,
+            "Inflation_Lag1": 0.5210970762746919,
+            "Sentiment_Median": -0.032697769974438295
+          }
+        },
+        {
+          "target_month": "2017-05-01",
+          "origin": "2017-05-31",
+          "training_end": "2017-04-01",
+          "training_rows": 122,
+          "coefficients": {
+            "intercept": 0.058469680976126696,
+            "Inflation_Lag1": 0.5198636078786765,
+            "Sentiment_Median": -0.038378173756164535
+          }
+        },
+        {
+          "target_month": "2017-06-01",
+          "origin": "2017-06-30",
+          "training_end": "2017-05-01",
+          "training_rows": 123,
+          "coefficients": {
+            "intercept": 0.053673306062516725,
+            "Inflation_Lag1": 0.5200799486185211,
+            "Sentiment_Median": -0.04920990855537971
+          }
+        },
+        {
+          "target_month": "2017-07-01",
+          "origin": "2017-07-31",
+          "training_end": "2017-06-01",
+          "training_rows": 124,
+          "coefficients": {
+            "intercept": 0.05349095710776297,
+            "Inflation_Lag1": 0.5195399070306,
+            "Sentiment_Median": -0.05091418047836882
+          }
+        },
+        {
+          "target_month": "2017-08-01",
+          "origin": "2017-08-31",
+          "training_end": "2017-07-01",
+          "training_rows": 125,
+          "coefficients": {
+            "intercept": 0.05331661487171918,
+            "Inflation_Lag1": 0.5200437808105487,
+            "Sentiment_Median": -0.04923951134108007
+          }
+        },
+        {
+          "target_month": "2017-09-01",
+          "origin": "2017-09-30",
+          "training_end": "2017-08-01",
+          "training_rows": 126,
+          "coefficients": {
+            "intercept": 0.057748440651006844,
+            "Inflation_Lag1": 0.5173770262052004,
+            "Sentiment_Median": -0.04355746305568897
+          }
+        },
+        {
+          "target_month": "2017-10-01",
+          "origin": "2017-10-31",
+          "training_end": "2017-09-01",
+          "training_rows": 127,
+          "coefficients": {
+            "intercept": 0.06368421749541352,
+            "Inflation_Lag1": 0.5223293913431988,
+            "Sentiment_Median": -0.02715401483961838
+          }
+        },
+        {
+          "target_month": "2017-11-01",
+          "origin": "2017-11-30",
+          "training_end": "2017-10-01",
+          "training_rows": 128,
+          "coefficients": {
+            "intercept": 0.06203664676874226,
+            "Inflation_Lag1": 0.514879487866164,
+            "Sentiment_Median": -0.029733151104264943
+          }
+        },
+        {
+          "target_month": "2017-12-01",
+          "origin": "2017-12-31",
+          "training_end": "2017-11-01",
+          "training_rows": 129,
+          "coefficients": {
+            "intercept": 0.0683179524083102,
+            "Inflation_Lag1": 0.5141439901496053,
+            "Sentiment_Median": -0.012511893010390851
+          }
+        },
+        {
+          "target_month": "2018-01-01",
+          "origin": "2018-01-31",
+          "training_end": "2017-12-01",
+          "training_rows": 130,
+          "coefficients": {
+            "intercept": 0.06832910419084365,
+            "Inflation_Lag1": 0.5141594703785164,
+            "Sentiment_Median": -0.012509972113562529
+          }
+        },
+        {
+          "target_month": "2018-02-01",
+          "origin": "2018-02-28",
+          "training_end": "2018-01-01",
+          "training_rows": 131,
+          "coefficients": {
+            "intercept": 0.0741408578788681,
+            "Inflation_Lag1": 0.5154982678746978,
+            "Sentiment_Median": 0.002127757169561262
+          }
+        },
+        {
+          "target_month": "2018-03-01",
+          "origin": "2018-03-31",
+          "training_end": "2018-02-01",
+          "training_rows": 132,
+          "coefficients": {
+            "intercept": 0.07389177089390349,
+            "Inflation_Lag1": 0.5149850709976388,
+            "Sentiment_Median": 0.0016013989234537895
+          }
+        },
+        {
+          "target_month": "2018-04-01",
+          "origin": "2018-04-30",
+          "training_end": "2018-03-01",
+          "training_rows": 133,
+          "coefficients": {
+            "intercept": 0.07235938826750135,
+            "Inflation_Lag1": 0.5132280620807191,
+            "Sentiment_Median": 0.0003454145447205903
+          }
+        },
+        {
+          "target_month": "2018-05-01",
+          "origin": "2018-05-31",
+          "training_end": "2018-04-01",
+          "training_rows": 134,
+          "coefficients": {
+            "intercept": 0.06942770159281214,
+            "Inflation_Lag1": 0.5112466768974713,
+            "Sentiment_Median": -0.015769584817902083
+          }
+        },
+        {
+          "target_month": "2018-06-01",
+          "origin": "2018-06-30",
+          "training_end": "2018-05-01",
+          "training_rows": 135,
+          "coefficients": {
+            "intercept": 0.06964300696995632,
+            "Inflation_Lag1": 0.5114131568425838,
+            "Sentiment_Median": -0.01543353529911251
+          }
+        },
+        {
+          "target_month": "2018-07-01",
+          "origin": "2018-07-31",
+          "training_end": "2018-06-01",
+          "training_rows": 136,
+          "coefficients": {
+            "intercept": 0.06833934091753768,
+            "Inflation_Lag1": 0.510851622227701,
+            "Sentiment_Median": -0.017804787439550385
+          }
+        },
+        {
+          "target_month": "2018-08-01",
+          "origin": "2018-08-31",
+          "training_end": "2018-07-01",
+          "training_rows": 137,
+          "coefficients": {
+            "intercept": 0.06760597969093546,
+            "Inflation_Lag1": 0.5110366984298491,
+            "Sentiment_Median": -0.019301898086607094
+          }
+        },
+        {
+          "target_month": "2018-09-01",
+          "origin": "2018-09-30",
+          "training_end": "2018-08-01",
+          "training_rows": 138,
+          "coefficients": {
+            "intercept": 0.0676170102932414,
+            "Inflation_Lag1": 0.5106495350505795,
+            "Sentiment_Median": -0.021113850827340963
+          }
+        },
+        {
+          "target_month": "2018-10-01",
+          "origin": "2018-10-31",
+          "training_end": "2018-09-01",
+          "training_rows": 139,
+          "coefficients": {
+            "intercept": 0.06878756379231617,
+            "Inflation_Lag1": 0.5107567601843472,
+            "Sentiment_Median": -0.01807033090027993
+          }
+        },
+        {
+          "target_month": "2018-11-01",
+          "origin": "2018-11-30",
+          "training_end": "2018-10-01",
+          "training_rows": 140,
+          "coefficients": {
+            "intercept": 0.06941785301837373,
+            "Inflation_Lag1": 0.51099005776894,
+            "Sentiment_Median": -0.01711628692900158
+          }
+        },
+        {
+          "target_month": "2018-12-01",
+          "origin": "2018-12-31",
+          "training_end": "2018-11-01",
+          "training_rows": 141,
+          "coefficients": {
+            "intercept": 0.06392679519424863,
+            "Inflation_Lag1": 0.5093168990558301,
+            "Sentiment_Median": -0.031120406141595225
+          }
+        },
+        {
+          "target_month": "2019-01-01",
+          "origin": "2019-01-31",
+          "training_end": "2018-12-01",
+          "training_rows": 142,
+          "coefficients": {
+            "intercept": 0.06380343024259395,
+            "Inflation_Lag1": 0.5088672233418348,
+            "Sentiment_Median": -0.0324561351624702
+          }
+        },
+        {
+          "target_month": "2019-02-01",
+          "origin": "2019-02-28",
+          "training_end": "2019-01-01",
+          "training_rows": 143,
+          "coefficients": {
+            "intercept": 0.0657134195673169,
+            "Inflation_Lag1": 0.5101403268792245,
+            "Sentiment_Median": -0.020089900595413157
+          }
+        },
+        {
+          "target_month": "2019-03-01",
+          "origin": "2019-03-31",
+          "training_end": "2019-02-01",
+          "training_rows": 144,
+          "coefficients": {
+            "intercept": 0.06988294487603364,
+            "Inflation_Lag1": 0.5052432212217628,
+            "Sentiment_Median": -0.01459708943768756
+          }
+        },
+        {
+          "target_month": "2019-04-01",
+          "origin": "2019-04-30",
+          "training_end": "2019-03-01",
+          "training_rows": 145,
+          "coefficients": {
+            "intercept": 0.07003054098620469,
+            "Inflation_Lag1": 0.5069842148341487,
+            "Sentiment_Median": -0.016852653326898892
+          }
+        },
+        {
+          "target_month": "2019-05-01",
+          "origin": "2019-05-31",
+          "training_end": "2019-04-01",
+          "training_rows": 146,
+          "coefficients": {
+            "intercept": 0.07072453467213766,
+            "Inflation_Lag1": 0.5088913137151352,
+            "Sentiment_Median": -0.01602247792049938
+          }
+        },
+        {
+          "target_month": "2019-06-01",
+          "origin": "2019-06-30",
+          "training_end": "2019-05-01",
+          "training_rows": 147,
+          "coefficients": {
+            "intercept": 0.07378185922128533,
+            "Inflation_Lag1": 0.5047813719689583,
+            "Sentiment_Median": -0.0015512955014217455
+          }
+        },
+        {
+          "target_month": "2019-07-01",
+          "origin": "2019-07-31",
+          "training_end": "2019-06-01",
+          "training_rows": 148,
+          "coefficients": {
+            "intercept": 0.07205377350269013,
+            "Inflation_Lag1": 0.5059494433020871,
+            "Sentiment_Median": -0.004187702337611288
+          }
+        },
+        {
+          "target_month": "2019-08-01",
+          "origin": "2019-08-31",
+          "training_end": "2019-07-01",
+          "training_rows": 149,
+          "coefficients": {
+            "intercept": 0.07333653191557263,
+            "Inflation_Lag1": 0.5034789306545118,
+            "Sentiment_Median": -0.005115304963850209
+          }
+        },
+        {
+          "target_month": "2019-09-01",
+          "origin": "2019-09-30",
+          "training_end": "2019-08-01",
+          "training_rows": 150,
+          "coefficients": {
+            "intercept": 0.07305294879040701,
+            "Inflation_Lag1": 0.5028926452454608,
+            "Sentiment_Median": -0.004084326161626517
+          }
+        },
+        {
+          "target_month": "2019-10-01",
+          "origin": "2019-10-31",
+          "training_end": "2019-09-01",
+          "training_rows": 151,
+          "coefficients": {
+            "intercept": 0.07320317202194083,
+            "Inflation_Lag1": 0.502733680053373,
+            "Sentiment_Median": -0.004423976273001673
+          }
+        },
+        {
+          "target_month": "2019-11-01",
+          "origin": "2019-11-30",
+          "training_end": "2019-10-01",
+          "training_rows": 152,
+          "coefficients": {
+            "intercept": 0.07223708488809193,
+            "Inflation_Lag1": 0.5027127444611046,
+            "Sentiment_Median": -0.010849392257847146
+          }
+        },
+        {
+          "target_month": "2019-12-01",
+          "origin": "2019-12-31",
+          "training_end": "2019-11-01",
+          "training_rows": 153,
+          "coefficients": {
+            "intercept": 0.07191681050895761,
+            "Inflation_Lag1": 0.5033156231484495,
+            "Sentiment_Median": -0.013083631854954925
+          }
+        },
+        {
+          "target_month": "2020-01-01",
+          "origin": "2020-01-31",
+          "training_end": "2019-12-01",
+          "training_rows": 154,
+          "coefficients": {
+            "intercept": 0.07264834356980618,
+            "Inflation_Lag1": 0.5040467905099284,
+            "Sentiment_Median": -0.011820777814027683
+          }
+        },
+        {
+          "target_month": "2020-02-01",
+          "origin": "2020-02-29",
+          "training_end": "2020-01-01",
+          "training_rows": 155,
+          "coefficients": {
+            "intercept": 0.07277553370095323,
+            "Inflation_Lag1": 0.5037217006770982,
+            "Sentiment_Median": -0.010826699813331064
+          }
+        },
+        {
+          "target_month": "2020-03-01",
+          "origin": "2020-03-31",
+          "training_end": "2020-02-01",
+          "training_rows": 156,
+          "coefficients": {
+            "intercept": 0.07614789645897597,
+            "Inflation_Lag1": 0.5034770353298947,
+            "Sentiment_Median": 0.003635682292698672
+          }
+        },
+        {
+          "target_month": "2020-04-01",
+          "origin": "2020-04-30",
+          "training_end": "2020-03-01",
+          "training_rows": 157,
+          "coefficients": {
+            "intercept": 0.06766380135067218,
+            "Inflation_Lag1": 0.5078604482751069,
+            "Sentiment_Median": -0.011275741848718879
+          }
+        },
+        {
+          "target_month": "2020-05-01",
+          "origin": "2020-05-31",
+          "training_end": "2020-04-01",
+          "training_rows": 158,
+          "coefficients": {
+            "intercept": 0.06775007435992651,
+            "Inflation_Lag1": 0.5362682472793954,
+            "Sentiment_Median": 0.017812484898540537
+          }
+        },
+        {
+          "target_month": "2020-06-01",
+          "origin": "2020-06-30",
+          "training_end": "2020-05-01",
+          "training_rows": 159,
+          "coefficients": {
+            "intercept": 0.06901634684582925,
+            "Inflation_Lag1": 0.5184503714896856,
+            "Sentiment_Median": 0.0072805400127987085
+          }
+        },
+        {
+          "target_month": "2020-07-01",
+          "origin": "2020-07-31",
+          "training_end": "2020-06-01",
+          "training_rows": 160,
+          "coefficients": {
+            "intercept": 0.06098638635308547,
+            "Inflation_Lag1": 0.5115914885188942,
+            "Sentiment_Median": -0.033568132077492374
+          }
+        },
+        {
+          "target_month": "2020-08-01",
+          "origin": "2020-08-31",
+          "training_end": "2020-07-01",
+          "training_rows": 161,
+          "coefficients": {
+            "intercept": 0.058057879764409806,
+            "Inflation_Lag1": 0.5159361707382533,
+            "Sentiment_Median": -0.04521042853090834
+          }
+        },
+        {
+          "target_month": "2020-09-01",
+          "origin": "2020-09-30",
+          "training_end": "2020-08-01",
+          "training_rows": 162,
+          "coefficients": {
+            "intercept": 0.057577533622569343,
+            "Inflation_Lag1": 0.5164717631103095,
+            "Sentiment_Median": -0.047016036008173334
+          }
+        },
+        {
+          "target_month": "2020-10-01",
+          "origin": "2020-10-31",
+          "training_end": "2020-09-01",
+          "training_rows": 163,
+          "coefficients": {
+            "intercept": 0.05757235424893211,
+            "Inflation_Lag1": 0.5164541866266072,
+            "Sentiment_Median": -0.04701839392008178
+          }
+        },
+        {
+          "target_month": "2020-11-01",
+          "origin": "2020-11-30",
+          "training_end": "2020-10-01",
+          "training_rows": 164,
+          "coefficients": {
+            "intercept": 0.05873614023647699,
+            "Inflation_Lag1": 0.5157291935598576,
+            "Sentiment_Median": -0.04151517440748065
+          }
+        },
+        {
+          "target_month": "2020-12-01",
+          "origin": "2020-12-31",
+          "training_end": "2020-11-01",
+          "training_rows": 165,
+          "coefficients": {
+            "intercept": 0.05989133483479294,
+            "Inflation_Lag1": 0.5155609493953144,
+            "Sentiment_Median": -0.039674100877247764
+          }
+        },
+        {
+          "target_month": "2021-01-01",
+          "origin": "2021-01-31",
+          "training_end": "2020-12-01",
+          "training_rows": 166,
+          "coefficients": {
+            "intercept": 0.05961462146985083,
+            "Inflation_Lag1": 0.5168128585595309,
+            "Sentiment_Median": -0.04485909862565479
+          }
+        },
+        {
+          "target_month": "2021-02-01",
+          "origin": "2021-02-28",
+          "training_end": "2021-01-01",
+          "training_rows": 167,
+          "coefficients": {
+            "intercept": 0.05994724024838884,
+            "Inflation_Lag1": 0.5157009596691551,
+            "Sentiment_Median": -0.04313321587797897
+          }
+        },
+        {
+          "target_month": "2021-03-01",
+          "origin": "2021-03-31",
+          "training_end": "2021-02-01",
+          "training_rows": 168,
+          "coefficients": {
+            "intercept": 0.06081883392420697,
+            "Inflation_Lag1": 0.516580561958229,
+            "Sentiment_Median": -0.04257851764284876
+          }
+        },
+        {
+          "target_month": "2021-04-01",
+          "origin": "2021-04-30",
+          "training_end": "2021-03-01",
+          "training_rows": 169,
+          "coefficients": {
+            "intercept": 0.06328643228258646,
+            "Inflation_Lag1": 0.5200717868435225,
+            "Sentiment_Median": -0.03803053019608488
+          }
+        },
+        {
+          "target_month": "2021-05-01",
+          "origin": "2021-05-31",
+          "training_end": "2021-04-01",
+          "training_rows": 170,
+          "coefficients": {
+            "intercept": 0.0667177264413405,
+            "Inflation_Lag1": 0.5269946061572779,
+            "Sentiment_Median": -0.02844654447981082
+          }
+        },
+        {
+          "target_month": "2021-06-01",
+          "origin": "2021-06-30",
+          "training_end": "2021-05-01",
+          "training_rows": 171,
+          "coefficients": {
+            "intercept": 0.062295131224852925,
+            "Inflation_Lag1": 0.5345194651093419,
+            "Sentiment_Median": -0.04415016294393487
+          }
+        },
+        {
+          "target_month": "2021-07-01",
+          "origin": "2021-07-31",
+          "training_end": "2021-06-01",
+          "training_rows": 172,
+          "coefficients": {
+            "intercept": 0.060921834075335135,
+            "Inflation_Lag1": 0.5478409373281135,
+            "Sentiment_Median": -0.049564100100452035
+          }
+        },
+        {
+          "target_month": "2021-08-01",
+          "origin": "2021-08-31",
+          "training_end": "2021-07-01",
+          "training_rows": 173,
+          "coefficients": {
+            "intercept": 0.061408952226644685,
+            "Inflation_Lag1": 0.544359595952351,
+            "Sentiment_Median": -0.04828090966455123
+          }
+        },
+        {
+          "target_month": "2021-09-01",
+          "origin": "2021-09-30",
+          "training_end": "2021-08-01",
+          "training_rows": 174,
+          "coefficients": {
+            "intercept": 0.06127517902403765,
+            "Inflation_Lag1": 0.5435769004944494,
+            "Sentiment_Median": -0.048346441248248606
+          }
+        },
+        {
+          "target_month": "2021-10-01",
+          "origin": "2021-10-31",
+          "training_end": "2021-09-01",
+          "training_rows": 175,
+          "coefficients": {
+            "intercept": 0.05756416244528327,
+            "Inflation_Lag1": 0.5447999497989835,
+            "Sentiment_Median": -0.06381365720028104
+          }
+        },
+        {
+          "target_month": "2021-11-01",
+          "origin": "2021-11-30",
+          "training_end": "2021-10-01",
+          "training_rows": 176,
+          "coefficients": {
+            "intercept": 0.05633264602234371,
+            "Inflation_Lag1": 0.555760518626059,
+            "Sentiment_Median": -0.07367078672079069
+          }
+        },
+        {
+          "target_month": "2021-12-01",
+          "origin": "2021-12-31",
+          "training_end": "2021-11-01",
+          "training_rows": 177,
+          "coefficients": {
+            "intercept": 0.057429240720243614,
+            "Inflation_Lag1": 0.5676109595712768,
+            "Sentiment_Median": -0.06788510926860492
+          }
+        },
+        {
+          "target_month": "2022-01-01",
+          "origin": "2022-01-31",
+          "training_end": "2021-12-01",
+          "training_rows": 178,
+          "coefficients": {
+            "intercept": 0.05676686008331983,
+            "Inflation_Lag1": 0.5723561615096526,
+            "Sentiment_Median": -0.06953347942123916
+          }
+        },
+        {
+          "target_month": "2022-02-01",
+          "origin": "2022-02-28",
+          "training_end": "2022-01-01",
+          "training_rows": 179,
+          "coefficients": {
+            "intercept": 0.05516776509953375,
+            "Inflation_Lag1": 0.5755611917947072,
+            "Sentiment_Median": -0.07498917731770832
+          }
+        },
+        {
+          "target_month": "2022-03-01",
+          "origin": "2022-03-31",
+          "training_end": "2022-02-01",
+          "training_rows": 180,
+          "coefficients": {
+            "intercept": 0.049968613816253,
+            "Inflation_Lag1": 0.5806012316494622,
+            "Sentiment_Median": -0.0932375164832751
+          }
+        },
+        {
+          "target_month": "2022-04-01",
+          "origin": "2022-04-30",
+          "training_end": "2022-03-01",
+          "training_rows": 181,
+          "coefficients": {
+            "intercept": 0.05162007010309402,
+            "Inflation_Lag1": 0.5987628391699917,
+            "Sentiment_Median": -0.08830836019487914
+          }
+        },
+        {
+          "target_month": "2022-05-01",
+          "origin": "2022-05-31",
+          "training_end": "2022-04-01",
+          "training_rows": 182,
+          "coefficients": {
+            "intercept": 0.06162166985536724,
+            "Inflation_Lag1": 0.5769366798508992,
+            "Sentiment_Median": -0.06098937897662632
+          }
+        },
+        {
+          "target_month": "2022-06-01",
+          "origin": "2022-06-30",
+          "training_end": "2022-05-01",
+          "training_rows": 183,
+          "coefficients": {
+            "intercept": 0.056353704217322526,
+            "Inflation_Lag1": 0.5798347263694617,
+            "Sentiment_Median": -0.08820484476802537
+          }
+        },
+        {
+          "target_month": "2022-07-01",
+          "origin": "2022-07-31",
+          "training_end": "2022-06-01",
+          "training_rows": 184,
+          "coefficients": {
+            "intercept": 0.04618628324289454,
+            "Inflation_Lag1": 0.6012113648333297,
+            "Sentiment_Median": -0.11785665348422458
+          }
+        },
+        {
+          "target_month": "2022-08-01",
+          "origin": "2022-08-31",
+          "training_end": "2022-07-01",
+          "training_rows": 185,
+          "coefficients": {
+            "intercept": 0.05915569675457128,
+            "Inflation_Lag1": 0.5577607717659074,
+            "Sentiment_Median": -0.089079464046815
+          }
+        },
+        {
+          "target_month": "2022-09-01",
+          "origin": "2022-09-30",
+          "training_end": "2022-08-01",
+          "training_rows": 186,
+          "coefficients": {
+            "intercept": 0.05933321577028551,
+            "Inflation_Lag1": 0.5577017457601301,
+            "Sentiment_Median": -0.0886891984674879
+          }
+        },
+        {
+          "target_month": "2022-10-01",
+          "origin": "2022-10-31",
+          "training_end": "2022-09-01",
+          "training_rows": 187,
+          "coefficients": {
+            "intercept": 0.06036820081957745,
+            "Inflation_Lag1": 0.5554831107216617,
+            "Sentiment_Median": -0.09191370032994362
+          }
+        },
+        {
+          "target_month": "2022-11-01",
+          "origin": "2022-11-30",
+          "training_end": "2022-10-01",
+          "training_rows": 188,
+          "coefficients": {
+            "intercept": 0.061533397965899066,
+            "Inflation_Lag1": 0.5581470710576744,
+            "Sentiment_Median": -0.09049000545411512
+          }
+        },
+        {
+          "target_month": "2022-12-01",
+          "origin": "2022-12-31",
+          "training_end": "2022-11-01",
+          "training_rows": 189,
+          "coefficients": {
+            "intercept": 0.060645178413978984,
+            "Inflation_Lag1": 0.5556802849116151,
+            "Sentiment_Median": -0.09266669908556352
+          }
+        },
+        {
+          "target_month": "2023-01-01",
+          "origin": "2023-01-31",
+          "training_end": "2022-12-01",
+          "training_rows": 190,
+          "coefficients": {
+            "intercept": 0.05911716253636762,
+            "Inflation_Lag1": 0.5549543004180117,
+            "Sentiment_Median": -0.09441113964839265
+          }
+        },
+        {
+          "target_month": "2023-02-01",
+          "origin": "2023-02-28",
+          "training_end": "2023-01-01",
+          "training_rows": 191,
+          "coefficients": {
+            "intercept": 0.06293315038188538,
+            "Inflation_Lag1": 0.5511808026815497,
+            "Sentiment_Median": -0.09196835534337638
+          }
+        },
+        {
+          "target_month": "2023-03-01",
+          "origin": "2023-03-31",
+          "training_end": "2023-02-01",
+          "training_rows": 192,
+          "coefficients": {
+            "intercept": 0.06263438339997099,
+            "Inflation_Lag1": 0.55084172574478,
+            "Sentiment_Median": -0.09285707358620432
+          }
+        },
+        {
+          "target_month": "2023-04-01",
+          "origin": "2023-04-30",
+          "training_end": "2023-03-01",
+          "training_rows": 193,
+          "coefficients": {
+            "intercept": 0.06173029235739651,
+            "Inflation_Lag1": 0.5497519041195872,
+            "Sentiment_Median": -0.09391790262106758
+          }
+        },
+        {
+          "target_month": "2023-05-01",
+          "origin": "2023-05-31",
+          "training_end": "2023-04-01",
+          "training_rows": 194,
+          "coefficients": {
+            "intercept": 0.06194429373788898,
+            "Inflation_Lag1": 0.5489056769042686,
+            "Sentiment_Median": -0.09667085344895993
+          }
+        },
+        {
+          "target_month": "2023-06-01",
+          "origin": "2023-06-30",
+          "training_end": "2023-05-01",
+          "training_rows": 195,
+          "coefficients": {
+            "intercept": 0.06205158276352871,
+            "Inflation_Lag1": 0.5482236798021445,
+            "Sentiment_Median": -0.09468807368051335
+          }
+        },
+        {
+          "target_month": "2023-07-01",
+          "origin": "2023-07-31",
+          "training_end": "2023-06-01",
+          "training_rows": 196,
+          "coefficients": {
+            "intercept": 0.06334897461001328,
+            "Inflation_Lag1": 0.5482838151445921,
+            "Sentiment_Median": -0.09157788004142092
+          }
+        },
+        {
+          "target_month": "2023-08-01",
+          "origin": "2023-08-31",
+          "training_end": "2023-07-01",
+          "training_rows": 197,
+          "coefficients": {
+            "intercept": 0.06326747029698082,
+            "Inflation_Lag1": 0.5482668728381694,
+            "Sentiment_Median": -0.09173775707378906
+          }
+        },
+        {
+          "target_month": "2023-09-01",
+          "origin": "2023-09-30",
+          "training_end": "2023-08-01",
+          "training_rows": 198,
+          "coefficients": {
+            "intercept": 0.06401368623234319,
+            "Inflation_Lag1": 0.5479948094491208,
+            "Sentiment_Median": -0.09409655685764073
+          }
+        },
+        {
+          "target_month": "2023-10-01",
+          "origin": "2023-10-31",
+          "training_end": "2023-09-01",
+          "training_rows": 199,
+          "coefficients": {
+            "intercept": 0.06400907090286687,
+            "Inflation_Lag1": 0.5479979365633745,
+            "Sentiment_Median": -0.09411477947133734
+          }
+        },
+        {
+          "target_month": "2023-11-01",
+          "origin": "2023-11-30",
+          "training_end": "2023-10-01",
+          "training_rows": 200,
+          "coefficients": {
+            "intercept": 0.06474932039066866,
+            "Inflation_Lag1": 0.5467054014610455,
+            "Sentiment_Median": -0.08961208821018851
+          }
+        },
+        {
+          "target_month": "2023-12-01",
+          "origin": "2023-12-31",
+          "training_end": "2023-11-01",
+          "training_rows": 201,
+          "coefficients": {
+            "intercept": 0.06462361221249709,
+            "Inflation_Lag1": 0.5467518310211721,
+            "Sentiment_Median": -0.08972423346755698
+          }
+        }
+      ]
+    },
+    "Inflation + negative share": {
+      "features": [
+        "Inflation_Lag1",
+        "Negative_Share"
+      ],
+      "estimator": "expanding-window ordinary least squares",
+      "coefficients_by_origin": [
+        {
+          "target_month": "2017-01-01",
+          "origin": "2017-01-31",
+          "training_end": "2016-12-01",
+          "training_rows": 118,
+          "coefficients": {
+            "intercept": 0.03303580301809323,
+            "Inflation_Lag1": 0.5221091005093205,
+            "Negative_Share": 0.07745969843882783
+          }
+        },
+        {
+          "target_month": "2017-02-01",
+          "origin": "2017-02-28",
+          "training_end": "2017-01-01",
+          "training_rows": 119,
+          "coefficients": {
+            "intercept": 0.06053549777014513,
+            "Inflation_Lag1": 0.5243577447963117,
+            "Negative_Share": 0.022013000074603384
+          }
+        },
+        {
+          "target_month": "2017-03-01",
+          "origin": "2017-03-31",
+          "training_end": "2017-02-01",
+          "training_rows": 120,
+          "coefficients": {
+            "intercept": 0.0488292530606499,
+            "Inflation_Lag1": 0.5217508098353172,
+            "Negative_Share": 0.0456987388168702
+          }
+        },
+        {
+          "target_month": "2017-04-01",
+          "origin": "2017-04-30",
+          "training_end": "2017-03-01",
+          "training_rows": 121,
+          "coefficients": {
+            "intercept": 0.01804083380052695,
+            "Inflation_Lag1": 0.5213146756748404,
+            "Negative_Share": 0.108493401375647
+          }
+        },
+        {
+          "target_month": "2017-05-01",
+          "origin": "2017-05-31",
+          "training_end": "2017-04-01",
+          "training_rows": 122,
+          "coefficients": {
+            "intercept": 0.01230440634893342,
+            "Inflation_Lag1": 0.5203000632883145,
+            "Negative_Share": 0.1221674398083678
+          }
+        },
+        {
+          "target_month": "2017-06-01",
+          "origin": "2017-06-30",
+          "training_end": "2017-05-01",
+          "training_rows": 123,
+          "coefficients": {
+            "intercept": 0.00019937101531323443,
+            "Inflation_Lag1": 0.5206613698180356,
+            "Negative_Share": 0.14446764995779376
+          }
+        },
+        {
+          "target_month": "2017-07-01",
+          "origin": "2017-07-31",
+          "training_end": "2017-06-01",
+          "training_rows": 124,
+          "coefficients": {
+            "intercept": -0.0006986859821937324,
+            "Inflation_Lag1": 0.5201471750576472,
+            "Negative_Share": 0.1470367729565446
+          }
+        },
+        {
+          "target_month": "2017-08-01",
+          "origin": "2017-08-31",
+          "training_end": "2017-07-01",
+          "training_rows": 125,
+          "coefficients": {
+            "intercept": 0.0029253991063479183,
+            "Inflation_Lag1": 0.5206892551421616,
+            "Negative_Share": 0.1377342778228321
+          }
+        },
+        {
+          "target_month": "2017-09-01",
+          "origin": "2017-09-30",
+          "training_end": "2017-08-01",
+          "training_rows": 126,
+          "coefficients": {
+            "intercept": 0.009550347213637653,
+            "Inflation_Lag1": 0.5179424971362625,
+            "Negative_Share": 0.12957586360825413
+          }
+        },
+        {
+          "target_month": "2017-10-01",
+          "origin": "2017-10-31",
+          "training_end": "2017-09-01",
+          "training_rows": 127,
+          "coefficients": {
+            "intercept": 0.026300381241987737,
+            "Inflation_Lag1": 0.5227359208562583,
+            "Negative_Share": 0.09649596942657501
+          }
+        },
+        {
+          "target_month": "2017-11-01",
+          "origin": "2017-11-30",
+          "training_end": "2017-10-01",
+          "training_rows": 128,
+          "coefficients": {
+            "intercept": 0.02686721778666704,
+            "Inflation_Lag1": 0.5152611092739184,
+            "Negative_Share": 0.09331470526272567
+          }
+        },
+        {
+          "target_month": "2017-12-01",
+          "origin": "2017-12-31",
+          "training_end": "2017-11-01",
+          "training_rows": 129,
+          "coefficients": {
+            "intercept": 0.06376705907392441,
+            "Inflation_Lag1": 0.5142805767174632,
+            "Negative_Share": 0.017376558202484294
+          }
+        },
+        {
+          "target_month": "2018-01-01",
+          "origin": "2018-01-31",
+          "training_end": "2017-12-01",
+          "training_rows": 130,
+          "coefficients": {
+            "intercept": 0.06376206367926877,
+            "Inflation_Lag1": 0.5142925077771578,
+            "Negative_Share": 0.017405005388996753
+          }
+        },
+        {
+          "target_month": "2018-02-01",
+          "origin": "2018-02-28",
+          "training_end": "2018-01-01",
+          "training_rows": 131,
+          "coefficients": {
+            "intercept": 0.08137118565111087,
+            "Inflation_Lag1": 0.5154891979546765,
+            "Negative_Share": -0.0168751393672652
+          }
+        },
+        {
+          "target_month": "2018-03-01",
+          "origin": "2018-03-31",
+          "training_end": "2018-02-01",
+          "training_rows": 132,
+          "coefficients": {
+            "intercept": 0.08139753288007819,
+            "Inflation_Lag1": 0.5149889230164445,
+            "Negative_Share": -0.017148553865544203
+          }
+        },
+        {
+          "target_month": "2018-04-01",
+          "origin": "2018-04-30",
+          "training_end": "2018-03-01",
+          "training_rows": 133,
+          "coefficients": {
+            "intercept": 0.07951163022102957,
+            "Inflation_Lag1": 0.5132419910891934,
+            "Negative_Share": -0.015630502538543478
+          }
+        },
+        {
+          "target_month": "2018-05-01",
+          "origin": "2018-05-31",
+          "training_end": "2018-04-01",
+          "training_rows": 134,
+          "coefficients": {
+            "intercept": 0.0741651466325526,
+            "Inflation_Lag1": 0.5113511720292037,
+            "Negative_Share": -0.0006130551230747461
+          }
+        },
+        {
+          "target_month": "2018-06-01",
+          "origin": "2018-06-30",
+          "training_end": "2018-05-01",
+          "training_rows": 135,
+          "coefficients": {
+            "intercept": 0.07443813139004127,
+            "Inflation_Lag1": 0.5115076293888191,
+            "Negative_Share": -0.0009540425156244758
+          }
+        },
+        {
+          "target_month": "2018-07-01",
+          "origin": "2018-07-31",
+          "training_end": "2018-06-01",
+          "training_rows": 136,
+          "coefficients": {
+            "intercept": 0.07107942325960347,
+            "Inflation_Lag1": 0.510952374650979,
+            "Negative_Share": 0.0048940601555158
+          }
+        },
+        {
+          "target_month": "2018-08-01",
+          "origin": "2018-08-31",
+          "training_end": "2018-07-01",
+          "training_rows": 137,
+          "coefficients": {
+            "intercept": 0.07042575318280689,
+            "Inflation_Lag1": 0.511158783837939,
+            "Negative_Share": 0.005585786329783071
+          }
+        },
+        {
+          "target_month": "2018-09-01",
+          "origin": "2018-09-30",
+          "training_end": "2018-08-01",
+          "training_rows": 138,
+          "coefficients": {
+            "intercept": 0.06973274851232446,
+            "Inflation_Lag1": 0.510772262817087,
+            "Negative_Share": 0.008230908658370173
+          }
+        },
+        {
+          "target_month": "2018-10-01",
+          "origin": "2018-10-31",
+          "training_end": "2018-09-01",
+          "training_rows": 139,
+          "coefficients": {
+            "intercept": 0.07298050231299451,
+            "Inflation_Lag1": 0.5108525921775202,
+            "Negative_Share": 0.001852235877813413
+          }
+        },
+        {
+          "target_month": "2018-11-01",
+          "origin": "2018-11-30",
+          "training_end": "2018-10-01",
+          "training_rows": 140,
+          "coefficients": {
+            "intercept": 0.07343873866751607,
+            "Inflation_Lag1": 0.5110764538552905,
+            "Negative_Share": 0.0016331423179326565
+          }
+        },
+        {
+          "target_month": "2018-12-01",
+          "origin": "2018-12-31",
+          "training_end": "2018-11-01",
+          "training_rows": 141,
+          "coefficients": {
+            "intercept": 0.057107432194236266,
+            "Inflation_Lag1": 0.509475111331719,
+            "Negative_Share": 0.03344293856841618
+          }
+        },
+        {
+          "target_month": "2019-01-01",
+          "origin": "2019-01-31",
+          "training_end": "2018-12-01",
+          "training_rows": 142,
+          "coefficients": {
+            "intercept": 0.056601893913934505,
+            "Inflation_Lag1": 0.5089564449771289,
+            "Negative_Share": 0.0351635590265183
+          }
+        },
+        {
+          "target_month": "2019-02-01",
+          "origin": "2019-02-28",
+          "training_end": "2019-01-01",
+          "training_rows": 143,
+          "coefficients": {
+            "intercept": 0.06609009683271452,
+            "Inflation_Lag1": 0.5101508071931476,
+            "Negative_Share": 0.01138433050968607
+          }
+        },
+        {
+          "target_month": "2019-03-01",
+          "origin": "2019-03-31",
+          "training_end": "2019-02-01",
+          "training_rows": 144,
+          "coefficients": {
+            "intercept": 0.07414771564738308,
+            "Inflation_Lag1": 0.5052460953956817,
+            "Negative_Share": -0.0003540170839410606
+          }
+        },
+        {
+          "target_month": "2019-04-01",
+          "origin": "2019-04-30",
+          "training_end": "2019-03-01",
+          "training_rows": 145,
+          "coefficients": {
+            "intercept": 0.07597472977799978,
+            "Inflation_Lag1": 0.506993230877463,
+            "Negative_Share": -0.0025998578915096826
+          }
+        },
+        {
+          "target_month": "2019-05-01",
+          "origin": "2019-05-31",
+          "training_end": "2019-04-01",
+          "training_rows": 146,
+          "coefficients": {
+            "intercept": 0.07589218560285499,
+            "Inflation_Lag1": 0.5088946153963467,
+            "Negative_Share": -0.0014321472275917735
+          }
+        },
+        {
+          "target_month": "2019-06-01",
+          "origin": "2019-06-30",
+          "training_end": "2019-05-01",
+          "training_rows": 147,
+          "coefficients": {
+            "intercept": 0.09406209611980512,
+            "Inflation_Lag1": 0.5048170794270683,
+            "Negative_Share": -0.04274328946457934
+          }
+        },
+        {
+          "target_month": "2019-07-01",
+          "origin": "2019-07-31",
+          "training_end": "2019-06-01",
+          "training_rows": 148,
+          "coefficients": {
+            "intercept": 0.09336800485837664,
+            "Inflation_Lag1": 0.5059980752304087,
+            "Negative_Share": -0.04337127781141992
+          }
+        },
+        {
+          "target_month": "2019-08-01",
+          "origin": "2019-08-31",
+          "training_end": "2019-07-01",
+          "training_rows": 149,
+          "coefficients": {
+            "intercept": 0.09668514476557492,
+            "Inflation_Lag1": 0.5035476909257978,
+            "Negative_Share": -0.04720857396994177
+          }
+        },
+        {
+          "target_month": "2019-09-01",
+          "origin": "2019-09-30",
+          "training_end": "2019-08-01",
+          "training_rows": 150,
+          "coefficients": {
+            "intercept": 0.09891713565312193,
+            "Inflation_Lag1": 0.5029822127269554,
+            "Negative_Share": -0.05321244530794056
+          }
+        },
+        {
+          "target_month": "2019-10-01",
+          "origin": "2019-10-31",
+          "training_end": "2019-09-01",
+          "training_rows": 151,
+          "coefficients": {
+            "intercept": 0.09819067075864565,
+            "Inflation_Lag1": 0.502807660497115,
+            "Negative_Share": -0.05106986004904285
+          }
+        },
+        {
+          "target_month": "2019-11-01",
+          "origin": "2019-11-30",
+          "training_end": "2019-10-01",
+          "training_rows": 152,
+          "coefficients": {
+            "intercept": 0.09612244002381871,
+            "Inflation_Lag1": 0.5028116801806275,
+            "Negative_Share": -0.04474179277210988
+          }
+        },
+        {
+          "target_month": "2019-12-01",
+          "origin": "2019-12-31",
+          "training_end": "2019-11-01",
+          "training_rows": 153,
+          "coefficients": {
+            "intercept": 0.09358153187702355,
+            "Inflation_Lag1": 0.5034711849204999,
+            "Negative_Share": -0.038550051529536
+          }
+        },
+        {
+          "target_month": "2020-01-01",
+          "origin": "2020-01-31",
+          "training_end": "2019-12-01",
+          "training_rows": 154,
+          "coefficients": {
+            "intercept": 0.0970569345583389,
+            "Inflation_Lag1": 0.5041578290388722,
+            "Negative_Share": -0.04526824210431246
+          }
+        },
+        {
+          "target_month": "2020-02-01",
+          "origin": "2020-02-29",
+          "training_end": "2020-01-01",
+          "training_rows": 155,
+          "coefficients": {
+            "intercept": 0.0978081457557149,
+            "Inflation_Lag1": 0.5038765470940051,
+            "Negative_Share": -0.04716828332808748
+          }
+        },
+        {
+          "target_month": "2020-03-01",
+          "origin": "2020-03-31",
+          "training_end": "2020-02-01",
+          "training_rows": 156,
+          "coefficients": {
+            "intercept": 0.1063476721461616,
+            "Inflation_Lag1": 0.5035947721177498,
+            "Negative_Share": -0.0669714820582874
+          }
+        },
+        {
+          "target_month": "2020-04-01",
+          "origin": "2020-04-30",
+          "training_end": "2020-03-01",
+          "training_rows": 157,
+          "coefficients": {
+            "intercept": 0.0964500201409344,
+            "Inflation_Lag1": 0.5080930098733282,
+            "Negative_Share": -0.054809822479762516
+          }
+        },
+        {
+          "target_month": "2020-05-01",
+          "origin": "2020-05-31",
+          "training_end": "2020-04-01",
+          "training_rows": 158,
+          "coefficients": {
+            "intercept": 0.10821554441912824,
+            "Inflation_Lag1": 0.536178803118358,
+            "Negative_Share": -0.097599989015285
+          }
+        },
+        {
+          "target_month": "2020-06-01",
+          "origin": "2020-06-30",
+          "training_end": "2020-05-01",
+          "training_rows": 159,
+          "coefficients": {
+            "intercept": 0.1038835904796617,
+            "Inflation_Lag1": 0.5180789458353174,
+            "Negative_Share": -0.07895767442478935
+          }
+        },
+        {
+          "target_month": "2020-07-01",
+          "origin": "2020-07-31",
+          "training_end": "2020-06-01",
+          "training_rows": 160,
+          "coefficients": {
+            "intercept": 0.0892040845646096,
+            "Inflation_Lag1": 0.5107409885102123,
+            "Negative_Share": -0.03905828212773926
+          }
+        },
+        {
+          "target_month": "2020-08-01",
+          "origin": "2020-08-31",
+          "training_end": "2020-07-01",
+          "training_rows": 161,
+          "coefficients": {
+            "intercept": 0.07844701574590589,
+            "Inflation_Lag1": 0.5154065814741223,
+            "Negative_Share": -0.014974523757179892
+          }
+        },
+        {
+          "target_month": "2020-09-01",
+          "origin": "2020-09-30",
+          "training_end": "2020-08-01",
+          "training_rows": 162,
+          "coefficients": {
+            "intercept": 0.07622574383223941,
+            "Inflation_Lag1": 0.516419570187025,
+            "Negative_Share": -0.010027170523343065
+          }
+        },
+        {
+          "target_month": "2020-10-01",
+          "origin": "2020-10-31",
+          "training_end": "2020-09-01",
+          "training_rows": 163,
+          "coefficients": {
+            "intercept": 0.0762499235044586,
+            "Inflation_Lag1": 0.5164077524836287,
+            "Negative_Share": -0.010085007813816826
+          }
+        },
+        {
+          "target_month": "2020-11-01",
+          "origin": "2020-11-30",
+          "training_end": "2020-10-01",
+          "training_rows": 164,
+          "coefficients": {
+            "intercept": 0.08022609889449474,
+            "Inflation_Lag1": 0.5157955903676076,
+            "Negative_Share": -0.019391791365862332
+          }
+        },
+        {
+          "target_month": "2020-12-01",
+          "origin": "2020-12-31",
+          "training_end": "2020-11-01",
+          "training_rows": 165,
+          "coefficients": {
+            "intercept": 0.08118171950895707,
+            "Inflation_Lag1": 0.5156332765815044,
+            "Negative_Share": -0.02018185635667613
+          }
+        },
+        {
+          "target_month": "2021-01-01",
+          "origin": "2021-01-31",
+          "training_end": "2020-12-01",
+          "training_rows": 166,
+          "coefficients": {
+            "intercept": 0.07516723466929198,
+            "Inflation_Lag1": 0.5168941903918614,
+            "Negative_Share": -0.004669276790086385
+          }
+        },
+        {
+          "target_month": "2021-02-01",
+          "origin": "2021-02-28",
+          "training_end": "2021-01-01",
+          "training_rows": 167,
+          "coefficients": {
+            "intercept": 0.07619896117751342,
+            "Inflation_Lag1": 0.515904507908356,
+            "Negative_Share": -0.007201714647238455
+          }
+        },
+        {
+          "target_month": "2021-03-01",
+          "origin": "2021-03-31",
+          "training_end": "2021-02-01",
+          "training_rows": 168,
+          "coefficients": {
+            "intercept": 0.0766558264527711,
+            "Inflation_Lag1": 0.5167756062003662,
+            "Negative_Share": -0.006680633956312854
+          }
+        },
+        {
+          "target_month": "2021-04-01",
+          "origin": "2021-04-30",
+          "training_end": "2021-03-01",
+          "training_rows": 169,
+          "coefficients": {
+            "intercept": 0.07303058876732457,
+            "Inflation_Lag1": 0.5201816430860167,
+            "Negative_Share": 0.003344178305205725
+          }
+        },
+        {
+          "target_month": "2021-05-01",
+          "origin": "2021-05-31",
+          "training_end": "2021-04-01",
+          "training_rows": 170,
+          "coefficients": {
+            "intercept": 0.08165324321627151,
+            "Inflation_Lag1": 0.5269952250797365,
+            "Negative_Share": -0.013739919290284341
+          }
+        },
+        {
+          "target_month": "2021-06-01",
+          "origin": "2021-06-30",
+          "training_end": "2021-05-01",
+          "training_rows": 171,
+          "coefficients": {
+            "intercept": 0.069035913292072,
+            "Inflation_Lag1": 0.5348236856926581,
+            "Negative_Share": 0.013575154040849191
+          }
+        },
+        {
+          "target_month": "2021-07-01",
+          "origin": "2021-07-31",
+          "training_end": "2021-06-01",
+          "training_rows": 172,
+          "coefficients": {
+            "intercept": 0.06277580457405958,
+            "Inflation_Lag1": 0.5481866013926895,
+            "Negative_Share": 0.02735960366737722
+          }
+        },
+        {
+          "target_month": "2021-08-01",
+          "origin": "2021-08-31",
+          "training_end": "2021-07-01",
+          "training_rows": 173,
+          "coefficients": {
+            "intercept": 0.06471125684264578,
+            "Inflation_Lag1": 0.544818925157646,
+            "Negative_Share": 0.023471456602522034
+          }
+        },
+        {
+          "target_month": "2021-09-01",
+          "origin": "2021-09-30",
+          "training_end": "2021-08-01",
+          "training_rows": 174,
+          "coefficients": {
+            "intercept": 0.06435064386931037,
+            "Inflation_Lag1": 0.544032055117726,
+            "Negative_Share": 0.02399384595465126
+          }
+        },
+        {
+          "target_month": "2021-10-01",
+          "origin": "2021-10-31",
+          "training_end": "2021-09-01",
+          "training_rows": 175,
+          "coefficients": {
+            "intercept": 0.04684857023592559,
+            "Inflation_Lag1": 0.5452008939433248,
+            "Negative_Share": 0.06311028989696438
+          }
+        },
+        {
+          "target_month": "2021-11-01",
+          "origin": "2021-11-30",
+          "training_end": "2021-10-01",
+          "training_rows": 176,
+          "coefficients": {
+            "intercept": 0.026718225496476275,
+            "Inflation_Lag1": 0.5557792535856614,
+            "Negative_Share": 0.10933949235487861
+          }
+        },
+        {
+          "target_month": "2021-12-01",
+          "origin": "2021-12-31",
+          "training_end": "2021-11-01",
+          "training_rows": 177,
+          "coefficients": {
+            "intercept": 0.029208304901472585,
+            "Inflation_Lag1": 0.5673854986142197,
+            "Negative_Share": 0.1027502136327918
+          }
+        },
+        {
+          "target_month": "2022-01-01",
+          "origin": "2022-01-31",
+          "training_end": "2021-12-01",
+          "training_rows": 178,
+          "coefficients": {
+            "intercept": 0.025205349657370077,
+            "Inflation_Lag1": 0.5718817611598566,
+            "Negative_Share": 0.11087625945596674
+          }
+        },
+        {
+          "target_month": "2022-02-01",
+          "origin": "2022-02-28",
+          "training_end": "2022-01-01",
+          "training_rows": 179,
+          "coefficients": {
+            "intercept": 0.020344841630637666,
+            "Inflation_Lag1": 0.5751799500764541,
+            "Negative_Share": 0.12124046989307063
+          }
+        },
+        {
+          "target_month": "2022-03-01",
+          "origin": "2022-03-31",
+          "training_end": "2022-02-01",
+          "training_rows": 180,
+          "coefficients": {
+            "intercept": 0.009944466969012326,
+            "Inflation_Lag1": 0.5807630321033157,
+            "Negative_Share": 0.1438739680982251
+          }
+        },
+        {
+          "target_month": "2022-04-01",
+          "origin": "2022-04-30",
+          "training_end": "2022-03-01",
+          "training_rows": 181,
+          "coefficients": {
+            "intercept": 0.013134311200525146,
+            "Inflation_Lag1": 0.5988394775135846,
+            "Negative_Share": 0.13748843935373123
+          }
+        },
+        {
+          "target_month": "2022-05-01",
+          "origin": "2022-05-31",
+          "training_end": "2022-04-01",
+          "training_rows": 182,
+          "coefficients": {
+            "intercept": 0.030352161688520746,
+            "Inflation_Lag1": 0.5772877896990214,
+            "Negative_Share": 0.10479341355492372
+          }
+        },
+        {
+          "target_month": "2022-06-01",
+          "origin": "2022-06-30",
+          "training_end": "2022-05-01",
+          "training_rows": 183,
+          "coefficients": {
+            "intercept": 0.0163951788069793,
+            "Inflation_Lag1": 0.5806651108409102,
+            "Negative_Share": 0.1405000215706158
+          }
+        },
+        {
+          "target_month": "2022-07-01",
+          "origin": "2022-07-31",
+          "training_end": "2022-06-01",
+          "training_rows": 184,
+          "coefficients": {
+            "intercept": -0.01796872465849421,
+            "Inflation_Lag1": 0.6017968892265624,
+            "Negative_Share": 0.21050116190317664
+          }
+        },
+        {
+          "target_month": "2022-08-01",
+          "origin": "2022-08-31",
+          "training_end": "2022-07-01",
+          "training_rows": 185,
+          "coefficients": {
+            "intercept": 0.01072814106186238,
+            "Inflation_Lag1": 0.5584226881498777,
+            "Negative_Share": 0.15892646650353293
+          }
+        },
+        {
+          "target_month": "2022-09-01",
+          "origin": "2022-09-30",
+          "training_end": "2022-08-01",
+          "training_rows": 186,
+          "coefficients": {
+            "intercept": 0.010723405114299703,
+            "Inflation_Lag1": 0.5584235880434403,
+            "Negative_Share": 0.15893471681377414
+          }
+        },
+        {
+          "target_month": "2022-10-01",
+          "origin": "2022-10-31",
+          "training_end": "2022-09-01",
+          "training_rows": 187,
+          "coefficients": {
+            "intercept": 0.009358395018891413,
+            "Inflation_Lag1": 0.5561812203668701,
+            "Negative_Share": 0.16606147481698363
+          }
+        },
+        {
+          "target_month": "2022-11-01",
+          "origin": "2022-11-30",
+          "training_end": "2022-10-01",
+          "training_rows": 188,
+          "coefficients": {
+            "intercept": 0.008277866008813388,
+            "Inflation_Lag1": 0.5585395502919335,
+            "Negative_Share": 0.1698844350881562
+          }
+        },
+        {
+          "target_month": "2022-12-01",
+          "origin": "2022-12-31",
+          "training_end": "2022-11-01",
+          "training_rows": 189,
+          "coefficients": {
+            "intercept": 0.007779769159489601,
+            "Inflation_Lag1": 0.5560780820120649,
+            "Negative_Share": 0.17039793792251134
+          }
+        },
+        {
+          "target_month": "2023-01-01",
+          "origin": "2023-01-31",
+          "training_end": "2022-12-01",
+          "training_rows": 190,
+          "coefficients": {
+            "intercept": 0.004609211712251534,
+            "Inflation_Lag1": 0.5553129160347474,
+            "Negative_Share": 0.17498419180596325
+          }
+        },
+        {
+          "target_month": "2023-02-01",
+          "origin": "2023-02-28",
+          "training_end": "2023-01-01",
+          "training_rows": 191,
+          "coefficients": {
+            "intercept": 0.004051807947758233,
+            "Inflation_Lag1": 0.5511680150422307,
+            "Negative_Share": 0.18262202660846555
+          }
+        },
+        {
+          "target_month": "2023-03-01",
+          "origin": "2023-03-31",
+          "training_end": "2023-02-01",
+          "training_rows": 192,
+          "coefficients": {
+            "intercept": 0.0032199259206269763,
+            "Inflation_Lag1": 0.5506226728040874,
+            "Negative_Share": 0.1842534058805192
+          }
+        },
+        {
+          "target_month": "2023-04-01",
+          "origin": "2023-04-30",
+          "training_end": "2023-03-01",
+          "training_rows": 193,
+          "coefficients": {
+            "intercept": 0.0016476226933122516,
+            "Inflation_Lag1": 0.5495285915664676,
+            "Negative_Share": 0.18633276759410494
+          }
+        },
+        {
+          "target_month": "2023-05-01",
+          "origin": "2023-05-31",
+          "training_end": "2023-04-01",
+          "training_rows": 194,
+          "coefficients": {
+            "intercept": 0.0018653611600846659,
+            "Inflation_Lag1": 0.5487747742234365,
+            "Negative_Share": 0.18812839309109092
+          }
+        },
+        {
+          "target_month": "2023-06-01",
+          "origin": "2023-06-30",
+          "training_end": "2023-05-01",
+          "training_rows": 195,
+          "coefficients": {
+            "intercept": 0.0030857820954317485,
+            "Inflation_Lag1": 0.5480962916670881,
+            "Negative_Share": 0.18453466307708732
+          }
+        },
+        {
+          "target_month": "2023-07-01",
+          "origin": "2023-07-31",
+          "training_end": "2023-06-01",
+          "training_rows": 196,
+          "coefficients": {
+            "intercept": 0.006406647375391947,
+            "Inflation_Lag1": 0.5481712242485146,
+            "Negative_Share": 0.17826850352534257
+          }
+        },
+        {
+          "target_month": "2023-08-01",
+          "origin": "2023-08-31",
+          "training_end": "2023-07-01",
+          "training_rows": 197,
+          "coefficients": {
+            "intercept": 0.006206461690615133,
+            "Inflation_Lag1": 0.5481528057078043,
+            "Negative_Share": 0.17862264007581496
+          }
+        },
+        {
+          "target_month": "2023-09-01",
+          "origin": "2023-09-30",
+          "training_end": "2023-08-01",
+          "training_rows": 198,
+          "coefficients": {
+            "intercept": 0.0035916960956460984,
+            "Inflation_Lag1": 0.5477437162338292,
+            "Negative_Share": 0.18720665329210895
+          }
+        },
+        {
+          "target_month": "2023-10-01",
+          "origin": "2023-10-31",
+          "training_end": "2023-09-01",
+          "training_rows": 199,
+          "coefficients": {
+            "intercept": 0.00335593537484648,
+            "Inflation_Lag1": 0.5477935855379714,
+            "Negative_Share": 0.1877325152356366
+          }
+        },
+        {
+          "target_month": "2023-11-01",
+          "origin": "2023-11-30",
+          "training_end": "2023-10-01",
+          "training_rows": 200,
+          "coefficients": {
+            "intercept": 0.009404036320333414,
+            "Inflation_Lag1": 0.546654785870323,
+            "Negative_Share": 0.17361258394830642
+          }
+        },
+        {
+          "target_month": "2023-12-01",
+          "origin": "2023-12-31",
+          "training_end": "2023-11-01",
+          "training_rows": 201,
+          "coefficients": {
+            "intercept": 0.009468102464513448,
+            "Inflation_Lag1": 0.5467500993674808,
+            "Negative_Share": 0.17318817692979177
+          }
+        }
+      ]
+    },
+    "Inflation + sentiment dispersion": {
+      "features": [
+        "Inflation_Lag1",
+        "Sentiment_Std"
+      ],
+      "estimator": "expanding-window ordinary least squares",
+      "coefficients_by_origin": [
+        {
+          "target_month": "2017-01-01",
+          "origin": "2017-01-31",
+          "training_end": "2016-12-01",
+          "training_rows": 118,
+          "coefficients": {
+            "intercept": -0.009718115618935498,
+            "Inflation_Lag1": 0.5197883444213587,
+            "Sentiment_Std": 0.15084335388121323
+          }
+        },
+        {
+          "target_month": "2017-02-01",
+          "origin": "2017-02-28",
+          "training_end": "2017-01-01",
+          "training_rows": 119,
+          "coefficients": {
+            "intercept": -0.009057852673230843,
+            "Inflation_Lag1": 0.5214744615668435,
+            "Sentiment_Std": 0.15234517232190192
+          }
+        },
+        {
+          "target_month": "2017-03-01",
+          "origin": "2017-03-31",
+          "training_end": "2017-02-01",
+          "training_rows": 120,
+          "coefficients": {
+            "intercept": -0.021468073477188567,
+            "Inflation_Lag1": 0.5186425525352907,
+            "Sentiment_Std": 0.1748541047791296
+          }
+        },
+        {
+          "target_month": "2017-04-01",
+          "origin": "2017-04-30",
+          "training_end": "2017-03-01",
+          "training_rows": 121,
+          "coefficients": {
+            "intercept": -0.045719454052360484,
+            "Inflation_Lag1": 0.5176872448514451,
+            "Sentiment_Std": 0.2181837198728676
+          }
+        },
+        {
+          "target_month": "2017-05-01",
+          "origin": "2017-05-31",
+          "training_end": "2017-04-01",
+          "training_rows": 122,
+          "coefficients": {
+            "intercept": -0.050900743707268256,
+            "Inflation_Lag1": 0.5163538962717099,
+            "Sentiment_Std": 0.22949683581217795
+          }
+        },
+        {
+          "target_month": "2017-06-01",
+          "origin": "2017-06-30",
+          "training_end": "2017-05-01",
+          "training_rows": 123,
+          "coefficients": {
+            "intercept": -0.04493212783941052,
+            "Inflation_Lag1": 0.5170733334968762,
+            "Sentiment_Std": 0.21465558053036327
+          }
+        },
+        {
+          "target_month": "2017-07-01",
+          "origin": "2017-07-31",
+          "training_end": "2017-06-01",
+          "training_rows": 124,
+          "coefficients": {
+            "intercept": -0.048147775966711846,
+            "Inflation_Lag1": 0.5165548463736176,
+            "Sentiment_Std": 0.2212374442188179
+          }
+        },
+        {
+          "target_month": "2017-08-01",
+          "origin": "2017-08-31",
+          "training_end": "2017-07-01",
+          "training_rows": 125,
+          "coefficients": {
+            "intercept": -0.054777147381176026,
+            "Inflation_Lag1": 0.5167339854300357,
+            "Sentiment_Std": 0.23287781675364055
+          }
+        },
+        {
+          "target_month": "2017-09-01",
+          "origin": "2017-09-30",
+          "training_end": "2017-08-01",
+          "training_rows": 126,
+          "coefficients": {
+            "intercept": -0.028288373465519292,
+            "Inflation_Lag1": 0.5147284752323663,
+            "Sentiment_Std": 0.18781261022568768
+          }
+        },
+        {
+          "target_month": "2017-10-01",
+          "origin": "2017-10-31",
+          "training_end": "2017-09-01",
+          "training_rows": 127,
+          "coefficients": {
+            "intercept": -0.006113437472471839,
+            "Inflation_Lag1": 0.5201329276622948,
+            "Sentiment_Std": 0.1479085507404994
+          }
+        },
+        {
+          "target_month": "2017-11-01",
+          "origin": "2017-11-30",
+          "training_end": "2017-10-01",
+          "training_rows": 128,
+          "coefficients": {
+            "intercept": -0.029302643690594782,
+            "Inflation_Lag1": 0.5121929111290735,
+            "Sentiment_Std": 0.1904564306489666
+          }
+        },
+        {
+          "target_month": "2017-12-01",
+          "origin": "2017-12-31",
+          "training_end": "2017-11-01",
+          "training_rows": 129,
+          "coefficients": {
+            "intercept": -0.005714189566328583,
+            "Inflation_Lag1": 0.5119099947163905,
+            "Sentiment_Std": 0.1481640253470548
+          }
+        },
+        {
+          "target_month": "2018-01-01",
+          "origin": "2018-01-31",
+          "training_end": "2017-12-01",
+          "training_rows": 130,
+          "coefficients": {
+            "intercept": -0.005454153634031165,
+            "Inflation_Lag1": 0.5119626301299589,
+            "Sentiment_Std": 0.1477270047680007
+          }
+        },
+        {
+          "target_month": "2018-02-01",
+          "origin": "2018-02-28",
+          "training_end": "2018-01-01",
+          "training_rows": 131,
+          "coefficients": {
+            "intercept": -0.0178328404013286,
+            "Inflation_Lag1": 0.5126651118512,
+            "Sentiment_Std": 0.17455932221852877
+          }
+        },
+        {
+          "target_month": "2018-03-01",
+          "origin": "2018-03-31",
+          "training_end": "2018-02-01",
+          "training_rows": 132,
+          "coefficients": {
+            "intercept": -0.016904459827824896,
+            "Inflation_Lag1": 0.5121220767542709,
+            "Sentiment_Std": 0.17256535876871948
+          }
+        },
+        {
+          "target_month": "2018-04-01",
+          "origin": "2018-04-30",
+          "training_end": "2018-03-01",
+          "training_rows": 133,
+          "coefficients": {
+            "intercept": -0.01918561757981495,
+            "Inflation_Lag1": 0.5103476111532848,
+            "Sentiment_Std": 0.17467210611741169
+          }
+        },
+        {
+          "target_month": "2018-05-01",
+          "origin": "2018-05-31",
+          "training_end": "2018-04-01",
+          "training_rows": 134,
+          "coefficients": {
+            "intercept": -0.04290512852808909,
+            "Inflation_Lag1": 0.5078614853940472,
+            "Sentiment_Std": 0.2227710355004462
+          }
+        },
+        {
+          "target_month": "2018-06-01",
+          "origin": "2018-06-30",
+          "training_end": "2018-05-01",
+          "training_rows": 135,
+          "coefficients": {
+            "intercept": -0.043000611945258095,
+            "Inflation_Lag1": 0.5080010719094796,
+            "Sentiment_Std": 0.22315682267312165
+          }
+        },
+        {
+          "target_month": "2018-07-01",
+          "origin": "2018-07-31",
+          "training_end": "2018-06-01",
+          "training_rows": 136,
+          "coefficients": {
+            "intercept": -0.04484474298145182,
+            "Inflation_Lag1": 0.5074170792730203,
+            "Sentiment_Std": 0.2254615022315935
+          }
+        },
+        {
+          "target_month": "2018-08-01",
+          "origin": "2018-08-31",
+          "training_end": "2018-07-01",
+          "training_rows": 137,
+          "coefficients": {
+            "intercept": -0.04403964544822183,
+            "Inflation_Lag1": 0.5076733145772635,
+            "Sentiment_Std": 0.2232445183571008
+          }
+        },
+        {
+          "target_month": "2018-09-01",
+          "origin": "2018-09-30",
+          "training_end": "2018-08-01",
+          "training_rows": 138,
+          "coefficients": {
+            "intercept": -0.04402348472460058,
+            "Inflation_Lag1": 0.5072749388919848,
+            "Sentiment_Std": 0.2242229078101835
+          }
+        },
+        {
+          "target_month": "2018-10-01",
+          "origin": "2018-10-31",
+          "training_end": "2018-09-01",
+          "training_rows": 139,
+          "coefficients": {
+            "intercept": -0.039189750154321294,
+            "Inflation_Lag1": 0.5075083066090853,
+            "Sentiment_Std": 0.21567397038965258
+          }
+        },
+        {
+          "target_month": "2018-11-01",
+          "origin": "2018-11-30",
+          "training_end": "2018-10-01",
+          "training_rows": 140,
+          "coefficients": {
+            "intercept": -0.038920442080570175,
+            "Inflation_Lag1": 0.5077289983570878,
+            "Sentiment_Std": 0.21583859859759041
+          }
+        },
+        {
+          "target_month": "2018-12-01",
+          "origin": "2018-12-31",
+          "training_end": "2018-11-01",
+          "training_rows": 141,
+          "coefficients": {
+            "intercept": -0.07784032467989704,
+            "Inflation_Lag1": 0.505119951724484,
+            "Sentiment_Std": 0.2872748560807937
+          }
+        },
+        {
+          "target_month": "2019-01-01",
+          "origin": "2019-01-31",
+          "training_end": "2018-12-01",
+          "training_rows": 142,
+          "coefficients": {
+            "intercept": -0.07317223669531281,
+            "Inflation_Lag1": 0.5044519313057698,
+            "Sentiment_Std": 0.2791996424058668
+          }
+        },
+        {
+          "target_month": "2019-02-01",
+          "origin": "2019-02-28",
+          "training_end": "2019-01-01",
+          "training_rows": 143,
+          "coefficients": {
+            "intercept": -0.06015862466082303,
+            "Inflation_Lag1": 0.5061946952936844,
+            "Sentiment_Std": 0.2512855820227796
+          }
+        },
+        {
+          "target_month": "2019-03-01",
+          "origin": "2019-03-31",
+          "training_end": "2019-02-01",
+          "training_rows": 144,
+          "coefficients": {
+            "intercept": -0.012758130705087748,
+            "Inflation_Lag1": 0.502407850531958,
+            "Sentiment_Std": 0.16597166098408944
+          }
+        },
+        {
+          "target_month": "2019-04-01",
+          "origin": "2019-04-30",
+          "training_end": "2019-03-01",
+          "training_rows": 145,
+          "coefficients": {
+            "intercept": 0.029466276654329035,
+            "Inflation_Lag1": 0.5056500844473102,
+            "Sentiment_Std": 0.08679995730212214
+          }
+        },
+        {
+          "target_month": "2019-05-01",
+          "origin": "2019-05-31",
+          "training_end": "2019-04-01",
+          "training_rows": 146,
+          "coefficients": {
+            "intercept": 0.03825529070599629,
+            "Inflation_Lag1": 0.5078486811449959,
+            "Sentiment_Std": 0.07086347066229837
+          }
+        },
+        {
+          "target_month": "2019-06-01",
+          "origin": "2019-06-30",
+          "training_end": "2019-05-01",
+          "training_rows": 147,
+          "coefficients": {
+            "intercept": 0.0021639910629452637,
+            "Inflation_Lag1": 0.5029508653342405,
+            "Sentiment_Std": 0.13820140313691848
+          }
+        },
+        {
+          "target_month": "2019-07-01",
+          "origin": "2019-07-31",
+          "training_end": "2019-06-01",
+          "training_rows": 148,
+          "coefficients": {
+            "intercept": -0.0026203208739160964,
+            "Inflation_Lag1": 0.504008026917104,
+            "Sentiment_Std": 0.1455288845402889
+          }
+        },
+        {
+          "target_month": "2019-08-01",
+          "origin": "2019-08-31",
+          "training_end": "2019-07-01",
+          "training_rows": 149,
+          "coefficients": {
+            "intercept": 0.01491840192840539,
+            "Inflation_Lag1": 0.5018671127393587,
+            "Sentiment_Std": 0.11494632272154104
+          }
+        },
+        {
+          "target_month": "2019-09-01",
+          "origin": "2019-09-30",
+          "training_end": "2019-08-01",
+          "training_rows": 150,
+          "coefficients": {
+            "intercept": 0.009289836541482079,
+            "Inflation_Lag1": 0.5011616612023382,
+            "Sentiment_Std": 0.12469887777939648
+          }
+        },
+        {
+          "target_month": "2019-10-01",
+          "origin": "2019-10-31",
+          "training_end": "2019-09-01",
+          "training_rows": 151,
+          "coefficients": {
+            "intercept": 0.014636857197241712,
+            "Inflation_Lag1": 0.501100479675434,
+            "Sentiment_Std": 0.11501950810138861
+          }
+        },
+        {
+          "target_month": "2019-11-01",
+          "origin": "2019-11-30",
+          "training_end": "2019-10-01",
+          "training_rows": 152,
+          "coefficients": {
+            "intercept": 0.0070814415837862285,
+            "Inflation_Lag1": 0.5008786082698112,
+            "Sentiment_Std": 0.13113348264404506
+          }
+        },
+        {
+          "target_month": "2019-12-01",
+          "origin": "2019-12-31",
+          "training_end": "2019-11-01",
+          "training_rows": 153,
+          "coefficients": {
+            "intercept": 0.002564887228278484,
+            "Inflation_Lag1": 0.5013052103056448,
+            "Sentiment_Std": 0.14036179361526419
+          }
+        },
+        {
+          "target_month": "2020-01-01",
+          "origin": "2020-01-31",
+          "training_end": "2019-12-01",
+          "training_rows": 154,
+          "coefficients": {
+            "intercept": 0.008477447181745007,
+            "Inflation_Lag1": 0.5022331944743486,
+            "Sentiment_Std": 0.12976650035058385
+          }
+        },
+        {
+          "target_month": "2020-02-01",
+          "origin": "2020-02-29",
+          "training_end": "2020-01-01",
+          "training_rows": 155,
+          "coefficients": {
+            "intercept": 0.008723512909685633,
+            "Inflation_Lag1": 0.5019166986153151,
+            "Sentiment_Std": 0.12899888722150848
+          }
+        },
+        {
+          "target_month": "2020-03-01",
+          "origin": "2020-03-31",
+          "training_end": "2020-02-01",
+          "training_rows": 156,
+          "coefficients": {
+            "intercept": 0.014307901904274575,
+            "Inflation_Lag1": 0.5017362329416037,
+            "Sentiment_Std": 0.11678823063198657
+          }
+        },
+        {
+          "target_month": "2020-04-01",
+          "origin": "2020-04-30",
+          "training_end": "2020-03-01",
+          "training_rows": 157,
+          "coefficients": {
+            "intercept": -0.011685348705541788,
+            "Inflation_Lag1": 0.5056046991900809,
+            "Sentiment_Std": 0.15868251959868468
+          }
+        },
+        {
+          "target_month": "2020-05-01",
+          "origin": "2020-05-31",
+          "training_end": "2020-04-01",
+          "training_rows": 158,
+          "coefficients": {
+            "intercept": -0.055401596634299645,
+            "Inflation_Lag1": 0.5325180059973951,
+            "Sentiment_Std": 0.2269849711359858
+          }
+        },
+        {
+          "target_month": "2020-06-01",
+          "origin": "2020-06-30",
+          "training_end": "2020-05-01",
+          "training_rows": 159,
+          "coefficients": {
+            "intercept": -0.024070985323392555,
+            "Inflation_Lag1": 0.5149085386107785,
+            "Sentiment_Std": 0.1753067972949217
+          }
+        },
+        {
+          "target_month": "2020-07-01",
+          "origin": "2020-07-31",
+          "training_end": "2020-06-01",
+          "training_rows": 160,
+          "coefficients": {
+            "intercept": 0.007299169386771283,
+            "Inflation_Lag1": 0.5084137924846674,
+            "Sentiment_Std": 0.12260080132073797
+          }
+        },
+        {
+          "target_month": "2020-08-01",
+          "origin": "2020-08-31",
+          "training_end": "2020-07-01",
+          "training_rows": 161,
+          "coefficients": {
+            "intercept": 0.00972731156293655,
+            "Inflation_Lag1": 0.5129560315774998,
+            "Sentiment_Std": 0.11896028852254292
+          }
+        },
+        {
+          "target_month": "2020-09-01",
+          "origin": "2020-09-30",
+          "training_end": "2020-08-01",
+          "training_rows": 162,
+          "coefficients": {
+            "intercept": 0.010090927017858933,
+            "Inflation_Lag1": 0.5139395533747746,
+            "Sentiment_Std": 0.118451828349535
+          }
+        },
+        {
+          "target_month": "2020-10-01",
+          "origin": "2020-10-31",
+          "training_end": "2020-09-01",
+          "training_rows": 163,
+          "coefficients": {
+            "intercept": 0.010086356543671553,
+            "Inflation_Lag1": 0.513936253748177,
+            "Sentiment_Std": 0.11845909554344292
+          }
+        },
+        {
+          "target_month": "2020-11-01",
+          "origin": "2020-11-30",
+          "training_end": "2020-10-01",
+          "training_rows": 164,
+          "coefficients": {
+            "intercept": 0.008030038676916469,
+            "Inflation_Lag1": 0.5132472115025057,
+            "Sentiment_Std": 0.12164462771556583
+          }
+        },
+        {
+          "target_month": "2020-12-01",
+          "origin": "2020-12-31",
+          "training_end": "2020-11-01",
+          "training_rows": 165,
+          "coefficients": {
+            "intercept": 0.014294886753115188,
+            "Inflation_Lag1": 0.513302114627976,
+            "Sentiment_Std": 0.11073944516786344
+          }
+        },
+        {
+          "target_month": "2021-01-01",
+          "origin": "2021-01-31",
+          "training_end": "2020-12-01",
+          "training_rows": 166,
+          "coefficients": {
+            "intercept": 0.0016089941843122017,
+            "Inflation_Lag1": 0.5139965251980518,
+            "Sentiment_Std": 0.13765234467029752
+          }
+        },
+        {
+          "target_month": "2021-02-01",
+          "origin": "2021-02-28",
+          "training_end": "2021-01-01",
+          "training_rows": 167,
+          "coefficients": {
+            "intercept": 0.0015224479223568334,
+            "Inflation_Lag1": 0.5129955306513292,
+            "Sentiment_Std": 0.13750461596976765
+          }
+        },
+        {
+          "target_month": "2021-03-01",
+          "origin": "2021-03-31",
+          "training_end": "2021-02-01",
+          "training_rows": 168,
+          "coefficients": {
+            "intercept": -0.008008482944283397,
+            "Inflation_Lag1": 0.5134059778915072,
+            "Sentiment_Std": 0.15716901832154317
+          }
+        },
+        {
+          "target_month": "2021-04-01",
+          "origin": "2021-04-30",
+          "training_end": "2021-03-01",
+          "training_rows": 169,
+          "coefficients": {
+            "intercept": -0.011912688541462524,
+            "Inflation_Lag1": 0.5166117486733741,
+            "Sentiment_Std": 0.16680357880844238
+          }
+        },
+        {
+          "target_month": "2021-05-01",
+          "origin": "2021-05-31",
+          "training_end": "2021-04-01",
+          "training_rows": 170,
+          "coefficients": {
+            "intercept": -0.052664461913277456,
+            "Inflation_Lag1": 0.5210248469094437,
+            "Sentiment_Std": 0.24635970958255254
+          }
+        },
+        {
+          "target_month": "2021-06-01",
+          "origin": "2021-06-30",
+          "training_end": "2021-05-01",
+          "training_rows": 171,
+          "coefficients": {
+            "intercept": -0.06312667015110482,
+            "Inflation_Lag1": 0.5282111200566617,
+            "Sentiment_Std": 0.267007946294093
+          }
+        },
+        {
+          "target_month": "2021-07-01",
+          "origin": "2021-07-31",
+          "training_end": "2021-06-01",
+          "training_rows": 172,
+          "coefficients": {
+            "intercept": -0.10008806421963004,
+            "Inflation_Lag1": 0.5391731516205427,
+            "Sentiment_Std": 0.33866955490632733
+          }
+        },
+        {
+          "target_month": "2021-08-01",
+          "origin": "2021-08-31",
+          "training_end": "2021-07-01",
+          "training_rows": 173,
+          "coefficients": {
+            "intercept": -0.08982505825730856,
+            "Inflation_Lag1": 0.5354013442937088,
+            "Sentiment_Std": 0.31914376453953014
+          }
+        },
+        {
+          "target_month": "2021-09-01",
+          "origin": "2021-09-30",
+          "training_end": "2021-08-01",
+          "training_rows": 174,
+          "coefficients": {
+            "intercept": -0.08947813780162475,
+            "Inflation_Lag1": 0.5345980414354723,
+            "Sentiment_Std": 0.3182412372347838
+          }
+        },
+        {
+          "target_month": "2021-10-01",
+          "origin": "2021-10-31",
+          "training_end": "2021-09-01",
+          "training_rows": 175,
+          "coefficients": {
+            "intercept": -0.07803367453785916,
+            "Inflation_Lag1": 0.5368821610076054,
+            "Sentiment_Std": 0.29819307504073606
+          }
+        },
+        {
+          "target_month": "2021-11-01",
+          "origin": "2021-11-30",
+          "training_end": "2021-10-01",
+          "training_rows": 176,
+          "coefficients": {
+            "intercept": -0.10865416955850721,
+            "Inflation_Lag1": 0.5460025964248876,
+            "Sentiment_Std": 0.36049179466631226
+          }
+        },
+        {
+          "target_month": "2021-12-01",
+          "origin": "2021-12-31",
+          "training_end": "2021-11-01",
+          "training_rows": 177,
+          "coefficients": {
+            "intercept": -0.12096541675801446,
+            "Inflation_Lag1": 0.5559959535227376,
+            "Sentiment_Std": 0.38310349537130217
+          }
+        },
+        {
+          "target_month": "2022-01-01",
+          "origin": "2022-01-31",
+          "training_end": "2021-12-01",
+          "training_rows": 178,
+          "coefficients": {
+            "intercept": -0.1099871541924498,
+            "Inflation_Lag1": 0.562440063642385,
+            "Sentiment_Std": 0.3615507220245291
+          }
+        },
+        {
+          "target_month": "2022-02-01",
+          "origin": "2022-02-28",
+          "training_end": "2022-01-01",
+          "training_rows": 179,
+          "coefficients": {
+            "intercept": -0.11016338476246071,
+            "Inflation_Lag1": 0.5662340311102646,
+            "Sentiment_Std": 0.3619704165897286
+          }
+        },
+        {
+          "target_month": "2022-03-01",
+          "origin": "2022-03-31",
+          "training_end": "2022-02-01",
+          "training_rows": 180,
+          "coefficients": {
+            "intercept": -0.12029725259704471,
+            "Inflation_Lag1": 0.5717015955320676,
+            "Sentiment_Std": 0.3820847180316002
+          }
+        },
+        {
+          "target_month": "2022-04-01",
+          "origin": "2022-04-30",
+          "training_end": "2022-03-01",
+          "training_rows": 181,
+          "coefficients": {
+            "intercept": -0.18942290717041596,
+            "Inflation_Lag1": 0.5842286714080175,
+            "Sentiment_Std": 0.5156096378531793
+          }
+        },
+        {
+          "target_month": "2022-05-01",
+          "origin": "2022-05-31",
+          "training_end": "2022-04-01",
+          "training_rows": 182,
+          "coefficients": {
+            "intercept": -0.1770120083642185,
+            "Inflation_Lag1": 0.5627837871699973,
+            "Sentiment_Std": 0.4950795562450128
+          }
+        },
+        {
+          "target_month": "2022-06-01",
+          "origin": "2022-06-30",
+          "training_end": "2022-05-01",
+          "training_rows": 183,
+          "coefficients": {
+            "intercept": -0.24232226648015953,
+            "Inflation_Lag1": 0.5622646670469403,
+            "Sentiment_Std": 0.6262450256622106
+          }
+        },
+        {
+          "target_month": "2022-07-01",
+          "origin": "2022-07-31",
+          "training_end": "2022-06-01",
+          "training_rows": 184,
+          "coefficients": {
+            "intercept": -0.20570070335896748,
+            "Inflation_Lag1": 0.5898376757918752,
+            "Sentiment_Std": 0.5530091319750632
+          }
+        },
+        {
+          "target_month": "2022-08-01",
+          "origin": "2022-08-31",
+          "training_end": "2022-07-01",
+          "training_rows": 185,
+          "coefficients": {
+            "intercept": -0.1594256172094682,
+            "Inflation_Lag1": 0.547323057873605,
+            "Sentiment_Std": 0.4722921300463207
+          }
+        },
+        {
+          "target_month": "2022-09-01",
+          "origin": "2022-09-30",
+          "training_end": "2022-08-01",
+          "training_rows": 186,
+          "coefficients": {
+            "intercept": -0.15715787143256355,
+            "Inflation_Lag1": 0.5478951512322225,
+            "Sentiment_Std": 0.46737365148145804
+          }
+        },
+        {
+          "target_month": "2022-10-01",
+          "origin": "2022-10-31",
+          "training_end": "2022-09-01",
+          "training_rows": 187,
+          "coefficients": {
+            "intercept": -0.1897945116548358,
+            "Inflation_Lag1": 0.5439610853646978,
+            "Sentiment_Std": 0.533399054118002
+          }
+        },
+        {
+          "target_month": "2022-11-01",
+          "origin": "2022-11-30",
+          "training_end": "2022-10-01",
+          "training_rows": 188,
+          "coefficients": {
+            "intercept": -0.204147174190876,
+            "Inflation_Lag1": 0.5451714609234685,
+            "Sentiment_Std": 0.5622087059438616
+          }
+        },
+        {
+          "target_month": "2022-12-01",
+          "origin": "2022-12-31",
+          "training_end": "2022-11-01",
+          "training_rows": 189,
+          "coefficients": {
+            "intercept": -0.1994715800893843,
+            "Inflation_Lag1": 0.5428081038108324,
+            "Sentiment_Std": 0.5526809347852677
+          }
+        },
+        {
+          "target_month": "2023-01-01",
+          "origin": "2023-01-31",
+          "training_end": "2022-12-01",
+          "training_rows": 190,
+          "coefficients": {
+            "intercept": -0.19586930369331876,
+            "Inflation_Lag1": 0.5424783523050234,
+            "Sentiment_Std": 0.5437004355280537
+          }
+        },
+        {
+          "target_month": "2023-02-01",
+          "origin": "2023-02-28",
+          "training_end": "2023-01-01",
+          "training_rows": 191,
+          "coefficients": {
+            "intercept": -0.22492528895893477,
+            "Inflation_Lag1": 0.5367659574654088,
+            "Sentiment_Std": 0.6049260053906502
+          }
+        },
+        {
+          "target_month": "2023-03-01",
+          "origin": "2023-03-31",
+          "training_end": "2023-02-01",
+          "training_rows": 192,
+          "coefficients": {
+            "intercept": -0.21684948794392486,
+            "Inflation_Lag1": 0.5359407023356526,
+            "Sentiment_Std": 0.5890850570628412
+          }
+        },
+        {
+          "target_month": "2023-04-01",
+          "origin": "2023-04-30",
+          "training_end": "2023-03-01",
+          "training_rows": 193,
+          "coefficients": {
+            "intercept": -0.1985187618100816,
+            "Inflation_Lag1": 0.5359182695463026,
+            "Sentiment_Std": 0.5524362951297898
+          }
+        },
+        {
+          "target_month": "2023-05-01",
+          "origin": "2023-05-31",
+          "training_end": "2023-04-01",
+          "training_rows": 194,
+          "coefficients": {
+            "intercept": -0.2072376113241236,
+            "Inflation_Lag1": 0.5346630539000816,
+            "Sentiment_Std": 0.5709014252822956
+          }
+        },
+        {
+          "target_month": "2023-06-01",
+          "origin": "2023-06-30",
+          "training_end": "2023-05-01",
+          "training_rows": 195,
+          "coefficients": {
+            "intercept": -0.1968841380193253,
+            "Inflation_Lag1": 0.5344496017540312,
+            "Sentiment_Std": 0.5499584849359744
+          }
+        },
+        {
+          "target_month": "2023-07-01",
+          "origin": "2023-07-31",
+          "training_end": "2023-06-01",
+          "training_rows": 196,
+          "coefficients": {
+            "intercept": -0.19750250609715145,
+            "Inflation_Lag1": 0.5343869302358141,
+            "Sentiment_Std": 0.5512295315382983
+          }
+        },
+        {
+          "target_month": "2023-08-01",
+          "origin": "2023-08-31",
+          "training_end": "2023-07-01",
+          "training_rows": 197,
+          "coefficients": {
+            "intercept": -0.18983705057934594,
+            "Inflation_Lag1": 0.5348739657159048,
+            "Sentiment_Std": 0.53590095425412
+          }
+        },
+        {
+          "target_month": "2023-09-01",
+          "origin": "2023-09-30",
+          "training_end": "2023-08-01",
+          "training_rows": 198,
+          "coefficients": {
+            "intercept": -0.20017431499211638,
+            "Inflation_Lag1": 0.5339541912794038,
+            "Sentiment_Std": 0.558276299405494
+          }
+        },
+        {
+          "target_month": "2023-10-01",
+          "origin": "2023-10-31",
+          "training_end": "2023-09-01",
+          "training_rows": 199,
+          "coefficients": {
+            "intercept": -0.19925509749109482,
+            "Inflation_Lag1": 0.5345408229501956,
+            "Sentiment_Std": 0.5566946943053963
+          }
+        },
+        {
+          "target_month": "2023-11-01",
+          "origin": "2023-11-30",
+          "training_end": "2023-10-01",
+          "training_rows": 200,
+          "coefficients": {
+            "intercept": -0.18156606118065202,
+            "Inflation_Lag1": 0.5339736525783454,
+            "Sentiment_Std": 0.5215774667287787
+          }
+        },
+        {
+          "target_month": "2023-12-01",
+          "origin": "2023-12-31",
+          "training_end": "2023-11-01",
+          "training_rows": 201,
+          "coefficients": {
+            "intercept": -0.18098684207650204,
+            "Inflation_Lag1": 0.5341282798712514,
+            "Sentiment_Std": 0.5201374264461008
+          }
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "dataset": "us_nyt_monthly_experiment.csv",
+    "region": "US",
+    "news_source": "NYT",
+    "target": "Inflation_MoM",
+    "test_start": "2017-01-01",
+    "test_end": "2023-12-01",
+    "test_rows": 84,
+    "predictor_timing": "month t sentiment observed by month end is used for month t inflation",
+    "sentiment_lag_months": 0,
+    "sentiment_features": {
+      "News_Sentiment": "mean sentiment (baseline)",
+      "Sentiment_Median": "median sentiment",
+      "Negative_Share": "negative share",
+      "Sentiment_Std": "sentiment dispersion"
+    },
+    "sentiment_baseline": "News_Sentiment (monthly mean)",
+    "comparison_policy": "one sentiment aggregation per model",
+    "experiment": "us_ar_sentiment_aggregations"
+  }
+}
