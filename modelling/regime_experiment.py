@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 from modelling.data_pipeline import load_macro_benchmark_snapshot, MACRO_BENCHMARK_FEATURES
-from modelling.models import fit_expanding_ar_hmm, fit_expanding_macro
+from modelling.models import ForecastResult, fit_expanding_ar_hmm, fit_expanding_macro
 from modelling.evaluation import save_result_bundle
 
 
@@ -80,6 +80,107 @@ def run_lag_order_experiment(
     metrics = metrics.sort_values(["lag_order", "family"]).reset_index(drop=True)
     metrics.to_csv(output_dir / "metrics.csv", index=False)
     return metrics
+
+
+def run_yoy_lag_order_experiment(
+    dataset,
+    output_dir,
+    *,
+    lag_orders=range(1, 7),
+    test_start="2017-01-01",
+    test_end="2023-12-01",
+):
+    """Compare naive, AR(p), and two-state AR-HMM(p) YoY forecasts."""
+    lag_orders = tuple(sorted(set(lag_orders)))
+    if not lag_orders or lag_orders[0] < 1:
+        raise ValueError("lag_orders must contain positive integers.")
+
+    data, _, _ = load_macro_benchmark_snapshot(Path(dataset))
+    sample = data[["Date", "CPIAUCSL"]].copy()
+    sample["Inflation_YoY"] = sample["CPIAUCSL"].pct_change(12, fill_method=None) * 100
+    lag_columns = [f"Inflation_YoY_Lag{lag}" for lag in range(1, max(lag_orders) + 1)]
+    for lag, column in enumerate(lag_columns, start=1):
+        sample[column] = sample["Inflation_YoY"].shift(lag)
+    sample = sample.dropna().loc[lambda x: x["Date"].le(test_end)].copy()
+    sample["TargetAssumedAvailableBy"] = sample["Date"] + pd.offsets.MonthEnd(2)
+
+    dates = sample.loc[sample["Date"].between(test_start, test_end), "Date"]
+    if not pd.DatetimeIndex(dates).equals(pd.date_range(test_start, test_end, freq="MS")):
+        raise ValueError("Incomplete evaluation period.")
+    schedule = pd.DataFrame({
+        "TargetMonth": dates,
+        "ForecastOrigin": dates + pd.offsets.MonthEnd(0),
+    })
+    test_rows = sample.set_index("Date").loc[dates]
+    naive_name = "Naive YoY(t-1)"
+    naive_forecasts = pd.DataFrame({
+        "Date": dates.to_numpy(),
+        "Actual": test_rows["Inflation_YoY"].to_numpy(),
+        "Forecast": test_rows["Inflation_YoY_Lag1"].to_numpy(),
+    })
+    naive_forecasts["Error"] = naive_forecasts["Actual"] - naive_forecasts["Forecast"]
+    results = {
+        naive_name: ForecastResult(
+            naive_name,
+            naive_forecasts,
+            {"features": ["Inflation_YoY_Lag1"], "estimator": "last observed YoY"},
+        )
+    }
+
+    for order in lag_orders:
+        features = lag_columns[:order]
+        ar_name = f"YoY AR({order})"
+        arhmm_name = f"YoY AR-HMM(2 states, p={order})"
+        results[ar_name] = fit_expanding_macro(
+            sample,
+            schedule,
+            features=features,
+            name=ar_name,
+            target="Inflation_YoY",
+        )
+        print(f"Fitting {arhmm_name}", flush=True)
+        results[arhmm_name] = fit_expanding_ar_hmm(
+            sample,
+            schedule,
+            features=features,
+            name=arhmm_name,
+            target="Inflation_YoY",
+            n_states=2,
+        )
+
+    output_dir = Path(output_dir)
+    metrics = save_result_bundle(results, output_dir, metadata={
+        "experiment": "yoy_ar_vs_two_state_arhmm_lag_order",
+        "target": "Inflation_YoY",
+        "target_definition": "100 * (CPI_t / CPI_t-12 - 1)",
+        "lag_orders": list(lag_orders),
+        "n_states": 2,
+        "test_start": test_start,
+        "test_end": test_end,
+        "common_sample_max_lag": max(lag_orders),
+        "timing": "Existing expanding month-end convention",
+    })
+    metrics["family"] = metrics["model"].str.extract(r"(AR-HMM|AR)")
+    metrics["lag_order"] = pd.to_numeric(
+        metrics["model"].str.extract(r"(?:p=|AR\()(\d+)")[0], errors="coerce"
+    ).astype("Int64")
+    ar_rmse = metrics.loc[metrics["family"].eq("AR")].set_index("lag_order")["rmse"]
+    metrics["rmse_difference_vs_ar"] = metrics.apply(
+        lambda row: (
+            row["rmse"] - ar_rmse[row["lag_order"]]
+            if row["family"] == "AR-HMM" else 0.0
+        ),
+        axis=1,
+    )
+    metrics["arhmm_improvement_over_ar_pct"] = metrics.apply(
+        lambda row: (
+            100 * (ar_rmse[row["lag_order"]] - row["rmse"]) / ar_rmse[row["lag_order"]]
+            if row["family"] == "AR-HMM" else 0.0
+        ),
+        axis=1,
+    )
+    metrics.to_csv(output_dir / "metrics.csv", index=False)
+    return metrics.sort_values("rmse").reset_index(drop=True)
 
 
 def run_regime_experiment(dataset, output_dir, *, test_start="2017-01-01",

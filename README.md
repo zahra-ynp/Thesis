@@ -57,10 +57,13 @@ Both experiments use expanding-window forecasts for January 2017 through Decembe
 |---|---|
 | State count | AR(1): 0.2641 RMSE; 2-state AR-HMM: 0.2766; 4-state AR-HMM: 0.2771 |
 | Lag order | The best 2-state AR-HMM was p=1 with 0.2779 RMSE, versus 0.2645 for AR(1) |
+| YoY robustness | 2-state AR-HMM(p=2): 0.3962 RMSE; AR(2): 0.4047; naïve: 0.4376 |
 
 The four-state specification did not improve on the two-state model. In the lag-order comparison, none of the 2-state AR-HMM models with p = 1–6 beat the matching AR(p) model. For p=1, the absolute RMSE difference is 0.0133 and the AR-HMM improvement over AR is -5.04%. The negative sign means the AR-HMM RMSE is 5.04% higher than the AR RMSE.
 
-The state-count and lag-order experiments use slightly different common training samples, so results should be compared within each experiment. Outputs are stored in `data/processed/model_results/arhmm_four_states/` and `data/processed/model_results/arhmm_lag_orders/` and are displayed in Notebook 02.
+For YoY inflation, AR-HMM(p=2) improves on AR(2) by 2.12% and also beats the naïve previous-month YoY forecast. YoY is calculated directly from CPI as `100 * (CPI_t / CPI_t-12 - 1)`.
+
+The experiments use their own common training samples, so results should be compared within each experiment. Outputs are stored under `data/processed/model_results/` in `arhmm_four_states/`, `arhmm_lag_orders/`, and `arhmm_yoy_lag_orders/`, and are displayed in Notebook 02.
 
 ## Repository Structure
 
