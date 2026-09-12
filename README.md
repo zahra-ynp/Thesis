@@ -51,19 +51,23 @@ Forecasts are compared on common out-of-sample dates using RMSE, MAE, and mean e
 
 ## Controlled AR-HMM Experiments
 
-Both experiments use expanding-window forecasts for January 2017 through December 2023.
+All experiments use expanding-window forecasts for January 2017 through December 2023.
 
 | Experiment | Result |
 |---|---|
 | State count | AR(1): 0.2641 RMSE; 2-state AR-HMM: 0.2766; 4-state AR-HMM: 0.2771 |
 | Lag order | The best 2-state AR-HMM was p=1 with 0.2779 RMSE, versus 0.2645 for AR(1) |
 | YoY robustness | 2-state AR-HMM(p=2): 0.3962 RMSE; AR(2): 0.4047; naïve: 0.4376 |
+| YoY macro | Best AR: p=2 + oil + unemployment, 0.3811 RMSE; best AR-HMM: p=2 + oil, 0.3849 |
+| YoY sentiment | Sentiment increased RMSE in all four tested baseline and best-macro specifications |
 
 The four-state specification did not improve on the two-state model. In the lag-order comparison, none of the 2-state AR-HMM models with p = 1–6 beat the matching AR(p) model. For p=1, the absolute RMSE difference is 0.0133 and the AR-HMM improvement over AR is -5.04%. The negative sign means the AR-HMM RMSE is 5.04% higher than the AR RMSE.
 
 For YoY inflation, AR-HMM(p=2) improves on AR(2) by 2.12% and also beats the naïve previous-month YoY forecast. YoY is calculated directly from CPI as `100 * (CPI_t / CPI_t-12 - 1)`.
 
-The experiments use their own common training samples, so results should be compared within each experiment. Outputs are stored under `data/processed/model_results/` in `arhmm_four_states/`, `arhmm_lag_orders/`, and `arhmm_yoy_lag_orders/`, and are displayed in Notebook 02.
+The YoY macro experiment tests all 16 combinations of oil, unemployment, industrial production, and the Fed rate for both AR and two-state AR-HMM. AR-HMM beats AR for some matching inputs, with the largest gain of 1.84% for industry alone, but the best overall model is AR(2) with oil and unemployment. Adding mean FinBERT sentiment does not improve the YoY baseline or best-macro models.
+
+The experiments use their own common training samples, so results should be compared within each experiment. Outputs are stored under `data/processed/model_results/` in `arhmm_four_states/`, `arhmm_lag_orders/`, `arhmm_yoy_lag_orders/`, `yoy_macro/`, and `yoy_sentiment/`, and are displayed in Notebook 02.
 
 ## Repository Structure
 

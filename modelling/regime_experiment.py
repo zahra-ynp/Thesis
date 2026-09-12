@@ -1,5 +1,6 @@
 """Controlled AR-HMM experiments for notebook 02."""
 from pathlib import Path
+from itertools import combinations
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -181,6 +182,149 @@ def run_yoy_lag_order_experiment(
     )
     metrics.to_csv(output_dir / "metrics.csv", index=False)
     return metrics.sort_values("rmse").reset_index(drop=True)
+
+
+def run_yoy_macro_sentiment_experiment(
+    dataset,
+    macro_output_dir,
+    sentiment_output_dir,
+    *,
+    lag_order=2,
+    test_start="2017-01-01",
+    test_end="2023-12-01",
+):
+    """Run YoY AR and two-state AR-HMM macro and sentiment comparisons."""
+    data, _, _ = load_macro_benchmark_snapshot(Path(dataset))
+    macro_columns = list(MACRO_BENCHMARK_FEATURES[1:])
+    labels = ["Oil", "Unemployment", "Industry", "Fed rate"]
+    sample = data[["Date", "CPIAUCSL", "News_Sentiment", *macro_columns]].copy()
+    sample["Inflation_YoY"] = sample["CPIAUCSL"].pct_change(12, fill_method=None) * 100
+    lag_columns = [f"Inflation_YoY_Lag{lag}" for lag in range(1, lag_order + 1)]
+    for lag, column in enumerate(lag_columns, start=1):
+        sample[column] = sample["Inflation_YoY"].shift(lag)
+    sample = sample.dropna().loc[lambda x: x["Date"].le(test_end)].copy()
+    sample["TargetAssumedAvailableBy"] = sample["Date"] + pd.offsets.MonthEnd(2)
+
+    dates = sample.loc[sample["Date"].between(test_start, test_end), "Date"]
+    if not pd.DatetimeIndex(dates).equals(pd.date_range(test_start, test_end, freq="MS")):
+        raise ValueError("Incomplete evaluation period.")
+    schedule = pd.DataFrame({
+        "TargetMonth": dates,
+        "ForecastOrigin": dates + pd.offsets.MonthEnd(0),
+    })
+
+    macro_results = {}
+    family_by_name, specification_by_name, count_by_name = {}, {}, {}
+    for size in range(len(macro_columns) + 1):
+        for subset in combinations(range(len(macro_columns)), size):
+            suffix = " + ".join(labels[index] for index in subset)
+            specification = suffix or "Inflation only"
+            features = [*lag_columns, *[macro_columns[index] for index in subset]]
+            ar_name = f"YoY AR({lag_order})" + (f" + {suffix}" if suffix else "")
+            arhmm_name = f"YoY AR-HMM(2 states, p={lag_order})" + (
+                f" + {suffix}" if suffix else ""
+            )
+            macro_results[ar_name] = fit_expanding_macro(
+                sample, schedule, features=features, name=ar_name, target="Inflation_YoY",
+            )
+            print(f"Fitting {arhmm_name}", flush=True)
+            macro_results[arhmm_name] = fit_expanding_ar_hmm(
+                sample,
+                schedule,
+                features=features,
+                name=arhmm_name,
+                target="Inflation_YoY",
+                n_states=2,
+            )
+            for name, family in ((ar_name, "AR"), (arhmm_name, "AR-HMM")):
+                family_by_name[name] = family
+                specification_by_name[name] = specification
+                count_by_name[name] = size
+
+    macro_metrics = save_result_bundle(macro_results, macro_output_dir, metadata={
+        "experiment": "yoy_macro_ar_vs_two_state_arhmm",
+        "target": "Inflation_YoY",
+        "target_definition": "100 * (CPI_t / CPI_t-12 - 1)",
+        "lag_order": lag_order,
+        "macro_features": macro_columns,
+        "test_start": test_start,
+        "test_end": test_end,
+    })
+    macro_metrics["family"] = macro_metrics["model"].map(family_by_name)
+    macro_metrics["specification"] = macro_metrics["model"].map(specification_by_name)
+    macro_metrics["macro_count"] = macro_metrics["model"].map(count_by_name)
+    ar_by_spec = macro_metrics.loc[macro_metrics["family"].eq("AR")].set_index(
+        "specification"
+    )["rmse"]
+    macro_metrics["arhmm_improvement_over_matching_ar_pct"] = macro_metrics.apply(
+        lambda row: (
+            100 * (ar_by_spec[row["specification"]] - row["rmse"])
+            / ar_by_spec[row["specification"]]
+            if row["family"] == "AR-HMM" else 0.0
+        ),
+        axis=1,
+    )
+    macro_metrics = macro_metrics.sort_values("rmse").reset_index(drop=True)
+    best_ar = macro_metrics.loc[
+        macro_metrics["family"].eq("AR") & macro_metrics["macro_count"].gt(0), "model"
+    ].iloc[0]
+    best_arhmm = macro_metrics.loc[
+        macro_metrics["family"].eq("AR-HMM") & macro_metrics["macro_count"].gt(0), "model"
+    ].iloc[0]
+    macro_metrics.to_csv(Path(macro_output_dir) / "metrics.csv", index=False)
+
+    base_ar = f"YoY AR({lag_order})"
+    base_arhmm = f"YoY AR-HMM(2 states, p={lag_order})"
+    sentiment_results = {
+        base_ar: macro_results[base_ar],
+        best_ar: macro_results[best_ar],
+        base_arhmm: macro_results[base_arhmm],
+        best_arhmm: macro_results[best_arhmm],
+    }
+    for base_name in (base_ar, best_ar, base_arhmm, best_arhmm):
+        name = base_name + " + sentiment"
+        features = [*macro_results[base_name].parameters["features"], "News_Sentiment"]
+        fitter = fit_expanding_ar_hmm if family_by_name[base_name] == "AR-HMM" else fit_expanding_macro
+        sentiment_results[name] = fitter(
+            sample,
+            schedule,
+            features=features,
+            name=name,
+            target="Inflation_YoY",
+            **({"n_states": 2} if fitter is fit_expanding_ar_hmm else {}),
+        )
+        print(f"Completed {name}", flush=True)
+
+    sentiment_metrics = save_result_bundle(
+        sentiment_results,
+        sentiment_output_dir,
+        metadata={
+            "experiment": "yoy_sentiment_ar_vs_two_state_arhmm",
+            "target": "Inflation_YoY",
+            "lag_order": lag_order,
+            "sentiment_feature": "News_Sentiment",
+            "best_ar_macro_model": best_ar,
+            "best_arhmm_macro_model": best_arhmm,
+            "test_start": test_start,
+            "test_end": test_end,
+        },
+    )
+    sentiment_metrics["family"] = sentiment_metrics["model"].map(
+        lambda name: "AR-HMM" if "AR-HMM" in name else "AR"
+    )
+    sentiment_metrics["sentiment"] = sentiment_metrics["model"].str.endswith(" + sentiment")
+    rmse_by_name = sentiment_metrics.set_index("model")["rmse"]
+    sentiment_metrics["sentiment_improvement_pct"] = sentiment_metrics.apply(
+        lambda row: (
+            100 * (rmse_by_name[row["model"].removesuffix(" + sentiment")] - row["rmse"])
+            / rmse_by_name[row["model"].removesuffix(" + sentiment")]
+            if row["sentiment"] else 0.0
+        ),
+        axis=1,
+    )
+    sentiment_metrics = sentiment_metrics.sort_values("rmse").reset_index(drop=True)
+    sentiment_metrics.to_csv(Path(sentiment_output_dir) / "metrics.csv", index=False)
+    return macro_metrics, sentiment_metrics
 
 
 def run_regime_experiment(dataset, output_dir, *, test_start="2017-01-01",
