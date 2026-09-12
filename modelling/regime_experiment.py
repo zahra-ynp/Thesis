@@ -70,9 +70,9 @@ def run_lag_order_experiment(
         ),
         axis=1,
     )
-    metrics["rmse_change_vs_ar_pct"] = metrics.apply(
+    metrics["arhmm_improvement_over_ar_pct"] = metrics.apply(
         lambda row: (
-            100 * (row["rmse"] - ar_rmse[row["lag_order"]]) / ar_rmse[row["lag_order"]]
+            100 * (ar_rmse[row["lag_order"]] - row["rmse"]) / ar_rmse[row["lag_order"]]
             if row["family"] == "AR-HMM" else 0.0
         ),
         axis=1,
