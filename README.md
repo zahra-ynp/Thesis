@@ -38,15 +38,29 @@ Each experiment selects a named news source explicitly; FinSen and NYT are not a
 
 | Model | Predictors | Purpose |
 |---|---|---|
-| AR(1) | Inflation lag 1 | Forecast baseline |
+| AR(p) | Inflation lags 1 through p | Forecast baseline; p = 1–6 in the lag experiment |
 | ARX | Inflation lag 1, sentiment lag 1 | Simple sentiment test |
 | HMM | Hidden inflation state | Regime identification and forecast |
-| AR-HMM | State-specific inflation dynamics | Regime-dependent forecast |
+| AR-HMM (2 states) | State-specific AR coefficients | Regime-dependent forecast; p = 1–6 tested |
+| AR-HMM (4 states) | Inflation lag 1 | Low, Moderate, High, and Crisis regime experiment |
 | AR-HMM + sentiment | AR-HMM inputs, sentiment lag 1 | Regime-dependent sentiment test |
 | LASSO | Inflation lags 1–6 | Regularized forecast |
 | LASSO + sentiment | Inflation and sentiment lags 1–6 | Regularized sentiment test |
 
 Forecasts are compared on common out-of-sample dates using RMSE, MAE, and mean error. Lower RMSE and MAE are better; mean error indicates systematic underprediction or overprediction.
+
+## Controlled AR-HMM Experiments
+
+Both experiments use expanding-window forecasts for January 2017 through December 2023.
+
+| Experiment | Result |
+|---|---|
+| State count | AR(1): 0.2641 RMSE; 2-state AR-HMM: 0.2766; 4-state AR-HMM: 0.2771 |
+| Lag order | The best 2-state AR-HMM was p=1 with 0.2779 RMSE, versus 0.2645 for AR(1) |
+
+The four-state specification did not improve on the two-state model. In the lag-order comparison, none of the 2-state AR-HMM models with p = 1–6 beat the matching AR(p) model. For p=1, the absolute RMSE difference is 0.0133 and the AR-HMM improvement over AR is -5.04%. The negative sign means the AR-HMM RMSE is 5.04% higher than the AR RMSE.
+
+The state-count and lag-order experiments use slightly different common training samples, so results should be compared within each experiment. Outputs are stored in `data/processed/model_results/arhmm_four_states/` and `data/processed/model_results/arhmm_lag_orders/` and are displayed in Notebook 02.
 
 ## Repository Structure
 
