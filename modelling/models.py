@@ -256,6 +256,9 @@ def fit_expanding_ar_hmm(
     rows, diagnostics = [], []
     start_params = None
     fitted = None
+    reference_features = None
+    regime_labels = (["Low", "Moderate", "High", "Crisis"] if n_states == 4
+                     else [f"Level {i + 1}" for i in range(n_states)])
 
     for item in schedule.itertuples(index=False):
         origin = pd.Timestamp(item.ForecastOrigin)
@@ -275,6 +278,9 @@ def fit_expanding_ar_hmm(
         next_features = target_row.iloc[0][list(features)].to_numpy(dtype=float)
         if not np.isfinite(next_features).all():
             raise ValueError(f"Nonfinite predictors for {name} at {target_date.date()}.")
+        if reference_features is None:
+            # Freeze the naming reference at the initial training sample; no test data.
+            reference_features = train[list(features)].mean().to_numpy(dtype=float)
 
         model = sm.tsa.MarkovRegression(
             train[target],
@@ -321,6 +327,9 @@ def fit_expanding_ar_hmm(
         )
         predicted_probabilities = transition @ filtered
         state_forecasts = constants + coefficients @ next_features
+        reference_levels = constants + coefficients @ reference_features
+        order = np.argsort(reference_levels, kind="stable")
+        ordered_probabilities = predicted_probabilities[order]
         prediction = float(predicted_probabilities @ state_forecasts)
         actual = float(target_row.iloc[0][target])
         rows.append({
@@ -328,6 +337,9 @@ def fit_expanding_ar_hmm(
             "Actual": actual,
             "Forecast": prediction,
             "Error": actual - prediction,
+            "PredictedRegime": regime_labels[int(ordered_probabilities.argmax())],
+            **{f"Probability_{label}": float(probability)
+               for label, probability in zip(regime_labels, ordered_probabilities)},
         })
         diagnostics.append({
             "target_month": str(target_date.date()),
@@ -335,13 +347,23 @@ def fit_expanding_ar_hmm(
             "training_end": str(train["Date"].max().date()),
             "training_rows": int(len(train)),
             "converged": True,
+            "raw_state_order": order.tolist(),
+            "reference_state_levels": reference_levels[order].tolist(),
+            "training_state_mass": np.asarray(
+                fitted.smoothed_marginal_probabilities
+            ).sum(axis=0)[order].tolist(),
         })
 
     if fitted is None:
         raise ValueError("The expanding AR-HMM schedule is empty.")
     return ForecastResult(name, pd.DataFrame(rows), {
         "features": list(features),
-        "estimator": "expanding-window two-state AR-HMM",
+        "estimator": f"expanding-window {n_states}-state AR-HMM",
+        "n_states": n_states,
+        "regime_labels": regime_labels,
+        "regime_label_rule": "ascending conditional inflation at initial-training mean predictors",
+        "regime_reference_features": dict(zip(features, reference_features.tolist())),
+        "probability_timing": "predicted before observing the target month inflation",
         "fits_by_origin": diagnostics,
     }, fitted)
 
