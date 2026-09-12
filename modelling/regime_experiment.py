@@ -1,4 +1,4 @@
-"""Controlled four-state AR-HMM experiment for notebook 02."""
+"""Controlled AR-HMM experiments for notebook 02."""
 from pathlib import Path
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -6,6 +6,80 @@ import matplotlib.pyplot as plt
 from modelling.data_pipeline import load_macro_benchmark_snapshot, MACRO_BENCHMARK_FEATURES
 from modelling.models import fit_expanding_ar_hmm, fit_expanding_macro
 from modelling.evaluation import save_result_bundle
+
+
+def run_lag_order_experiment(
+    dataset,
+    output_dir,
+    *,
+    lag_orders=range(1, 7),
+    test_start="2017-01-01",
+    test_end="2023-12-01",
+):
+    """Compare expanding AR(p) and two-state AR-HMM(p) on one sample."""
+    lag_orders = tuple(sorted(set(lag_orders)))
+    if not lag_orders or lag_orders[0] < 1:
+        raise ValueError("lag_orders must contain positive integers.")
+
+    data, _, _ = load_macro_benchmark_snapshot(Path(dataset))
+    lag_columns = [f"Inflation_Lag{lag}" for lag in range(1, max(lag_orders) + 1)]
+    sample = data[["Date", "Inflation_MoM"]].copy()
+    for lag, column in enumerate(lag_columns, start=1):
+        sample[column] = sample["Inflation_MoM"].shift(lag)
+    sample = sample.dropna().loc[lambda x: x["Date"].le(test_end)].copy()
+    sample["TargetAssumedAvailableBy"] = sample["Date"] + pd.offsets.MonthEnd(2)
+
+    dates = sample.loc[sample["Date"].between(test_start, test_end), "Date"]
+    if not pd.DatetimeIndex(dates).equals(pd.date_range(test_start, test_end, freq="MS")):
+        raise ValueError("Incomplete evaluation period.")
+    schedule = pd.DataFrame({
+        "TargetMonth": dates,
+        "ForecastOrigin": dates + pd.offsets.MonthEnd(0),
+    })
+
+    results = {}
+    for order in lag_orders:
+        features = lag_columns[:order]
+        ar_name = f"AR({order})"
+        arhmm_name = f"AR-HMM(2 states, p={order})"
+        results[ar_name] = fit_expanding_macro(
+            sample, schedule, features=features, name=ar_name,
+        )
+        print(f"Fitting {arhmm_name}", flush=True)
+        results[arhmm_name] = fit_expanding_ar_hmm(
+            sample, schedule, features=features, name=arhmm_name, n_states=2,
+        )
+
+    output_dir = Path(output_dir)
+    metrics = save_result_bundle(results, output_dir, metadata={
+        "experiment": "controlled_ar_vs_two_state_arhmm_lag_order",
+        "lag_orders": list(lag_orders),
+        "n_states": 2,
+        "test_start": test_start,
+        "test_end": test_end,
+        "common_sample_max_lag": max(lag_orders),
+        "timing": "Existing expanding month-end convention",
+    })
+    metrics["family"] = metrics["model"].str.extract(r"^(AR-HMM|AR)")
+    metrics["lag_order"] = metrics["model"].str.extract(r"(?:p=|AR\()(\d+)")[0].astype(int)
+    ar_rmse = metrics.loc[metrics["family"].eq("AR")].set_index("lag_order")["rmse"]
+    metrics["rmse_difference_vs_ar"] = metrics.apply(
+        lambda row: (
+            row["rmse"] - ar_rmse[row["lag_order"]]
+            if row["family"] == "AR-HMM" else 0.0
+        ),
+        axis=1,
+    )
+    metrics["rmse_change_vs_ar_pct"] = metrics.apply(
+        lambda row: (
+            100 * (row["rmse"] - ar_rmse[row["lag_order"]]) / ar_rmse[row["lag_order"]]
+            if row["family"] == "AR-HMM" else 0.0
+        ),
+        axis=1,
+    )
+    metrics = metrics.sort_values(["lag_order", "family"]).reset_index(drop=True)
+    metrics.to_csv(output_dir / "metrics.csv", index=False)
+    return metrics
 
 
 def run_regime_experiment(dataset, output_dir, *, test_start="2017-01-01",
