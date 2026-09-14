@@ -1,6 +1,7 @@
 """Controlled AR-HMM experiments for notebook 02."""
 from pathlib import Path
 from itertools import combinations
+import json
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -330,8 +331,8 @@ def run_yoy_macro_sentiment_experiment(
 def run_regime_experiment(dataset, output_dir, *, test_start="2017-01-01",
                           test_end="2023-12-01", n_states=4):
     """Change only state count, holding the expanding lag-1 sample fixed."""
-    if n_states != 4:
-        raise ValueError("This four-regime experiment requires n_states=4.")
+    if n_states not in (2, 3, 4):
+        raise ValueError("n_states must be 2, 3, or 4.")
     data, _, _ = load_macro_benchmark_snapshot(Path(dataset))
     required = ["Inflation_MoM", *MACRO_BENCHMARK_FEATURES]
     sample = data.loc[data[required].notna().all(axis=1) & data.Date.le(test_end)].copy()
@@ -364,7 +365,7 @@ def run_regime_experiment(dataset, output_dir, *, test_start="2017-01-01",
     plt.close(fig)
     forecasts = pd.read_csv(output_dir / "forecasts.csv", parse_dates=["Date"])
     ax = forecasts.set_index("Date").plot(figsize=(13, 4), ylabel="Monthly inflation (%)",
-                                         title="Same inputs and dates: AR(1), two-state and four-state AR-HMM")
+                                         title=f"Same inputs and dates: AR(1), 2-state and {n_states}-state AR-HMM")
     ax.grid(alpha=.2)
     ax.figure.tight_layout()
     ax.figure.savefig(output_dir / "forecast_comparison.png", dpi=160, bbox_inches="tight")
@@ -374,7 +375,8 @@ def run_regime_experiment(dataset, output_dir, *, test_start="2017-01-01",
 
 def plot_predicted_regimes(frame, labels=("Low", "Moderate", "High", "Crisis")):
     """Plot pre-observation probabilities, never full-sample smoothed regimes."""
-    colors = ["#2878b5", "#23956f", "#e6a128", "#c64747"]
+    colors = (["#2878b5", "#23956f", "#e6a128", "#c64747"] if len(labels) == 4
+              else [plt.get_cmap('viridis')(i / max(1, len(labels) - 1)) for i in range(len(labels))])
     fig, axes = plt.subplots(2, 1, figsize=(14, 7), sharex=True,
                              gridspec_kw={"height_ratios": [2, 1]})
     axes[0].plot(frame.Date, frame.Actual, color="#172b4d", label="Actual", lw=1.5)
@@ -383,7 +385,7 @@ def plot_predicted_regimes(frame, labels=("Low", "Moderate", "High", "Crisis")):
         selected = frame.PredictedRegime.eq(label)
         axes[0].scatter(frame.loc[selected, "Date"], frame.loc[selected, "Forecast"],
                         color=color, label=label, s=24, zorder=4)
-    axes[0].set(ylabel="Monthly inflation (%)", title="Four-state AR-HMM: predicted regime at each target month")
+    axes[0].set(ylabel="Monthly inflation (%)", title=f"{len(labels)}-state AR-HMM: predicted regime at each target month")
     axes[0].legend(ncol=6, fontsize=9)
     axes[1].stackplot(frame.Date, *[frame[f"Probability_{label}"] for label in labels],
                       labels=labels, colors=colors, alpha=.85)
@@ -392,6 +394,37 @@ def plot_predicted_regimes(frame, labels=("Low", "Moderate", "High", "Crisis")):
         ax.grid(alpha=.15)
     fig.tight_layout()
     return fig
+
+
+def compare_state_count_bundles(results_dir):
+    """Combine the lag-1 state-count runs without mixing lag-order samples."""
+    results_dir = Path(results_dir)
+    results = {}
+    for count, folder in [(3, 'arhmm_three_states'), (4, 'arhmm_four_states')]:
+        directory = results_dir / folder
+        details = json.loads((directory / 'parameters.json').read_text(encoding='utf-8'))
+        metadata = details['metadata']
+        if metadata['n_states'] != count or metadata['features'] != ['Inflation_Lag1']:
+            raise ValueError(f'Unexpected state count or inputs in {folder}.')
+        frame = pd.read_csv(directory / 'forecasts.csv', parse_dates=['Date'])
+        names = ['AR(1)', 'AR-HMM (2 states)'] if count == 3 else []
+        for name in [*names, f'AR-HMM ({count} states)']:
+            results[name] = ForecastResult(
+                name, frame[['Date', 'Actual', name]].rename(columns={name: 'Forecast'}),
+                details['models'][name],
+            )
+    output = results_dir / 'arhmm_state_counts'
+    metrics = save_result_bundle(results, output, metadata={
+        'experiment': 'controlled_lag1_state_counts', 'state_counts': [2, 3, 4],
+        'features': ['Inflation_Lag1'], 'target': 'Inflation_MoM',
+        'timing': 'Existing expanding month-end convention',
+        'source_bundles': ['arhmm_three_states', 'arhmm_four_states'],
+    })
+    metrics['rmse_change_vs_2_states_pct'] = 100 * (
+        metrics.rmse / metrics.loc[metrics.model.eq('AR-HMM (2 states)'), 'rmse'].iloc[0] - 1
+    )
+    metrics.to_csv(output / 'metrics.csv', index=False)
+    return metrics
 
 
 if __name__ == "__main__":

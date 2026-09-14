@@ -1,0 +1,6470 @@
+{
+  "models": {
+    "AR(1)": {
+      "features": [
+        "Inflation_Lag1"
+      ],
+      "estimator": "expanding-window ordinary least squares",
+      "coefficients_by_origin": [
+        {
+          "target_month": "2017-01-01",
+          "origin": "2017-01-31",
+          "training_end": "2016-12-01",
+          "training_rows": 118,
+          "coefficients": {
+            "intercept": 0.06939241466935309,
+            "Inflation_Lag1": 0.5228078504704156
+          }
+        },
+        {
+          "target_month": "2017-02-01",
+          "origin": "2017-02-28",
+          "training_end": "2017-01-01",
+          "training_rows": 119,
+          "coefficients": {
+            "intercept": 0.07084218975838198,
+            "Inflation_Lag1": 0.5245262540529172
+          }
+        },
+        {
+          "target_month": "2017-03-01",
+          "origin": "2017-03-31",
+          "training_end": "2017-02-01",
+          "training_rows": 120,
+          "coefficients": {
+            "intercept": 0.07019560424521123,
+            "Inflation_Lag1": 0.5219816873705403
+          }
+        },
+        {
+          "target_month": "2017-04-01",
+          "origin": "2017-04-30",
+          "training_end": "2017-03-01",
+          "training_rows": 121,
+          "coefficients": {
+            "intercept": 0.06856280196387361,
+            "Inflation_Lag1": 0.5218458377809649
+          }
+        },
+        {
+          "target_month": "2017-05-01",
+          "origin": "2017-05-31",
+          "training_end": "2017-04-01",
+          "training_rows": 122,
+          "coefficients": {
+            "intercept": 0.06939988477147124,
+            "Inflation_Lag1": 0.5205889494732254
+          }
+        },
+        {
+          "target_month": "2017-06-01",
+          "origin": "2017-06-30",
+          "training_end": "2017-05-01",
+          "training_rows": 123,
+          "coefficients": {
+            "intercept": 0.067618737846967,
+            "Inflation_Lag1": 0.5210271507253355
+          }
+        },
+        {
+          "target_month": "2017-07-01",
+          "origin": "2017-07-31",
+          "training_end": "2017-06-01",
+          "training_rows": 124,
+          "coefficients": {
+            "intercept": 0.06802510636289107,
+            "Inflation_Lag1": 0.5203414810459152
+          }
+        },
+        {
+          "target_month": "2017-08-01",
+          "origin": "2017-08-31",
+          "training_end": "2017-07-01",
+          "training_rows": 125,
+          "coefficients": {
+            "intercept": 0.06740526614140727,
+            "Inflation_Lag1": 0.5207951584954479
+          }
+        },
+        {
+          "target_month": "2017-09-01",
+          "origin": "2017-09-30",
+          "training_end": "2017-08-01",
+          "training_rows": 126,
+          "coefficients": {
+            "intercept": 0.07018700369980968,
+            "Inflation_Lag1": 0.5180655547776383
+          }
+        },
+        {
+          "target_month": "2017-10-01",
+          "origin": "2017-10-31",
+          "training_end": "2017-09-01",
+          "training_rows": 127,
+          "coefficients": {
+            "intercept": 0.07140897007418534,
+            "Inflation_Lag1": 0.5226478840655864
+          }
+        },
+        {
+          "target_month": "2017-11-01",
+          "origin": "2017-11-30",
+          "training_end": "2017-10-01",
+          "training_rows": 128,
+          "coefficients": {
+            "intercept": 0.07049168993534367,
+            "Inflation_Lag1": 0.5152004641306129
+          }
+        },
+        {
+          "target_month": "2017-12-01",
+          "origin": "2017-12-31",
+          "training_end": "2017-11-01",
+          "training_rows": 129,
+          "coefficients": {
+            "intercept": 0.07183823228249704,
+            "Inflation_Lag1": 0.5143041239455234
+          }
+        },
+        {
+          "target_month": "2018-01-01",
+          "origin": "2018-01-31",
+          "training_end": "2017-12-01",
+          "training_rows": 130,
+          "coefficients": {
+            "intercept": 0.07184853849775828,
+            "Inflation_Lag1": 0.514319135184356
+          }
+        },
+        {
+          "target_month": "2018-02-01",
+          "origin": "2018-02-28",
+          "training_end": "2018-01-01",
+          "training_rows": 131,
+          "coefficients": {
+            "intercept": 0.07354523644644823,
+            "Inflation_Lag1": 0.5154731389224358
+          }
+        },
+        {
+          "target_month": "2018-03-01",
+          "origin": "2018-03-31",
+          "training_end": "2018-02-01",
+          "training_rows": 132,
+          "coefficients": {
+            "intercept": 0.07344401887689155,
+            "Inflation_Lag1": 0.514968781150655
+          }
+        },
+        {
+          "target_month": "2018-04-01",
+          "origin": "2018-04-30",
+          "training_end": "2018-03-01",
+          "training_rows": 133,
+          "coefficients": {
+            "intercept": 0.07226285746567436,
+            "Inflation_Lag1": 0.5132246182711014
+          }
+        },
+        {
+          "target_month": "2018-05-01",
+          "origin": "2018-05-31",
+          "training_end": "2018-04-01",
+          "training_rows": 134,
+          "coefficients": {
+            "intercept": 0.07388042198430562,
+            "Inflation_Lag1": 0.5113509717380464
+          }
+        },
+        {
+          "target_month": "2018-06-01",
+          "origin": "2018-06-30",
+          "training_end": "2018-05-01",
+          "training_rows": 135,
+          "coefficients": {
+            "intercept": 0.073995134928851,
+            "Inflation_Lag1": 0.5115074471223685
+          }
+        },
+        {
+          "target_month": "2018-07-01",
+          "origin": "2018-07-31",
+          "training_end": "2018-06-01",
+          "training_rows": 136,
+          "coefficients": {
+            "intercept": 0.07335024143980788,
+            "Inflation_Lag1": 0.5109518700418152
+          }
+        },
+        {
+          "target_month": "2018-08-01",
+          "origin": "2018-08-31",
+          "training_end": "2018-07-01",
+          "training_rows": 137,
+          "coefficients": {
+            "intercept": 0.07301685222400778,
+            "Inflation_Lag1": 0.5111586274181813
+          }
+        },
+        {
+          "target_month": "2018-09-01",
+          "origin": "2018-09-30",
+          "training_end": "2018-08-01",
+          "training_rows": 138,
+          "coefficients": {
+            "intercept": 0.0735532742296948,
+            "Inflation_Lag1": 0.5107702773277473
+          }
+        },
+        {
+          "target_month": "2018-10-01",
+          "origin": "2018-10-31",
+          "training_end": "2018-09-01",
+          "training_rows": 139,
+          "coefficients": {
+            "intercept": 0.07383849971385761,
+            "Inflation_Lag1": 0.5108516457065672
+          }
+        },
+        {
+          "target_month": "2018-11-01",
+          "origin": "2018-11-30",
+          "training_end": "2018-10-01",
+          "training_rows": 140,
+          "coefficients": {
+            "intercept": 0.0741952080825483,
+            "Inflation_Lag1": 0.5110755949091971
+          }
+        },
+        {
+          "target_month": "2018-12-01",
+          "origin": "2018-12-31",
+          "training_end": "2018-11-01",
+          "training_rows": 141,
+          "coefficients": {
+            "intercept": 0.07257524685729573,
+            "Inflation_Lag1": 0.5094343091844687
+          }
+        },
+        {
+          "target_month": "2019-01-01",
+          "origin": "2019-01-31",
+          "training_end": "2018-12-01",
+          "training_rows": 142,
+          "coefficients": {
+            "intercept": 0.07288378887042395,
+            "Inflation_Lag1": 0.5088807662988803
+          }
+        },
+        {
+          "target_month": "2019-02-01",
+          "origin": "2019-02-28",
+          "training_end": "2019-01-01",
+          "training_rows": 143,
+          "coefficients": {
+            "intercept": 0.07137197554151756,
+            "Inflation_Lag1": 0.5101176696075383
+          }
+        },
+        {
+          "target_month": "2019-03-01",
+          "origin": "2019-03-31",
+          "training_end": "2019-02-01",
+          "training_rows": 144,
+          "coefficients": {
+            "intercept": 0.07398360637675726,
+            "Inflation_Lag1": 0.5052468635663885
+          }
+        },
+        {
+          "target_month": "2019-04-01",
+          "origin": "2019-04-30",
+          "training_end": "2019-03-01",
+          "training_rows": 145,
+          "coefficients": {
+            "intercept": 0.07476971814850851,
+            "Inflation_Lag1": 0.5069992883260843
+          }
+        },
+        {
+          "target_month": "2019-05-01",
+          "origin": "2019-05-31",
+          "training_end": "2019-04-01",
+          "training_rows": 146,
+          "coefficients": {
+            "intercept": 0.07522833705449324,
+            "Inflation_Lag1": 0.5088977008975022
+          }
+        },
+        {
+          "target_month": "2019-06-01",
+          "origin": "2019-06-30",
+          "training_end": "2019-05-01",
+          "training_rows": 147,
+          "coefficients": {
+            "intercept": 0.07421938048620667,
+            "Inflation_Lag1": 0.5047879509759692
+          }
+        },
+        {
+          "target_month": "2019-07-01",
+          "origin": "2019-07-31",
+          "training_end": "2019-06-01",
+          "training_rows": 148,
+          "coefficients": {
+            "intercept": 0.07323191122404514,
+            "Inflation_Lag1": 0.5059707311317387
+          }
+        },
+        {
+          "target_month": "2019-08-01",
+          "origin": "2019-08-31",
+          "training_end": "2019-07-01",
+          "training_rows": 149,
+          "coefficients": {
+            "intercept": 0.07477656442410552,
+            "Inflation_Lag1": 0.5035034486829604
+          }
+        },
+        {
+          "target_month": "2019-09-01",
+          "origin": "2019-09-30",
+          "training_end": "2019-08-01",
+          "training_rows": 150,
+          "coefficients": {
+            "intercept": 0.0742036776631629,
+            "Inflation_Lag1": 0.5029131818317106
+          }
+        },
+        {
+          "target_month": "2019-10-01",
+          "origin": "2019-10-31",
+          "training_end": "2019-09-01",
+          "training_rows": 151,
+          "coefficients": {
+            "intercept": 0.07445085604535125,
+            "Inflation_Lag1": 0.5027551179282275
+          }
+        },
+        {
+          "target_month": "2019-11-01",
+          "origin": "2019-11-30",
+          "training_end": "2019-10-01",
+          "training_rows": 152,
+          "coefficients": {
+            "intercept": 0.07531052897548154,
+            "Inflation_Lag1": 0.5027654830150544
+          }
+        },
+        {
+          "target_month": "2019-12-01",
+          "origin": "2019-12-31",
+          "training_end": "2019-11-01",
+          "training_rows": 153,
+          "coefficients": {
+            "intercept": 0.07563230490191618,
+            "Inflation_Lag1": 0.5033971430795278
+          }
+        },
+        {
+          "target_month": "2020-01-01",
+          "origin": "2020-01-31",
+          "training_end": "2019-12-01",
+          "training_rows": 154,
+          "coefficients": {
+            "intercept": 0.07600132342507014,
+            "Inflation_Lag1": 0.5041128991996456
+          }
+        },
+        {
+          "target_month": "2020-02-01",
+          "origin": "2020-02-29",
+          "training_end": "2020-01-01",
+          "training_rows": 155,
+          "coefficients": {
+            "intercept": 0.07585289871519964,
+            "Inflation_Lag1": 0.5037958294000756
+          }
+        },
+        {
+          "target_month": "2020-03-01",
+          "origin": "2020-03-31",
+          "training_end": "2020-02-01",
+          "training_rows": 156,
+          "coefficients": {
+            "intercept": 0.07510455789016965,
+            "Inflation_Lag1": 0.5034475169367041
+          }
+        },
+        {
+          "target_month": "2020-04-01",
+          "origin": "2020-04-30",
+          "training_end": "2020-03-01",
+          "training_rows": 157,
+          "coefficients": {
+            "intercept": 0.07089001728122878,
+            "Inflation_Lag1": 0.5079622859970635
+          }
+        },
+        {
+          "target_month": "2020-05-01",
+          "origin": "2020-05-31",
+          "training_end": "2020-04-01",
+          "training_rows": 158,
+          "coefficients": {
+            "intercept": 0.06260786180441812,
+            "Inflation_Lag1": 0.5362635469536606
+          }
+        },
+        {
+          "target_month": "2020-06-01",
+          "origin": "2020-06-30",
+          "training_end": "2020-05-01",
+          "training_rows": 159,
+          "coefficients": {
+            "intercept": 0.06689497566328086,
+            "Inflation_Lag1": 0.5185294541803566
+          }
+        },
+        {
+          "target_month": "2020-07-01",
+          "origin": "2020-07-31",
+          "training_end": "2020-06-01",
+          "training_rows": 160,
+          "coefficients": {
+            "intercept": 0.07087683129960301,
+            "Inflation_Lag1": 0.5110203419798127
+          }
+        },
+        {
+          "target_month": "2020-08-01",
+          "origin": "2020-08-31",
+          "training_end": "2020-07-01",
+          "training_rows": 161,
+          "coefficients": {
+            "intercept": 0.07141495804019338,
+            "Inflation_Lag1": 0.515467513664476
+          }
+        },
+        {
+          "target_month": "2020-09-01",
+          "origin": "2020-09-30",
+          "training_end": "2020-08-01",
+          "training_rows": 162,
+          "coefficients": {
+            "intercept": 0.07151361139780331,
+            "Inflation_Lag1": 0.5164276804206849
+          }
+        },
+        {
+          "target_month": "2020-10-01",
+          "origin": "2020-10-31",
+          "training_end": "2020-09-01",
+          "training_rows": 163,
+          "coefficients": {
+            "intercept": 0.07150743705108457,
+            "Inflation_Lag1": 0.516403455921274
+          }
+        },
+        {
+          "target_month": "2020-11-01",
+          "origin": "2020-11-30",
+          "training_end": "2020-10-01",
+          "training_rows": 164,
+          "coefficients": {
+            "intercept": 0.07109497239213892,
+            "Inflation_Lag1": 0.5157686850221573
+          }
+        },
+        {
+          "target_month": "2020-12-01",
+          "origin": "2020-12-31",
+          "training_end": "2020-11-01",
+          "training_rows": 165,
+          "coefficients": {
+            "intercept": 0.07167978463419171,
+            "Inflation_Lag1": 0.5156049350813927
+          }
+        },
+        {
+          "target_month": "2021-01-01",
+          "origin": "2021-01-31",
+          "training_end": "2020-12-01",
+          "training_rows": 166,
+          "coefficients": {
+            "intercept": 0.07296715224971857,
+            "Inflation_Lag1": 0.5168859281955412
+          }
+        },
+        {
+          "target_month": "2021-02-01",
+          "origin": "2021-02-28",
+          "training_end": "2021-01-01",
+          "training_rows": 167,
+          "coefficients": {
+            "intercept": 0.07280442727323914,
+            "Inflation_Lag1": 0.5158843131026986
+          }
+        },
+        {
+          "target_month": "2021-03-01",
+          "origin": "2021-03-31",
+          "training_end": "2021-02-01",
+          "training_rows": 168,
+          "coefficients": {
+            "intercept": 0.07350676555542092,
+            "Inflation_Lag1": 0.5167567001986186
+          }
+        },
+        {
+          "target_month": "2021-04-01",
+          "origin": "2021-04-30",
+          "training_end": "2021-03-01",
+          "training_rows": 169,
+          "coefficients": {
+            "intercept": 0.07460748511466708,
+            "Inflation_Lag1": 0.5201928107694652
+          }
+        },
+        {
+          "target_month": "2021-05-01",
+          "origin": "2021-05-31",
+          "training_end": "2021-04-01",
+          "training_rows": 170,
+          "coefficients": {
+            "intercept": 0.07517637403945886,
+            "Inflation_Lag1": 0.5269729454803163
+          }
+        },
+        {
+          "target_month": "2021-06-01",
+          "origin": "2021-06-30",
+          "training_end": "2021-05-01",
+          "training_rows": 171,
+          "coefficients": {
+            "intercept": 0.07543675894662015,
+            "Inflation_Lag1": 0.5348957593344645
+          }
+        },
+        {
+          "target_month": "2021-07-01",
+          "origin": "2021-07-31",
+          "training_end": "2021-06-01",
+          "training_rows": 172,
+          "coefficients": {
+            "intercept": 0.07567678890187661,
+            "Inflation_Lag1": 0.5483659619012043
+          }
+        },
+        {
+          "target_month": "2021-08-01",
+          "origin": "2021-08-31",
+          "training_end": "2021-07-01",
+          "training_rows": 173,
+          "coefficients": {
+            "intercept": 0.07577711932925617,
+            "Inflation_Lag1": 0.5450302529614939
+          }
+        },
+        {
+          "target_month": "2021-09-01",
+          "origin": "2021-09-30",
+          "training_end": "2021-08-01",
+          "training_rows": 174,
+          "coefficients": {
+            "intercept": 0.07566188713933274,
+            "Inflation_Lag1": 0.5442418939946726
+          }
+        },
+        {
+          "target_month": "2021-10-01",
+          "origin": "2021-10-31",
+          "training_end": "2021-09-01",
+          "training_rows": 175,
+          "coefficients": {
+            "intercept": 0.07666111048162849,
+            "Inflation_Lag1": 0.5458509216994025
+          }
+        },
+        {
+          "target_month": "2021-11-01",
+          "origin": "2021-11-30",
+          "training_end": "2021-10-01",
+          "training_rows": 176,
+          "coefficients": {
+            "intercept": 0.07839484163514053,
+            "Inflation_Lag1": 0.5570734629244343
+          }
+        },
+        {
+          "target_month": "2021-12-01",
+          "origin": "2021-12-31",
+          "training_end": "2021-11-01",
+          "training_rows": 177,
+          "coefficients": {
+            "intercept": 0.07777943513387786,
+            "Inflation_Lag1": 0.5684396575502089
+          }
+        },
+        {
+          "target_month": "2022-01-01",
+          "origin": "2022-01-31",
+          "training_end": "2021-12-01",
+          "training_rows": 178,
+          "coefficients": {
+            "intercept": 0.07760447758693102,
+            "Inflation_Lag1": 0.5733951934029577
+          }
+        },
+        {
+          "target_month": "2022-02-01",
+          "origin": "2022-02-28",
+          "training_end": "2022-01-01",
+          "training_rows": 179,
+          "coefficients": {
+            "intercept": 0.07764614469295268,
+            "Inflation_Lag1": 0.5772145221346822
+          }
+        },
+        {
+          "target_month": "2022-03-01",
+          "origin": "2022-03-31",
+          "training_end": "2022-02-01",
+          "training_rows": 180,
+          "coefficients": {
+            "intercept": 0.07796194034303994,
+            "Inflation_Lag1": 0.5835593302749639
+          }
+        },
+        {
+          "target_month": "2022-04-01",
+          "origin": "2022-04-30",
+          "training_end": "2022-03-01",
+          "training_rows": 181,
+          "coefficients": {
+            "intercept": 0.07813251497407307,
+            "Inflation_Lag1": 0.601462959617676
+          }
+        },
+        {
+          "target_month": "2022-05-01",
+          "origin": "2022-05-31",
+          "training_end": "2022-04-01",
+          "training_rows": 182,
+          "coefficients": {
+            "intercept": 0.07985538483490333,
+            "Inflation_Lag1": 0.5797693788741118
+          }
+        },
+        {
+          "target_month": "2022-06-01",
+          "origin": "2022-06-30",
+          "training_end": "2022-05-01",
+          "training_rows": 183,
+          "coefficients": {
+            "intercept": 0.08280481459482238,
+            "Inflation_Lag1": 0.584048869047637
+          }
+        },
+        {
+          "target_month": "2022-07-01",
+          "origin": "2022-07-31",
+          "training_end": "2022-06-01",
+          "training_rows": 184,
+          "coefficients": {
+            "intercept": 0.08145830762053025,
+            "Inflation_Lag1": 0.6081138050797648
+          }
+        },
+        {
+          "target_month": "2022-08-01",
+          "origin": "2022-08-31",
+          "training_end": "2022-07-01",
+          "training_rows": 185,
+          "coefficients": {
+            "intercept": 0.08573225946107403,
+            "Inflation_Lag1": 0.5638382096234811
+          }
+        },
+        {
+          "target_month": "2022-09-01",
+          "origin": "2022-09-30",
+          "training_end": "2022-08-01",
+          "training_rows": 186,
+          "coefficients": {
+            "intercept": 0.08562062313559546,
+            "Inflation_Lag1": 0.563994744337979
+          }
+        },
+        {
+          "target_month": "2022-10-01",
+          "origin": "2022-10-31",
+          "training_end": "2022-09-01",
+          "training_rows": 187,
+          "coefficients": {
+            "intercept": 0.08764797614835962,
+            "Inflation_Lag1": 0.5619682939969367
+          }
+        },
+        {
+          "target_month": "2022-11-01",
+          "origin": "2022-11-30",
+          "training_end": "2022-10-01",
+          "training_rows": 188,
+          "coefficients": {
+            "intercept": 0.08838116792179047,
+            "Inflation_Lag1": 0.5644991615640004
+          }
+        },
+        {
+          "target_month": "2022-12-01",
+          "origin": "2022-12-31",
+          "training_end": "2022-11-01",
+          "training_rows": 189,
+          "coefficients": {
+            "intercept": 0.0881237657043314,
+            "Inflation_Lag1": 0.562042052951493
+          }
+        },
+        {
+          "target_month": "2023-01-01",
+          "origin": "2023-01-31",
+          "training_end": "2022-12-01",
+          "training_rows": 190,
+          "coefficients": {
+            "intercept": 0.08709323106549875,
+            "Inflation_Lag1": 0.5614239521658424
+          }
+        },
+        {
+          "target_month": "2023-02-01",
+          "origin": "2023-02-28",
+          "training_end": "2023-01-01",
+          "training_rows": 191,
+          "coefficients": {
+            "intercept": 0.09016538840743529,
+            "Inflation_Lag1": 0.5575085242574616
+          }
+        },
+        {
+          "target_month": "2023-03-01",
+          "origin": "2023-03-31",
+          "training_end": "2023-02-01",
+          "training_rows": 192,
+          "coefficients": {
+            "intercept": 0.09007777663484849,
+            "Inflation_Lag1": 0.5568247971768256
+          }
+        },
+        {
+          "target_month": "2023-04-01",
+          "origin": "2023-04-30",
+          "training_end": "2023-03-01",
+          "training_rows": 193,
+          "coefficients": {
+            "intercept": 0.08947335746073339,
+            "Inflation_Lag1": 0.5557793721577239
+          }
+        },
+        {
+          "target_month": "2023-05-01",
+          "origin": "2023-05-31",
+          "training_end": "2023-04-01",
+          "training_rows": 194,
+          "coefficients": {
+            "intercept": 0.09055187753944637,
+            "Inflation_Lag1": 0.5550763826700388
+          }
+        },
+        {
+          "target_month": "2023-06-01",
+          "origin": "2023-06-30",
+          "training_end": "2023-05-01",
+          "training_rows": 195,
+          "coefficients": {
+            "intercept": 0.09010434259542403,
+            "Inflation_Lag1": 0.5543216754289024
+          }
+        },
+        {
+          "target_month": "2023-07-01",
+          "origin": "2023-07-31",
+          "training_end": "2023-06-01",
+          "training_rows": 196,
+          "coefficients": {
+            "intercept": 0.0903504890664018,
+            "Inflation_Lag1": 0.5542299057614087
+          }
+        },
+        {
+          "target_month": "2023-08-01",
+          "origin": "2023-08-31",
+          "training_end": "2023-07-01",
+          "training_rows": 197,
+          "coefficients": {
+            "intercept": 0.09025825329750951,
+            "Inflation_Lag1": 0.5542122943926847
+          }
+        },
+        {
+          "target_month": "2023-09-01",
+          "origin": "2023-09-30",
+          "training_end": "2023-08-01",
+          "training_rows": 198,
+          "coefficients": {
+            "intercept": 0.09172164505823119,
+            "Inflation_Lag1": 0.5540911840144769
+          }
+        },
+        {
+          "target_month": "2023-10-01",
+          "origin": "2023-10-31",
+          "training_end": "2023-09-01",
+          "training_rows": 199,
+          "coefficients": {
+            "intercept": 0.09179170707594118,
+            "Inflation_Lag1": 0.554493296456099
+          }
+        },
+        {
+          "target_month": "2023-11-01",
+          "origin": "2023-11-30",
+          "training_end": "2023-10-01",
+          "training_rows": 200,
+          "coefficients": {
+            "intercept": 0.09124348998357329,
+            "Inflation_Lag1": 0.5530008749332205
+          }
+        },
+        {
+          "target_month": "2023-12-01",
+          "origin": "2023-12-31",
+          "training_end": "2023-11-01",
+          "training_rows": 201,
+          "coefficients": {
+            "intercept": 0.09113064612077686,
+            "Inflation_Lag1": 0.5530670899302961
+          }
+        }
+      ]
+    },
+    "AR-HMM (2 states)": {
+      "features": [
+        "Inflation_Lag1"
+      ],
+      "estimator": "expanding-window 2-state AR-HMM",
+      "n_states": 2,
+      "regime_labels": [
+        "Level 1",
+        "Level 2"
+      ],
+      "regime_label_rule": "ascending conditional inflation at initial-training mean predictors",
+      "regime_reference_features": {
+        "Inflation_Lag1": 0.14782247975232385
+      },
+      "probability_timing": "predicted before observing the target month inflation",
+      "fits_by_origin": [
+        {
+          "target_month": "2017-01-01",
+          "origin": "2017-01-31",
+          "training_end": "2016-12-01",
+          "training_rows": 118,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7425519080436865,
+            0.17127399568711876
+          ],
+          "training_state_mass": [
+            2.648622952421947,
+            115.35137704757808
+          ]
+        },
+        {
+          "target_month": "2017-02-01",
+          "origin": "2017-02-28",
+          "training_end": "2017-01-01",
+          "training_rows": 119,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7415644951850798,
+            0.17306419580596108
+          ],
+          "training_state_mass": [
+            2.6837761324121994,
+            116.31622386758792
+          ]
+        },
+        {
+          "target_month": "2017-03-01",
+          "origin": "2017-03-31",
+          "training_end": "2017-02-01",
+          "training_rows": 120,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7421982272511654,
+            0.17198388834047337
+          ],
+          "training_state_mass": [
+            2.661973645269012,
+            117.33802635473099
+          ]
+        },
+        {
+          "target_month": "2017-04-01",
+          "origin": "2017-04-30",
+          "training_end": "2017-03-01",
+          "training_rows": 121,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7436546150380294,
+            0.16990808333786878
+          ],
+          "training_state_mass": [
+            2.619756101053122,
+            118.38024389894689
+          ]
+        },
+        {
+          "target_month": "2017-05-01",
+          "origin": "2017-05-31",
+          "training_end": "2017-04-01",
+          "training_rows": 122,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7431195027680219,
+            0.17027701949715573
+          ],
+          "training_state_mass": [
+            2.6408176719425622,
+            119.35918232805746
+          ]
+        },
+        {
+          "target_month": "2017-06-01",
+          "origin": "2017-06-30",
+          "training_end": "2017-05-01",
+          "training_rows": 123,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.74456392865835,
+            0.16811176738263242
+          ],
+          "training_state_mass": [
+            2.5994458148663124,
+            120.40055418513367
+          ]
+        },
+        {
+          "target_month": "2017-07-01",
+          "origin": "2017-07-31",
+          "training_end": "2017-06-01",
+          "training_rows": 124,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.744056715703292,
+            0.1681018393860393
+          ],
+          "training_state_mass": [
+            2.6197943427422863,
+            121.38020565725768
+          ]
+        },
+        {
+          "target_month": "2017-08-01",
+          "origin": "2017-08-31",
+          "training_end": "2017-07-01",
+          "training_rows": 125,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7440202926699822,
+            0.16729730947567822
+          ],
+          "training_state_mass": [
+            2.62687646968325,
+            122.37312353031687
+          ]
+        },
+        {
+          "target_month": "2017-09-01",
+          "origin": "2017-09-30",
+          "training_end": "2017-08-01",
+          "training_rows": 126,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7442638145411753,
+            0.1693923291313987
+          ],
+          "training_state_mass": [
+            2.6138190050267442,
+            123.38618099497324
+          ]
+        },
+        {
+          "target_month": "2017-10-01",
+          "origin": "2017-10-31",
+          "training_end": "2017-09-01",
+          "training_rows": 127,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7429460578622097,
+            0.1715346008335562
+          ],
+          "training_state_mass": [
+            2.658531272557941,
+            124.34146872744186
+          ]
+        },
+        {
+          "target_month": "2017-11-01",
+          "origin": "2017-11-30",
+          "training_end": "2017-10-01",
+          "training_rows": 128,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7449333273994105,
+            0.169299132232143
+          ],
+          "training_state_mass": [
+            2.571978548216869,
+            125.42802145178311
+          ]
+        },
+        {
+          "target_month": "2017-12-01",
+          "origin": "2017-12-31",
+          "training_end": "2017-11-01",
+          "training_rows": 129,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.744713680890149,
+            0.17036717176471605
+          ],
+          "training_state_mass": [
+            2.5871285686600647,
+            126.41287143133997
+          ]
+        },
+        {
+          "target_month": "2018-01-01",
+          "origin": "2018-01-31",
+          "training_end": "2017-12-01",
+          "training_rows": 130,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7442499421030633,
+            0.17038868269500126
+          ],
+          "training_state_mass": [
+            2.604904598000134,
+            127.39509540199982
+          ]
+        },
+        {
+          "target_month": "2018-02-01",
+          "origin": "2018-02-28",
+          "training_end": "2018-01-01",
+          "training_rows": 131,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7436119355491191,
+            0.17224716116874145
+          ],
+          "training_state_mass": [
+            2.6237837374441306,
+            128.37621626255591
+          ]
+        },
+        {
+          "target_month": "2018-03-01",
+          "origin": "2018-03-31",
+          "training_end": "2018-02-01",
+          "training_rows": 132,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7431972930161235,
+            0.17221417011519058
+          ],
+          "training_state_mass": [
+            2.640667762533275,
+            129.35933223746676
+          ]
+        },
+        {
+          "target_month": "2018-04-01",
+          "origin": "2018-04-30",
+          "training_end": "2018-03-01",
+          "training_rows": 133,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7445274768261293,
+            0.17052974831228015
+          ],
+          "training_state_mass": [
+            2.599792236435488,
+            130.40020776356448
+          ]
+        },
+        {
+          "target_month": "2018-05-01",
+          "origin": "2018-05-31",
+          "training_end": "2018-04-01",
+          "training_rows": 134,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7441574586087115,
+            0.17166814112273143
+          ],
+          "training_state_mass": [
+            2.610939717642541,
+            131.38906028235743
+          ]
+        },
+        {
+          "target_month": "2018-06-01",
+          "origin": "2018-06-30",
+          "training_end": "2018-05-01",
+          "training_rows": 135,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7435838490253638,
+            0.17182527085890104
+          ],
+          "training_state_mass": [
+            2.632284469709566,
+            132.36771553029027
+          ]
+        },
+        {
+          "target_month": "2018-07-01",
+          "origin": "2018-07-31",
+          "training_end": "2018-06-01",
+          "training_rows": 136,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7438895950274595,
+            0.17097134660653318
+          ],
+          "training_state_mass": [
+            2.6272344228823252,
+            133.3727655771175
+          ]
+        },
+        {
+          "target_month": "2018-08-01",
+          "origin": "2018-08-31",
+          "training_end": "2018-07-01",
+          "training_rows": 137,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7436753063485257,
+            0.1704914769382307
+          ],
+          "training_state_mass": [
+            2.639087090856981,
+            134.3609129091429
+          ]
+        },
+        {
+          "target_month": "2018-09-01",
+          "origin": "2018-09-30",
+          "training_end": "2018-08-01",
+          "training_rows": 138,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7430658830139657,
+            0.17084770823940387
+          ],
+          "training_state_mass": [
+            2.6616605028675173,
+            135.3383394971325
+          ]
+        },
+        {
+          "target_month": "2018-10-01",
+          "origin": "2018-10-31",
+          "training_end": "2018-09-01",
+          "training_rows": 139,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7424765586233989,
+            0.17111478398852825
+          ],
+          "training_state_mass": [
+            2.686765351245311,
+            136.3132346487545
+          ]
+        },
+        {
+          "target_month": "2018-11-01",
+          "origin": "2018-11-30",
+          "training_end": "2018-10-01",
+          "training_rows": 140,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7418010119509734,
+            0.1715124986732428
+          ],
+          "training_state_mass": [
+            2.715499282100538,
+            137.28450071789956
+          ]
+        },
+        {
+          "target_month": "2018-12-01",
+          "origin": "2018-12-31",
+          "training_end": "2018-11-01",
+          "training_rows": 141,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7439451673375865,
+            0.1692392778524981
+          ],
+          "training_state_mass": [
+            2.636275145068325,
+            138.36372485493197
+          ]
+        },
+        {
+          "target_month": "2019-01-01",
+          "origin": "2019-01-31",
+          "training_end": "2018-12-01",
+          "training_rows": 142,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7435089850011334,
+            0.1692082228570262
+          ],
+          "training_state_mass": [
+            2.6566397218642406,
+            139.34336027813592
+          ]
+        },
+        {
+          "target_month": "2019-02-01",
+          "origin": "2019-02-28",
+          "training_end": "2019-01-01",
+          "training_rows": 143,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.744425360064301,
+            0.16753393207200873
+          ],
+          "training_state_mass": [
+            2.631561134479389,
+            140.36843886552066
+          ]
+        },
+        {
+          "target_month": "2019-03-01",
+          "origin": "2019-03-31",
+          "training_end": "2019-02-01",
+          "training_rows": 144,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7448267370324861,
+            0.1690818455323404
+          ],
+          "training_state_mass": [
+            2.612371703594281,
+            141.38762829640564
+          ]
+        },
+        {
+          "target_month": "2019-04-01",
+          "origin": "2019-04-30",
+          "training_end": "2019-03-01",
+          "training_rows": 145,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7438794522533471,
+            0.1702391644060381
+          ],
+          "training_state_mass": [
+            2.6457811528425474,
+            142.35421884715734
+          ]
+        },
+        {
+          "target_month": "2019-05-01",
+          "origin": "2019-05-31",
+          "training_end": "2019-04-01",
+          "training_rows": 146,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7427994228432995,
+            0.17116883557040613
+          ],
+          "training_state_mass": [
+            2.686806047778717,
+            143.31319395222124
+          ]
+        },
+        {
+          "target_month": "2019-06-01",
+          "origin": "2019-06-30",
+          "training_end": "2019-05-01",
+          "training_rows": 147,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7447077345496679,
+            0.16932204603676854
+          ],
+          "training_state_mass": [
+            2.6144938517177847,
+            144.38550614828216
+          ]
+        },
+        {
+          "target_month": "2019-07-01",
+          "origin": "2019-07-31",
+          "training_end": "2019-06-01",
+          "training_rows": 148,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7449875620240266,
+            0.16824162487877517
+          ],
+          "training_state_mass": [
+            2.6134947860018674,
+            145.38650521399825
+          ]
+        },
+        {
+          "target_month": "2019-08-01",
+          "origin": "2019-08-31",
+          "training_end": "2019-07-01",
+          "training_rows": 149,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7447362573903951,
+            0.16920055773218248
+          ],
+          "training_state_mass": [
+            2.6205147942149396,
+            146.37948520578496
+          ]
+        },
+        {
+          "target_month": "2019-09-01",
+          "origin": "2019-09-30",
+          "training_end": "2019-08-01",
+          "training_rows": 150,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7449804917022839,
+            0.16844533429449005
+          ],
+          "training_state_mass": [
+            2.6158365290524,
+            147.38416347094773
+          ]
+        },
+        {
+          "target_month": "2019-10-01",
+          "origin": "2019-10-31",
+          "training_end": "2019-09-01",
+          "training_rows": 151,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7444655505781625,
+            0.16856372620123705
+          ],
+          "training_state_mass": [
+            2.6349275845959927,
+            148.36507241540392
+          ]
+        },
+        {
+          "target_month": "2019-11-01",
+          "origin": "2019-11-30",
+          "training_end": "2019-10-01",
+          "training_rows": 152,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7438182678448625,
+            0.1693941015057121
+          ],
+          "training_state_mass": [
+            2.657996559174374,
+            149.3420034408254
+          ]
+        },
+        {
+          "target_month": "2019-12-01",
+          "origin": "2019-12-31",
+          "training_end": "2019-11-01",
+          "training_rows": 153,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7430631877022011,
+            0.1698861604735441
+          ],
+          "training_state_mass": [
+            2.687564285292788,
+            150.3124357147073
+          ]
+        },
+        {
+          "target_month": "2020-01-01",
+          "origin": "2020-01-31",
+          "training_end": "2019-12-01",
+          "training_rows": 154,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7422824288553017,
+            0.17044515869900462
+          ],
+          "training_state_mass": [
+            2.7198787882592486,
+            151.28012121174066
+          ]
+        },
+        {
+          "target_month": "2020-02-01",
+          "origin": "2020-02-29",
+          "training_end": "2020-01-01",
+          "training_rows": 155,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7419940409801501,
+            0.17027314198673832
+          ],
+          "training_state_mass": [
+            2.7344291973450807,
+            152.2655708026549
+          ]
+        },
+        {
+          "target_month": "2020-03-01",
+          "origin": "2020-03-31",
+          "training_end": "2020-02-01",
+          "training_rows": 156,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7424189905387895,
+            0.16932072147590496
+          ],
+          "training_state_mass": [
+            2.7216602535218883,
+            153.27833974647805
+          ]
+        },
+        {
+          "target_month": "2020-04-01",
+          "origin": "2020-04-30",
+          "training_end": "2020-03-01",
+          "training_rows": 157,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7274117388065499,
+            0.16545620802518426
+          ],
+          "training_state_mass": [
+            2.7067178726207985,
+            154.29328212737929
+          ]
+        },
+        {
+          "target_month": "2020-05-01",
+          "origin": "2020-05-31",
+          "training_end": "2020-04-01",
+          "training_rows": 158,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.529791722275029,
+            0.17063242148029822
+          ],
+          "training_state_mass": [
+            5.167159626513401,
+            152.8328403734866
+          ]
+        },
+        {
+          "target_month": "2020-06-01",
+          "origin": "2020-06-30",
+          "training_end": "2020-05-01",
+          "training_rows": 159,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.5349677417624966,
+            0.17265624858399803
+          ],
+          "training_state_mass": [
+            5.5268713392339315,
+            153.47312866076604
+          ]
+        },
+        {
+          "target_month": "2020-07-01",
+          "origin": "2020-07-31",
+          "training_end": "2020-06-01",
+          "training_rows": 160,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.5273524993360139,
+            0.1748486885550928
+          ],
+          "training_state_mass": [
+            5.408088407055131,
+            154.591911592945
+          ]
+        },
+        {
+          "target_month": "2020-08-01",
+          "origin": "2020-08-31",
+          "training_end": "2020-07-01",
+          "training_rows": 161,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.5311104330226901,
+            0.17635356157164417
+          ],
+          "training_state_mass": [
+            5.464067301036218,
+            155.53593269896396
+          ]
+        },
+        {
+          "target_month": "2020-09-01",
+          "origin": "2020-09-30",
+          "training_end": "2020-08-01",
+          "training_rows": 162,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.5328532466062409,
+            0.17693369541652043
+          ],
+          "training_state_mass": [
+            5.522842579154391,
+            156.47715742084569
+          ]
+        },
+        {
+          "target_month": "2020-10-01",
+          "origin": "2020-10-31",
+          "training_end": "2020-09-01",
+          "training_rows": 163,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.5336760864447947,
+            0.17708566189677205
+          ],
+          "training_state_mass": [
+            5.563429080536915,
+            157.43657091946295
+          ]
+        },
+        {
+          "target_month": "2020-11-01",
+          "origin": "2020-11-30",
+          "training_end": "2020-10-01",
+          "training_rows": 164,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.5336365695063044,
+            0.17647878219834942
+          ],
+          "training_state_mass": [
+            5.560160765126429,
+            158.43983923487343
+          ]
+        },
+        {
+          "target_month": "2020-12-01",
+          "origin": "2020-12-31",
+          "training_end": "2020-11-01",
+          "training_rows": 165,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.534416107689881,
+            0.17704657464790186
+          ],
+          "training_state_mass": [
+            5.611016912282492,
+            159.3889830877173
+          ]
+        },
+        {
+          "target_month": "2021-01-01",
+          "origin": "2021-01-31",
+          "training_end": "2020-12-01",
+          "training_rows": 166,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.5350355048262373,
+            0.17856096397045823
+          ],
+          "training_state_mass": [
+            5.643928022993153,
+            160.35607197700682
+          ]
+        },
+        {
+          "target_month": "2021-02-01",
+          "origin": "2021-02-28",
+          "training_end": "2021-01-01",
+          "training_rows": 167,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.534974191385802,
+            0.178389147423824
+          ],
+          "training_state_mass": [
+            5.666474191075199,
+            161.33352580892478
+          ]
+        },
+        {
+          "target_month": "2021-03-01",
+          "origin": "2021-03-31",
+          "training_end": "2021-02-01",
+          "training_rows": 168,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.536062118479768,
+            0.17934368348829638
+          ],
+          "training_state_mass": [
+            5.723656378536611,
+            162.27634362146338
+          ]
+        },
+        {
+          "target_month": "2021-04-01",
+          "origin": "2021-04-30",
+          "training_end": "2021-03-01",
+          "training_rows": 169,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.5376609045308245,
+            0.18102631506388708
+          ],
+          "training_state_mass": [
+            5.7500594645069985,
+            163.24994053549315
+          ]
+        },
+        {
+          "target_month": "2021-05-01",
+          "origin": "2021-05-31",
+          "training_end": "2021-04-01",
+          "training_rows": 170,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.5413625846463893,
+            0.1828046349193736
+          ],
+          "training_state_mass": [
+            5.792079785660183,
+            164.20792021433994
+          ]
+        },
+        {
+          "target_month": "2021-06-01",
+          "origin": "2021-06-30",
+          "training_end": "2021-05-01",
+          "training_rows": 171,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.5457705703852997,
+            0.18454256576906625
+          ],
+          "training_state_mass": [
+            5.855568409986699,
+            165.14443159001337
+          ]
+        },
+        {
+          "target_month": "2021-07-01",
+          "origin": "2021-07-31",
+          "training_end": "2021-06-01",
+          "training_rows": 172,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.5516278597749974,
+            0.18671426034243993
+          ],
+          "training_state_mass": [
+            5.830129184019507,
+            166.1698708159804
+          ]
+        },
+        {
+          "target_month": "2021-08-01",
+          "origin": "2021-08-31",
+          "training_end": "2021-07-01",
+          "training_rows": 173,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.5506885056988924,
+            0.18670251009032973
+          ],
+          "training_state_mass": [
+            5.864967505520601,
+            167.13503249447945
+          ]
+        },
+        {
+          "target_month": "2021-09-01",
+          "origin": "2021-09-30",
+          "training_end": "2021-08-01",
+          "training_rows": 174,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.5509107758295029,
+            0.18660741259237362
+          ],
+          "training_state_mass": [
+            5.892546729968706,
+            168.10745327003127
+          ]
+        },
+        {
+          "target_month": "2021-10-01",
+          "origin": "2021-10-31",
+          "training_end": "2021-09-01",
+          "training_rows": 175,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.551484322190416,
+            0.18793673890451856
+          ],
+          "training_state_mass": [
+            5.9401932478704,
+            169.05980675212948
+          ]
+        },
+        {
+          "target_month": "2021-11-01",
+          "origin": "2021-11-30",
+          "training_end": "2021-10-01",
+          "training_rows": 176,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.5537394243258187,
+            0.19016332874548852
+          ],
+          "training_state_mass": [
+            5.607162464318542,
+            170.39283753568156
+          ]
+        },
+        {
+          "target_month": "2021-12-01",
+          "origin": "2021-12-31",
+          "training_end": "2021-11-01",
+          "training_rows": 177,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.5604738615630238,
+            0.19162555455472896
+          ],
+          "training_state_mass": [
+            5.711449155062033,
+            171.28855084493776
+          ]
+        },
+        {
+          "target_month": "2022-01-01",
+          "origin": "2022-01-31",
+          "training_end": "2021-12-01",
+          "training_rows": 178,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.5633471768325939,
+            0.19262577945775983
+          ],
+          "training_state_mass": [
+            5.817859686265953,
+            172.18214031373392
+          ]
+        },
+        {
+          "target_month": "2022-02-01",
+          "origin": "2022-02-28",
+          "training_end": "2022-01-01",
+          "training_rows": 179,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.5650758915870939,
+            0.19357861388691336
+          ],
+          "training_state_mass": [
+            5.909424619306884,
+            173.09057538069305
+          ]
+        },
+        {
+          "target_month": "2022-03-01",
+          "origin": "2022-03-31",
+          "training_end": "2022-02-01",
+          "training_rows": 180,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.567390475788682,
+            0.19498947432475877
+          ],
+          "training_state_mass": [
+            5.964978708663703,
+            174.0350212913363
+          ]
+        },
+        {
+          "target_month": "2022-04-01",
+          "origin": "2022-04-30",
+          "training_end": "2022-03-01",
+          "training_rows": 181,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.5775454662060284,
+            0.19644747540124402
+          ],
+          "training_state_mass": [
+            5.612623978672078,
+            175.38737602132764
+          ]
+        },
+        {
+          "target_month": "2022-05-01",
+          "origin": "2022-05-31",
+          "training_end": "2022-04-01",
+          "training_rows": 182,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.5708251431492194,
+            0.19471873770508666
+          ],
+          "training_state_mass": [
+            5.417547497094237,
+            176.58245250290565
+          ]
+        },
+        {
+          "target_month": "2022-06-01",
+          "origin": "2022-06-30",
+          "training_end": "2022-05-01",
+          "training_rows": 183,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.579863373355573,
+            0.19619241252734115
+          ],
+          "training_state_mass": [
+            4.793367689038833,
+            178.2066323109612
+          ]
+        },
+        {
+          "target_month": "2022-07-01",
+          "origin": "2022-07-31",
+          "training_end": "2022-06-01",
+          "training_rows": 184,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7037029658394817,
+            0.19166353986750062
+          ],
+          "training_state_mass": [
+            3.029827831632738,
+            180.97017216836724
+          ]
+        },
+        {
+          "target_month": "2022-08-01",
+          "origin": "2022-08-31",
+          "training_end": "2022-07-01",
+          "training_rows": 185,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.8104941446805406,
+            0.1904033320928743
+          ],
+          "training_state_mass": [
+            3.4672419569022743,
+            181.53275804309789
+          ]
+        },
+        {
+          "target_month": "2022-09-01",
+          "origin": "2022-09-30",
+          "training_end": "2022-08-01",
+          "training_rows": 186,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.797569558787173,
+            0.1902263411204011
+          ],
+          "training_state_mass": [
+            3.4626766480874056,
+            182.53732335191256
+          ]
+        },
+        {
+          "target_month": "2022-10-01",
+          "origin": "2022-10-31",
+          "training_end": "2022-09-01",
+          "training_rows": 187,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7965969517369065,
+            0.1918009010490282
+          ],
+          "training_state_mass": [
+            3.4335203875065607,
+            183.5664796124933
+          ]
+        },
+        {
+          "target_month": "2022-11-01",
+          "origin": "2022-11-30",
+          "training_end": "2022-10-01",
+          "training_rows": 188,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7913687520530941,
+            0.1933032133251782
+          ],
+          "training_state_mass": [
+            3.5971755026019854,
+            184.40282449739803
+          ]
+        },
+        {
+          "target_month": "2022-12-01",
+          "origin": "2022-12-31",
+          "training_end": "2022-11-01",
+          "training_rows": 189,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.794771389933318,
+            0.1923917511123972
+          ],
+          "training_state_mass": [
+            3.4827506297698974,
+            185.51724937023005
+          ]
+        },
+        {
+          "target_month": "2023-01-01",
+          "origin": "2023-01-31",
+          "training_end": "2022-12-01",
+          "training_rows": 190,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.8004039421627152,
+            0.19081072827130796
+          ],
+          "training_state_mass": [
+            3.3446495509080263,
+            186.65535044909188
+          ]
+        },
+        {
+          "target_month": "2023-02-01",
+          "origin": "2023-02-28",
+          "training_end": "2023-01-01",
+          "training_rows": 191,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.8017840737867203,
+            0.1928463446370468
+          ],
+          "training_state_mass": [
+            3.178857980701069,
+            187.82114201929892
+          ]
+        },
+        {
+          "target_month": "2023-03-01",
+          "origin": "2023-03-31",
+          "training_end": "2023-02-01",
+          "training_rows": 192,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.8010035621013482,
+            0.1927227436632873
+          ],
+          "training_state_mass": [
+            3.2004547577526856,
+            188.7995452422474
+          ]
+        },
+        {
+          "target_month": "2023-04-01",
+          "origin": "2023-04-30",
+          "training_end": "2023-03-01",
+          "training_rows": 193,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.8025528056283203,
+            0.1917743830079283
+          ],
+          "training_state_mass": [
+            3.1423908972119783,
+            189.8576091027882
+          ]
+        },
+        {
+          "target_month": "2023-05-01",
+          "origin": "2023-05-31",
+          "training_end": "2023-04-01",
+          "training_rows": 194,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.8004450044190934,
+            0.19277422726213472
+          ],
+          "training_state_mass": [
+            3.187777155114917,
+            190.81222284488493
+          ]
+        },
+        {
+          "target_month": "2023-06-01",
+          "origin": "2023-06-30",
+          "training_end": "2023-05-01",
+          "training_rows": 195,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.8011811201240854,
+            0.19210848480402004
+          ],
+          "training_state_mass": [
+            3.1627472246112323,
+            191.83725277538883
+          ]
+        },
+        {
+          "target_month": "2023-07-01",
+          "origin": "2023-07-31",
+          "training_end": "2023-06-01",
+          "training_rows": 196,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7994638160842744,
+            0.1923829228719951
+          ],
+          "training_state_mass": [
+            3.221471697077462,
+            192.77852830292267
+          ]
+        },
+        {
+          "target_month": "2023-08-01",
+          "origin": "2023-08-31",
+          "training_end": "2023-07-01",
+          "training_rows": 197,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7982498588566159,
+            0.19231127394101158
+          ],
+          "training_state_mass": [
+            3.266275073543544,
+            193.73372492645672
+          ]
+        },
+        {
+          "target_month": "2023-09-01",
+          "origin": "2023-09-30",
+          "training_end": "2023-08-01",
+          "training_rows": 198,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7961254868066274,
+            0.19379023708541704
+          ],
+          "training_state_mass": [
+            3.301240097327779,
+            194.6987599026724
+          ]
+        },
+        {
+          "target_month": "2023-10-01",
+          "origin": "2023-10-31",
+          "training_end": "2023-09-01",
+          "training_rows": 199,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7928975142622398,
+            0.1941355813559134
+          ],
+          "training_state_mass": [
+            3.3945409704005916,
+            195.60545902959973
+          ]
+        },
+        {
+          "target_month": "2023-11-01",
+          "origin": "2023-11-30",
+          "training_end": "2023-10-01",
+          "training_rows": 200,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7963185646615729,
+            0.19309097512391388
+          ],
+          "training_state_mass": [
+            3.2911188538039706,
+            196.7088811461964
+          ]
+        },
+        {
+          "target_month": "2023-12-01",
+          "origin": "2023-12-31",
+          "training_end": "2023-11-01",
+          "training_rows": 201,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0
+          ],
+          "reference_state_levels": [
+            -0.7948987166691355,
+            0.19299290236208605
+          ],
+          "training_state_mass": [
+            3.3424731349521783,
+            197.65752686504754
+          ]
+        }
+      ]
+    },
+    "AR-HMM (3 states)": {
+      "features": [
+        "Inflation_Lag1"
+      ],
+      "estimator": "expanding-window 3-state AR-HMM",
+      "n_states": 3,
+      "regime_labels": [
+        "Level 1",
+        "Level 2",
+        "Level 3"
+      ],
+      "regime_label_rule": "ascending conditional inflation at initial-training mean predictors",
+      "regime_reference_features": {
+        "Inflation_Lag1": 0.14782247975232385
+      },
+      "probability_timing": "predicted before observing the target month inflation",
+      "fits_by_origin": [
+        {
+          "target_month": "2017-01-01",
+          "origin": "2017-01-31",
+          "training_end": "2016-12-01",
+          "training_rows": 118,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7741002201791287,
+            0.12997322347072202,
+            0.2093889041957327
+          ],
+          "training_state_mass": [
+            2.1536869553256395,
+            46.84071071947487,
+            69.00560232519959
+          ]
+        },
+        {
+          "target_month": "2017-02-01",
+          "origin": "2017-02-28",
+          "training_end": "2017-01-01",
+          "training_rows": 119,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7739173107709383,
+            0.13267702843227616,
+            0.20802639631975486
+          ],
+          "training_state_mass": [
+            2.1553689660428432,
+            45.965429137588195,
+            70.87920189636898
+          ]
+        },
+        {
+          "target_month": "2017-03-01",
+          "origin": "2017-03-31",
+          "training_end": "2017-02-01",
+          "training_rows": 120,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7739736748733563,
+            0.1331798935155625,
+            0.206532818571237
+          ],
+          "training_state_mass": [
+            2.1552797614040378,
+            46.530943431576745,
+            71.31377680701912
+          ]
+        },
+        {
+          "target_month": "2017-04-01",
+          "origin": "2017-04-30",
+          "training_end": "2017-03-01",
+          "training_rows": 121,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7745814512969136,
+            0.13275780072836352,
+            0.2020623081119415
+          ],
+          "training_state_mass": [
+            2.1499969125867,
+            46.1455756011554,
+            72.70442748625797
+          ]
+        },
+        {
+          "target_month": "2017-05-01",
+          "origin": "2017-05-31",
+          "training_end": "2017-04-01",
+          "training_rows": 122,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7746826026765782,
+            0.13216279510980342,
+            0.2028908158535489
+          ],
+          "training_state_mass": [
+            2.150102946911214,
+            46.64313640126888,
+            73.20676065181985
+          ]
+        },
+        {
+          "target_month": "2017-06-01",
+          "origin": "2017-06-30",
+          "training_end": "2017-05-01",
+          "training_rows": 123,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7753754077381079,
+            0.13002617681378942,
+            0.20023625381210314
+          ],
+          "training_state_mass": [
+            2.143819147698532,
+            46.6819602397242,
+            74.17422061257714
+          ]
+        },
+        {
+          "target_month": "2017-07-01",
+          "origin": "2017-07-31",
+          "training_end": "2017-06-01",
+          "training_rows": 124,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7754365879016392,
+            0.12879080195420578,
+            0.20084923621858075
+          ],
+          "training_state_mass": [
+            2.1440933115758134,
+            47.02849781892805,
+            74.82740886949617
+          ]
+        },
+        {
+          "target_month": "2017-08-01",
+          "origin": "2017-08-31",
+          "training_end": "2017-07-01",
+          "training_rows": 125,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7757007311346817,
+            0.1276117040002195,
+            0.19965330857699476
+          ],
+          "training_state_mass": [
+            2.142241253165643,
+            47.13798246266297,
+            75.7197762841715
+          ]
+        },
+        {
+          "target_month": "2017-09-01",
+          "origin": "2017-09-30",
+          "training_end": "2017-08-01",
+          "training_rows": 126,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7757547795475922,
+            0.12975616166703258,
+            0.2029402824435019
+          ],
+          "training_state_mass": [
+            2.1412957309364664,
+            48.28829453863173,
+            75.57040973043185
+          ]
+        },
+        {
+          "target_month": "2017-10-01",
+          "origin": "2017-10-31",
+          "training_end": "2017-09-01",
+          "training_rows": 127,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7754792301355652,
+            0.13265072195633437,
+            0.20183702733077497
+          ],
+          "training_state_mass": [
+            2.143451446343252,
+            47.33792078753035,
+            77.51862776612626
+          ]
+        },
+        {
+          "target_month": "2017-11-01",
+          "origin": "2017-11-30",
+          "training_end": "2017-10-01",
+          "training_rows": 128,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7756117511537521,
+            0.13189271028943025,
+            0.20371152889328215
+          ],
+          "training_state_mass": [
+            2.140163637959149,
+            50.126098774795416,
+            75.73373758724541
+          ]
+        },
+        {
+          "target_month": "2017-12-01",
+          "origin": "2017-12-31",
+          "training_end": "2017-11-01",
+          "training_rows": 129,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7756251973469772,
+            0.1313171390362598,
+            0.20615750584460613
+          ],
+          "training_state_mass": [
+            2.1409123384041386,
+            50.49920661235338,
+            76.35988104924255
+          ]
+        },
+        {
+          "target_month": "2018-01-01",
+          "origin": "2018-01-31",
+          "training_end": "2017-12-01",
+          "training_rows": 130,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7754881312275066,
+            0.13274973782818328,
+            0.20530252832060086
+          ],
+          "training_state_mass": [
+            2.142586251707366,
+            50.99300721969763,
+            76.864406528595
+          ]
+        },
+        {
+          "target_month": "2018-02-01",
+          "origin": "2018-02-28",
+          "training_end": "2018-01-01",
+          "training_rows": 131,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7752354836525475,
+            0.13282878445690155,
+            0.20995952524060138
+          ],
+          "training_state_mass": [
+            2.1453460666891435,
+            52.448860668734994,
+            76.40579326457609
+          ]
+        },
+        {
+          "target_month": "2018-03-01",
+          "origin": "2018-03-31",
+          "training_end": "2018-02-01",
+          "training_rows": 132,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7745515273834707,
+            0.1350396364990729,
+            0.20864147868991356
+          ],
+          "training_state_mass": [
+            2.151165425824238,
+            53.02785166310764,
+            76.82098291106806
+          ]
+        },
+        {
+          "target_month": "2018-04-01",
+          "origin": "2018-04-30",
+          "training_end": "2018-03-01",
+          "training_rows": 133,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7754861864066942,
+            0.13461741960127424,
+            0.20361411441828348
+          ],
+          "training_state_mass": [
+            2.143033726490063,
+            51.82505795764101,
+            79.03190831586898
+          ]
+        },
+        {
+          "target_month": "2018-05-01",
+          "origin": "2018-05-31",
+          "training_end": "2018-04-01",
+          "training_rows": 134,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7755475545715759,
+            0.13531281984304103,
+            0.20525775577691968
+          ],
+          "training_state_mass": [
+            2.143092979550121,
+            52.39606527157651,
+            79.46084174887343
+          ]
+        },
+        {
+          "target_month": "2018-06-01",
+          "origin": "2018-06-30",
+          "training_end": "2018-05-01",
+          "training_rows": 135,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7753348003906104,
+            0.1365047385015381,
+            0.20436980382039532
+          ],
+          "training_state_mass": [
+            2.145326847194858,
+            52.68025093768142,
+            80.17442221512374
+          ]
+        },
+        {
+          "target_month": "2018-07-01",
+          "origin": "2018-07-31",
+          "training_end": "2018-06-01",
+          "training_rows": 136,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7755158077521719,
+            0.13653343595213252,
+            0.20275429016043
+          ],
+          "training_state_mass": [
+            2.144055371700498,
+            53.05860476549724,
+            80.79733986280232
+          ]
+        },
+        {
+          "target_month": "2018-08-01",
+          "origin": "2018-08-31",
+          "training_end": "2018-07-01",
+          "training_rows": 137,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7756556425694725,
+            0.1361033946260434,
+            0.20176978655141478
+          ],
+          "training_state_mass": [
+            2.143573609110025,
+            53.17083882974782,
+            81.68558756114228
+          ]
+        },
+        {
+          "target_month": "2018-09-01",
+          "origin": "2018-09-30",
+          "training_end": "2018-08-01",
+          "training_rows": 138,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7756290776735504,
+            0.13632151966758604,
+            0.20192729597010844
+          ],
+          "training_state_mass": [
+            2.1439451085645103,
+            53.48110300548868,
+            82.37495188594684
+          ]
+        },
+        {
+          "target_month": "2018-10-01",
+          "origin": "2018-10-31",
+          "training_end": "2018-09-01",
+          "training_rows": 139,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7755330331355488,
+            0.13695775746594263,
+            0.20155783140467173
+          ],
+          "training_state_mass": [
+            2.1451467305682703,
+            53.69412590413842,
+            83.16072736529324
+          ]
+        },
+        {
+          "target_month": "2018-11-01",
+          "origin": "2018-11-30",
+          "training_end": "2018-10-01",
+          "training_rows": 140,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7753509773005259,
+            0.13783631142452882,
+            0.2012077343089459
+          ],
+          "training_state_mass": [
+            2.1468572947307805,
+            53.86654358972501,
+            83.98659911554424
+          ]
+        },
+        {
+          "target_month": "2018-12-01",
+          "origin": "2018-12-31",
+          "training_end": "2018-11-01",
+          "training_rows": 141,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7764736411599584,
+            0.13485604466007053,
+            0.19996621978341061
+          ],
+          "training_state_mass": [
+            2.137155166073252,
+            54.44317949110459,
+            84.41966534282193
+          ]
+        },
+        {
+          "target_month": "2019-01-01",
+          "origin": "2019-01-31",
+          "training_end": "2018-12-01",
+          "training_rows": 142,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7764572142667628,
+            0.133959844088092,
+            0.2004804474658641
+          ],
+          "training_state_mass": [
+            2.1377291422052878,
+            54.648380546020064,
+            85.21389031177473
+          ]
+        },
+        {
+          "target_month": "2019-02-01",
+          "origin": "2019-02-28",
+          "training_end": "2019-01-01",
+          "training_rows": 143,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7769922172333262,
+            0.1313043060529034,
+            0.1993794871462002
+          ],
+          "training_state_mass": [
+            2.1335468363895087,
+            55.14446153202852,
+            85.72199163158194
+          ]
+        },
+        {
+          "target_month": "2019-03-01",
+          "origin": "2019-03-31",
+          "training_end": "2019-02-01",
+          "training_rows": 144,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7772022980405096,
+            0.13349698316436212,
+            0.20042128343042878
+          ],
+          "training_state_mass": [
+            2.1316803164667184,
+            55.52091276596272,
+            86.34740691757045
+          ]
+        },
+        {
+          "target_month": "2019-04-01",
+          "origin": "2019-04-30",
+          "training_end": "2019-03-01",
+          "training_rows": 145,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7769154897749324,
+            0.13590490957593115,
+            0.19907842634573455
+          ],
+          "training_state_mass": [
+            2.1339889751539216,
+            54.914430023080726,
+            87.9515810017652
+          ]
+        },
+        {
+          "target_month": "2019-05-01",
+          "origin": "2019-05-31",
+          "training_end": "2019-04-01",
+          "training_rows": 146,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7763727061128642,
+            0.13720868233728728,
+            0.19891769355222322
+          ],
+          "training_state_mass": [
+            2.1385612236137312,
+            54.6557685591624,
+            89.205670217224
+          ]
+        },
+        {
+          "target_month": "2019-06-01",
+          "origin": "2019-06-30",
+          "training_end": "2019-05-01",
+          "training_rows": 147,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7773342000564434,
+            0.1345310733606378,
+            0.19907839328307966
+          ],
+          "training_state_mass": [
+            2.130160335256937,
+            55.673004960509815,
+            89.19683470423334
+          ]
+        },
+        {
+          "target_month": "2019-07-01",
+          "origin": "2019-07-31",
+          "training_end": "2019-06-01",
+          "training_rows": 148,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7775153973637072,
+            0.13451625532565234,
+            0.1966841776914936
+          ],
+          "training_state_mass": [
+            2.129376008678048,
+            55.29565946853015,
+            90.57496452279176
+          ]
+        },
+        {
+          "target_month": "2019-08-01",
+          "origin": "2019-08-31",
+          "training_end": "2019-07-01",
+          "training_rows": 149,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.777576209026656,
+            0.13561847044918177,
+            0.19781217424088965
+          ],
+          "training_state_mass": [
+            2.128717520645421,
+            56.28463432288984,
+            90.5866481564648
+          ]
+        },
+        {
+          "target_month": "2019-09-01",
+          "origin": "2019-09-30",
+          "training_end": "2019-08-01",
+          "training_rows": 150,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7777610156487753,
+            0.1356346587390314,
+            0.19565954878242944
+          ],
+          "training_state_mass": [
+            2.127624640060866,
+            55.88156608372834,
+            91.99080927621077
+          ]
+        },
+        {
+          "target_month": "2019-10-01",
+          "origin": "2019-10-31",
+          "training_end": "2019-09-01",
+          "training_rows": 151,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7778279094121587,
+            0.13561082465634067,
+            0.19558021112528137
+          ],
+          "training_state_mass": [
+            2.1276227708865756,
+            56.12365008121432,
+            92.7487271478991
+          ]
+        },
+        {
+          "target_month": "2019-11-01",
+          "origin": "2019-11-30",
+          "training_end": "2019-10-01",
+          "training_rows": 152,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7776938958055879,
+            0.13651957712811885,
+            0.19632515693603167
+          ],
+          "training_state_mass": [
+            2.128829706568101,
+            56.58508637671676,
+            93.28608391671517
+          ]
+        },
+        {
+          "target_month": "2019-12-01",
+          "origin": "2019-12-31",
+          "training_end": "2019-11-01",
+          "training_rows": 153,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7774001757335857,
+            0.1377946353085986,
+            0.19570376601197098
+          ],
+          "training_state_mass": [
+            2.1313330214654713,
+            56.48902079948966,
+            94.37964617904493
+          ]
+        },
+        {
+          "target_month": "2020-01-01",
+          "origin": "2020-01-31",
+          "training_end": "2019-12-01",
+          "training_rows": 154,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7770719521451783,
+            0.13906291713701946,
+            0.19549574566450384
+          ],
+          "training_state_mass": [
+            2.1342295281015344,
+            56.71922356608779,
+            95.14654690581068
+          ]
+        },
+        {
+          "target_month": "2020-02-01",
+          "origin": "2020-02-29",
+          "training_end": "2020-01-01",
+          "training_rows": 155,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7769164205016058,
+            0.13994353141369467,
+            0.19449997675406128
+          ],
+          "training_state_mass": [
+            2.1356885523503295,
+            57.016170814179006,
+            95.84814063347068
+          ]
+        },
+        {
+          "target_month": "2020-03-01",
+          "origin": "2020-03-31",
+          "training_end": "2020-02-01",
+          "training_rows": 156,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7772015538479107,
+            0.13948051184709073,
+            0.1928534756890424
+          ],
+          "training_state_mass": [
+            2.133481627278986,
+            57.051526396134626,
+            96.81499197658634
+          ]
+        },
+        {
+          "target_month": "2020-04-01",
+          "origin": "2020-04-30",
+          "training_end": "2020-03-01",
+          "training_rows": 157,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.743117044404512,
+            0.13908202910624845,
+            0.18686984750150962
+          ],
+          "training_state_mass": [
+            2.2552407515606783,
+            57.20473510644389,
+            97.54002414199556
+          ]
+        },
+        {
+          "target_month": "2020-05-01",
+          "origin": "2020-05-31",
+          "training_end": "2020-04-01",
+          "training_rows": 158,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.4927604121128071,
+            0.14218692663954316,
+            0.19171951626902978
+          ],
+          "training_state_mass": [
+            4.2121318013401545,
+            57.996395153349745,
+            95.79147304531031
+          ]
+        },
+        {
+          "target_month": "2020-06-01",
+          "origin": "2020-06-30",
+          "training_end": "2020-05-01",
+          "training_rows": 159,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.49639662947726065,
+            0.1405977640162109,
+            0.19546764454131677
+          ],
+          "training_state_mass": [
+            4.261397924198256,
+            58.15860136068035,
+            96.58000071512146
+          ]
+        },
+        {
+          "target_month": "2020-07-01",
+          "origin": "2020-07-31",
+          "training_end": "2020-06-01",
+          "training_rows": 160,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.49078779925048727,
+            0.1487090600959649,
+            0.19562569994407403
+          ],
+          "training_state_mass": [
+            4.304270567996129,
+            60.20630917762996,
+            95.48942025437395
+          ]
+        },
+        {
+          "target_month": "2020-08-01",
+          "origin": "2020-08-31",
+          "training_end": "2020-07-01",
+          "training_rows": 161,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.49009015593681604,
+            0.1490538652151059,
+            0.19759227221056103
+          ],
+          "training_state_mass": [
+            4.319982347902085,
+            61.16729346093851,
+            95.51272419115945
+          ]
+        },
+        {
+          "target_month": "2020-09-01",
+          "origin": "2020-09-30",
+          "training_end": "2020-08-01",
+          "training_rows": 162,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.49131433596651175,
+            0.1513892981688618,
+            0.19520616756604114
+          ],
+          "training_state_mass": [
+            4.320647510183817,
+            59.617851935857374,
+            98.06150055395872
+          ]
+        },
+        {
+          "target_month": "2020-10-01",
+          "origin": "2020-10-31",
+          "training_end": "2020-09-01",
+          "training_rows": 163,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.49258722413190004,
+            0.15264635897828857,
+            0.19447690208542084
+          ],
+          "training_state_mass": [
+            4.3237152892538075,
+            60.09442673776946,
+            98.58185797297685
+          ]
+        },
+        {
+          "target_month": "2020-11-01",
+          "origin": "2020-11-30",
+          "training_end": "2020-10-01",
+          "training_rows": 164,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.4929478464648144,
+            0.15273781479225837,
+            0.1936371369811874
+          ],
+          "training_state_mass": [
+            4.321625039097215,
+            60.73884467155992,
+            98.93953028934276
+          ]
+        },
+        {
+          "target_month": "2020-12-01",
+          "origin": "2020-12-31",
+          "training_end": "2020-11-01",
+          "training_rows": 165,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.4933027638478644,
+            0.15303251459161932,
+            0.19413412448843823
+          ],
+          "training_state_mass": [
+            4.323321983700751,
+            61.079845876731326,
+            99.59683213956774
+          ]
+        },
+        {
+          "target_month": "2021-01-01",
+          "origin": "2021-01-31",
+          "training_end": "2020-12-01",
+          "training_rows": 166,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.49332357527313453,
+            0.15451822992608588,
+            0.19505291278827364
+          ],
+          "training_state_mass": [
+            4.324766433033005,
+            60.81874686389138,
+            100.85648670307546
+          ]
+        },
+        {
+          "target_month": "2021-02-01",
+          "origin": "2021-02-28",
+          "training_end": "2021-01-01",
+          "training_rows": 167,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.4939502596102904,
+            0.1558557627660227,
+            0.19397170558616367
+          ],
+          "training_state_mass": [
+            4.329946610354154,
+            61.32104022363985,
+            101.34901316600593
+          ]
+        },
+        {
+          "target_month": "2021-03-01",
+          "origin": "2021-03-31",
+          "training_end": "2021-02-01",
+          "training_rows": 168,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.49463026047486947,
+            0.1564398659715046,
+            0.19497823349102877
+          ],
+          "training_state_mass": [
+            4.332934061975138,
+            61.69189033826244,
+            101.97517559976262
+          ]
+        },
+        {
+          "target_month": "2021-04-01",
+          "origin": "2021-04-30",
+          "training_end": "2021-03-01",
+          "training_rows": 169,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.49484321108966534,
+            0.15791067064594952,
+            0.19579201867812812
+          ],
+          "training_state_mass": [
+            4.332610525711509,
+            60.87756105383868,
+            103.78982842044985
+          ]
+        },
+        {
+          "target_month": "2021-05-01",
+          "origin": "2021-05-31",
+          "training_end": "2021-04-01",
+          "training_rows": 170,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.49518450484407056,
+            0.15833356331866114,
+            0.19640161406743784
+          ],
+          "training_state_mass": [
+            4.325580274344972,
+            58.76119063656934,
+            106.91322908908575
+          ]
+        },
+        {
+          "target_month": "2021-06-01",
+          "origin": "2021-06-30",
+          "training_end": "2021-05-01",
+          "training_rows": 171,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.49485547590046575,
+            0.1568416222079817,
+            0.19602158786618973
+          ],
+          "training_state_mass": [
+            4.311227557965033,
+            54.17119005002748,
+            112.51758239200743
+          ]
+        },
+        {
+          "target_month": "2021-07-01",
+          "origin": "2021-07-31",
+          "training_end": "2021-06-01",
+          "training_rows": 172,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.49416231271626654,
+            0.15431987179023945,
+            0.19823516086040707
+          ],
+          "training_state_mass": [
+            4.28640814212374,
+            51.448759831919574,
+            116.26483202595674
+          ]
+        },
+        {
+          "target_month": "2021-08-01",
+          "origin": "2021-08-31",
+          "training_end": "2021-07-01",
+          "training_rows": 173,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.48788096256428326,
+            0.15441809462958184,
+            0.19535185280581302
+          ],
+          "training_state_mass": [
+            4.327443075152848,
+            48.296781604888594,
+            120.37577531995863
+          ]
+        },
+        {
+          "target_month": "2021-09-01",
+          "origin": "2021-09-30",
+          "training_end": "2021-08-01",
+          "training_rows": 174,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.49180383132495853,
+            0.1566674729292625,
+            0.19433835122695522
+          ],
+          "training_state_mass": [
+            4.321421351379789,
+            48.67043358409294,
+            121.00814506452731
+          ]
+        },
+        {
+          "target_month": "2021-10-01",
+          "origin": "2021-10-31",
+          "training_end": "2021-09-01",
+          "training_rows": 175,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.49284837973390827,
+            0.15751906403169935,
+            0.19581980937822602
+          ],
+          "training_state_mass": [
+            4.32231847737746,
+            48.97946304353651,
+            121.69821847908602
+          ]
+        },
+        {
+          "target_month": "2021-11-01",
+          "origin": "2021-11-30",
+          "training_end": "2021-10-01",
+          "training_rows": 176,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.49212804773452506,
+            0.15725208785519587,
+            0.20074852399183415
+          ],
+          "training_state_mass": [
+            4.276133030759946,
+            49.7357954863296,
+            121.98807148291034
+          ]
+        },
+        {
+          "target_month": "2021-12-01",
+          "origin": "2021-12-31",
+          "training_end": "2021-11-01",
+          "training_rows": 177,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.49112984761721845,
+            0.15436846345647895,
+            0.2005927020216911
+          ],
+          "training_state_mass": [
+            4.258436697286705,
+            46.45099058404291,
+            126.29057271867049
+          ]
+        },
+        {
+          "target_month": "2022-01-01",
+          "origin": "2022-01-31",
+          "training_end": "2021-12-01",
+          "training_rows": 178,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.4895825026500282,
+            0.15130691420845682,
+            0.19989640892762792
+          ],
+          "training_state_mass": [
+            4.25779505179399,
+            43.25671766294283,
+            130.4854872852631
+          ]
+        },
+        {
+          "target_month": "2022-02-01",
+          "origin": "2022-02-28",
+          "training_end": "2022-01-01",
+          "training_rows": 179,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.4899365802941651,
+            0.1486584760093112,
+            0.1996808655582395
+          ],
+          "training_state_mass": [
+            4.253638033179543,
+            40.9235062777924,
+            133.82285568902802
+          ]
+        },
+        {
+          "target_month": "2022-03-01",
+          "origin": "2022-03-31",
+          "training_end": "2022-02-01",
+          "training_rows": 180,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.4907908798104966,
+            0.1463084124249552,
+            0.20070887049070762
+          ],
+          "training_state_mass": [
+            4.239727509350952,
+            39.50543424162085,
+            136.25483824902807
+          ]
+        },
+        {
+          "target_month": "2022-04-01",
+          "origin": "2022-04-30",
+          "training_end": "2022-03-01",
+          "training_rows": 181,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.5000483083063485,
+            0.1468662739688716,
+            0.20325546961338872
+          ],
+          "training_state_mass": [
+            4.092943482831127,
+            39.93598578502487,
+            136.97107073214397
+          ]
+        },
+        {
+          "target_month": "2022-05-01",
+          "origin": "2022-05-31",
+          "training_end": "2022-04-01",
+          "training_rows": 182,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.5347310952060064,
+            0.1588750850421481,
+            0.20497390448978248
+          ],
+          "training_state_mass": [
+            4.070748684498657,
+            49.41143517191215,
+            128.51781614358916
+          ]
+        },
+        {
+          "target_month": "2022-06-01",
+          "origin": "2022-06-30",
+          "training_end": "2022-05-01",
+          "training_rows": 183,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7416550551661306,
+            0.15003438179298909,
+            0.20380870680689558
+          ],
+          "training_state_mass": [
+            2.305939162773133,
+            52.917344707404496,
+            127.77671612982247
+          ]
+        },
+        {
+          "target_month": "2022-07-01",
+          "origin": "2022-07-31",
+          "training_end": "2022-06-01",
+          "training_rows": 184,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7478652721179182,
+            0.1484453480179704,
+            0.20645503308498295
+          ],
+          "training_state_mass": [
+            2.270259467133414,
+            53.003596688627255,
+            128.72614384423926
+          ]
+        },
+        {
+          "target_month": "2022-08-01",
+          "origin": "2022-08-31",
+          "training_end": "2022-07-01",
+          "training_rows": 185,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7546645665714821,
+            0.14628983209961757,
+            0.20715814994284942
+          ],
+          "training_state_mass": [
+            2.237962799233162,
+            54.535046265799096,
+            128.2269909349677
+          ]
+        },
+        {
+          "target_month": "2022-09-01",
+          "origin": "2022-09-30",
+          "training_end": "2022-08-01",
+          "training_rows": 186,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7521090581651676,
+            0.146179422266741,
+            0.20698720954293942
+          ],
+          "training_state_mass": [
+            2.23995958217385,
+            54.49518475843603,
+            129.26485565939015
+          ]
+        },
+        {
+          "target_month": "2022-10-01",
+          "origin": "2022-10-31",
+          "training_end": "2022-09-01",
+          "training_rows": 187,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7507508062002783,
+            0.1499443024484198,
+            0.20813382845035516
+          ],
+          "training_state_mass": [
+            2.2454872571023308,
+            55.160829603941195,
+            129.59368313895635
+          ]
+        },
+        {
+          "target_month": "2022-11-01",
+          "origin": "2022-11-30",
+          "training_end": "2022-10-01",
+          "training_rows": 188,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7504483244297621,
+            0.15109822449584087,
+            0.20897193565380384
+          ],
+          "training_state_mass": [
+            2.247640785758687,
+            55.63244625174043,
+            130.11991296250054
+          ]
+        },
+        {
+          "target_month": "2022-12-01",
+          "origin": "2022-12-31",
+          "training_end": "2022-11-01",
+          "training_rows": 189,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7497981779871775,
+            0.1532231630141238,
+            0.2083541450765103
+          ],
+          "training_state_mass": [
+            2.2516620939174286,
+            57.20210324126646,
+            129.54623466481615
+          ]
+        },
+        {
+          "target_month": "2023-01-01",
+          "origin": "2023-01-31",
+          "training_end": "2022-12-01",
+          "training_rows": 190,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7513043942897923,
+            0.15273805011174346,
+            0.20606280343795907
+          ],
+          "training_state_mass": [
+            2.2433552966279366,
+            56.711650002094004,
+            131.0449947012782
+          ]
+        },
+        {
+          "target_month": "2023-02-01",
+          "origin": "2023-02-28",
+          "training_end": "2023-01-01",
+          "training_rows": 191,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7495134079503911,
+            0.15781530698506538,
+            0.20810435049231468
+          ],
+          "training_state_mass": [
+            2.249187199648483,
+            57.853633224776985,
+            130.8971795755748
+          ]
+        },
+        {
+          "target_month": "2023-03-01",
+          "origin": "2023-03-31",
+          "training_end": "2023-02-01",
+          "training_rows": 192,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7489003377074115,
+            0.1596177645554776,
+            0.20674348364902284
+          ],
+          "training_state_mass": [
+            2.2539316914098317,
+            57.8712846307359,
+            131.8747836778544
+          ]
+        },
+        {
+          "target_month": "2023-04-01",
+          "origin": "2023-04-30",
+          "training_end": "2023-03-01",
+          "training_rows": 193,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7493134721707858,
+            0.1600614993713281,
+            0.2055596997483204
+          ],
+          "training_state_mass": [
+            2.2509621134282725,
+            58.55826644537835,
+            132.1907714411934
+          ]
+        },
+        {
+          "target_month": "2023-05-01",
+          "origin": "2023-05-31",
+          "training_end": "2023-04-01",
+          "training_rows": 194,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7483228463778886,
+            0.1606423697181729,
+            0.20676547058922656
+          ],
+          "training_state_mass": [
+            2.2552175420660405,
+            58.937539038368165,
+            132.80724341956574
+          ]
+        },
+        {
+          "target_month": "2023-06-01",
+          "origin": "2023-06-30",
+          "training_end": "2023-05-01",
+          "training_rows": 195,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7485309497132073,
+            0.16094420739730675,
+            0.20601328335639296
+          ],
+          "training_state_mass": [
+            2.2540431770225338,
+            59.61554662478133,
+            133.130410198196
+          ]
+        },
+        {
+          "target_month": "2023-07-01",
+          "origin": "2023-07-31",
+          "training_end": "2023-06-01",
+          "training_rows": 196,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.74809624400979,
+            0.16121412119358944,
+            0.20609385553932247
+          ],
+          "training_state_mass": [
+            2.256475374326207,
+            59.84816380284445,
+            133.89536082282922
+          ]
+        },
+        {
+          "target_month": "2023-08-01",
+          "origin": "2023-08-31",
+          "training_end": "2023-07-01",
+          "training_rows": 197,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7480363210649386,
+            0.16164989866474833,
+            0.20563798595634702
+          ],
+          "training_state_mass": [
+            2.257238706332125,
+            60.135295154406975,
+            134.60746613926074
+          ]
+        },
+        {
+          "target_month": "2023-09-01",
+          "origin": "2023-09-30",
+          "training_end": "2023-08-01",
+          "training_rows": 198,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7471944184800942,
+            0.16261367911628086,
+            0.20746063640204987
+          ],
+          "training_state_mass": [
+            2.260612680492892,
+            60.6264014164488,
+            135.11298590305796
+          ]
+        },
+        {
+          "target_month": "2023-10-01",
+          "origin": "2023-10-31",
+          "training_end": "2023-09-01",
+          "training_rows": 199,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7467859366373235,
+            0.16443539043590538,
+            0.20642943074323616
+          ],
+          "training_state_mass": [
+            2.2653114661570424,
+            60.32449868240514,
+            136.41018985143788
+          ]
+        },
+        {
+          "target_month": "2023-11-01",
+          "origin": "2023-11-30",
+          "training_end": "2023-10-01",
+          "training_rows": 200,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7470566229714294,
+            0.16459960382967542,
+            0.20540028399770627
+          ],
+          "training_state_mass": [
+            2.2627433148513063,
+            60.94352873745186,
+            136.79372794769654
+          ]
+        },
+        {
+          "target_month": "2023-12-01",
+          "origin": "2023-12-31",
+          "training_end": "2023-11-01",
+          "training_rows": 201,
+          "converged": true,
+          "raw_state_order": [
+            1,
+            0,
+            2
+          ],
+          "reference_state_levels": [
+            -0.7469966627046479,
+            0.16454127949532685,
+            0.2050493642775822
+          ],
+          "training_state_mass": [
+            2.2634491492345594,
+            61.09178890390527,
+            137.6447619468604
+          ]
+        }
+      ]
+    },
+    "AR-HMM (4 states)": {
+      "features": [
+        "Inflation_Lag1"
+      ],
+      "estimator": "expanding-window 4-state AR-HMM",
+      "n_states": 4,
+      "regime_labels": [
+        "Low",
+        "Moderate",
+        "High",
+        "Crisis"
+      ],
+      "regime_label_rule": "ascending conditional inflation at initial-training mean predictors",
+      "regime_reference_features": {
+        "Inflation_Lag1": 0.14782247975232385
+      },
+      "probability_timing": "predicted before observing the target month inflation",
+      "fits_by_origin": [
+        {
+          "target_month": "2017-01-01",
+          "origin": "2017-01-31",
+          "training_end": "2016-12-01",
+          "training_rows": 118,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9856437783540983,
+            0.036844172442678964,
+            0.1779994488008308,
+            0.38759284883416834
+          ],
+          "training_state_mass": [
+            1.3589366051191114,
+            19.110546047663792,
+            88.19868184014227,
+            9.331835507074773
+          ]
+        },
+        {
+          "target_month": "2017-02-01",
+          "origin": "2017-02-28",
+          "training_end": "2017-01-01",
+          "training_rows": 119,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9856358093459994,
+            0.03568428693579113,
+            0.18024085912800608,
+            0.38344840149911996
+          ],
+          "training_state_mass": [
+            1.3470468607884016,
+            19.00496948040579,
+            89.23916689415309,
+            9.408816764652695
+          ]
+        },
+        {
+          "target_month": "2017-03-01",
+          "origin": "2017-03-31",
+          "training_end": "2017-02-01",
+          "training_rows": 120,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9856630246494693,
+            0.04362515640939162,
+            0.17784369707583322,
+            0.38477310578804247
+          ],
+          "training_state_mass": [
+            1.3584531007359195,
+            19.359697377592383,
+            89.94686664838582,
+            9.334982873285718
+          ]
+        },
+        {
+          "target_month": "2017-04-01",
+          "origin": "2017-04-30",
+          "training_end": "2017-03-01",
+          "training_rows": 121,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9856813460573566,
+            0.04292399261264114,
+            0.17581499848415355,
+            0.38558557007572625
+          ],
+          "training_state_mass": [
+            1.362596043807304,
+            19.767522831521056,
+            90.58780135085792,
+            9.282079773813745
+          ]
+        },
+        {
+          "target_month": "2017-05-01",
+          "origin": "2017-05-31",
+          "training_end": "2017-04-01",
+          "training_rows": 122,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9856283766259766,
+            0.039881412760537034,
+            0.17677135897761406,
+            0.38668368888834087
+          ],
+          "training_state_mass": [
+            1.3606601253029447,
+            19.788555302227667,
+            91.54016794848374,
+            9.310616623985585
+          ]
+        },
+        {
+          "target_month": "2017-06-01",
+          "origin": "2017-06-30",
+          "training_end": "2017-05-01",
+          "training_rows": 123,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9857357163034831,
+            0.037910417284700466,
+            0.1748846520152431,
+            0.3872905581389242
+          ],
+          "training_state_mass": [
+            1.365922634439009,
+            20.17954017332008,
+            92.19008115817867,
+            9.264456034062134
+          ]
+        },
+        {
+          "target_month": "2017-07-01",
+          "origin": "2017-07-31",
+          "training_end": "2017-06-01",
+          "training_rows": 124,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9855962485634105,
+            0.03388568067122772,
+            0.1753727286253589,
+            0.3887544509472023
+          ],
+          "training_state_mass": [
+            1.3654169856640213,
+            20.120892023637985,
+            93.22469311117712,
+            9.288997879521041
+          ]
+        },
+        {
+          "target_month": "2017-08-01",
+          "origin": "2017-08-31",
+          "training_end": "2017-07-01",
+          "training_rows": 125,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9856114943302626,
+            0.033187294297517655,
+            0.17444040313150372,
+            0.3883563254647269
+          ],
+          "training_state_mass": [
+            1.3638088603025167,
+            20.272521828466413,
+            94.03277555142483,
+            9.330893759806191
+          ]
+        },
+        {
+          "target_month": "2017-09-01",
+          "origin": "2017-09-30",
+          "training_end": "2017-08-01",
+          "training_rows": 126,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9856065456149303,
+            0.040678066578442786,
+            0.17696827305841906,
+            0.3890222652504363
+          ],
+          "training_state_mass": [
+            1.3605489409346918,
+            20.94542052728918,
+            94.33218546960305,
+            9.361845062173252
+          ]
+        },
+        {
+          "target_month": "2017-10-01",
+          "origin": "2017-10-31",
+          "training_end": "2017-09-01",
+          "training_rows": 127,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9855783956530966,
+            0.04180030153859953,
+            0.17960286416391652,
+            0.3853409905833307
+          ],
+          "training_state_mass": [
+            1.361306669270227,
+            21.058804683084134,
+            95.33165666737766,
+            9.248231980267935
+          ]
+        },
+        {
+          "target_month": "2017-11-01",
+          "origin": "2017-11-30",
+          "training_end": "2017-10-01",
+          "training_rows": 128,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9861586237102565,
+            0.10845722243080858,
+            0.1759470790976187,
+            0.37106281019369336
+          ],
+          "training_state_mass": [
+            1.355896082390169,
+            31.534917655574926,
+            85.96123359196925,
+            9.147952670065452
+          ]
+        },
+        {
+          "target_month": "2017-12-01",
+          "origin": "2017-12-31",
+          "training_end": "2017-11-01",
+          "training_rows": 129,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9860349416080549,
+            0.10587989031200425,
+            0.178483946483245,
+            0.3701819202758588
+          ],
+          "training_state_mass": [
+            1.351404629713012,
+            31.458482627862573,
+            87.02424495452334,
+            9.165867787901085
+          ]
+        },
+        {
+          "target_month": "2018-01-01",
+          "origin": "2018-01-31",
+          "training_end": "2017-12-01",
+          "training_rows": 130,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.985998634560703,
+            0.10697849414910428,
+            0.17748056820050828,
+            0.37229170772072373
+          ],
+          "training_state_mass": [
+            1.354747867916402,
+            31.273887827459976,
+            88.22569075706394,
+            9.145673547559744
+          ]
+        },
+        {
+          "target_month": "2018-02-01",
+          "origin": "2018-02-28",
+          "training_end": "2018-01-01",
+          "training_rows": 131,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9861849670956357,
+            0.11301747400376552,
+            0.18060187360289373,
+            0.3628512313181012
+          ],
+          "training_state_mass": [
+            1.3353386912926852,
+            33.02847716768908,
+            87.3150036432316,
+            9.32118049778672
+          ]
+        },
+        {
+          "target_month": "2018-03-01",
+          "origin": "2018-03-31",
+          "training_end": "2018-02-01",
+          "training_rows": 132,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9860499974721453,
+            0.11331734110347065,
+            0.17871044871035935,
+            0.3679271320392381
+          ],
+          "training_state_mass": [
+            1.3515798046510787,
+            32.086762058286666,
+            89.33027130158729,
+            9.231386835475007
+          ]
+        },
+        {
+          "target_month": "2018-04-01",
+          "origin": "2018-04-30",
+          "training_end": "2018-03-01",
+          "training_rows": 133,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9862584077399159,
+            0.11448654527785251,
+            0.1772825288701243,
+            0.36745145278285274
+          ],
+          "training_state_mass": [
+            1.3528221002580931,
+            33.36966373887651,
+            89.1001688971547,
+            9.177345263710624
+          ]
+        },
+        {
+          "target_month": "2018-05-01",
+          "origin": "2018-05-31",
+          "training_end": "2018-04-01",
+          "training_rows": 134,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.98606207900793,
+            0.11697293778597836,
+            0.17949881069992138,
+            0.36515759639076933
+          ],
+          "training_state_mass": [
+            1.3472777075618052,
+            34.47663526942283,
+            89.002486755967,
+            9.173600267048274
+          ]
+        },
+        {
+          "target_month": "2018-06-01",
+          "origin": "2018-06-30",
+          "training_end": "2018-05-01",
+          "training_rows": 135,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9861201250945111,
+            0.11927453853145303,
+            0.17858728612335736,
+            0.3665490317559351
+          ],
+          "training_state_mass": [
+            1.3496849703952,
+            34.624799979919025,
+            89.86517679840262,
+            9.16033825128321
+          ]
+        },
+        {
+          "target_month": "2018-07-01",
+          "origin": "2018-07-31",
+          "training_end": "2018-06-01",
+          "training_rows": 136,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9861030265368571,
+            0.12016860026734175,
+            0.17704510425055747,
+            0.36809979608782856
+          ],
+          "training_state_mass": [
+            1.3517287964430924,
+            35.047714746539754,
+            90.44976959334912,
+            9.150786863668024
+          ]
+        },
+        {
+          "target_month": "2018-08-01",
+          "origin": "2018-08-31",
+          "training_end": "2018-07-01",
+          "training_rows": 137,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9860636824333189,
+            0.11653163655295568,
+            0.1763856365856286,
+            0.3699229134243638
+          ],
+          "training_state_mass": [
+            1.3506828907354307,
+            34.3004657442934,
+            92.1388834351524,
+            9.209967929818891
+          ]
+        },
+        {
+          "target_month": "2018-09-01",
+          "origin": "2018-09-30",
+          "training_end": "2018-08-01",
+          "training_rows": 138,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9860176317548076,
+            0.11499050554818849,
+            0.17694742777055056,
+            0.3701850135128564
+          ],
+          "training_state_mass": [
+            1.3445660626528013,
+            34.152487815042704,
+            93.20109441479505,
+            9.301851707509485
+          ]
+        },
+        {
+          "target_month": "2018-10-01",
+          "origin": "2018-10-31",
+          "training_end": "2018-09-01",
+          "training_rows": 139,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.986042002338831,
+            0.11630719248053573,
+            0.1769166815593859,
+            0.36987809698778573
+          ],
+          "training_state_mass": [
+            1.3447158209921835,
+            34.47909922342416,
+            93.86582530221959,
+            9.310359653364017
+          ]
+        },
+        {
+          "target_month": "2018-11-01",
+          "origin": "2018-11-30",
+          "training_end": "2018-10-01",
+          "training_rows": 140,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9860468359678123,
+            0.11769966598300698,
+            0.17698610309198015,
+            0.3698881614073637
+          ],
+          "training_state_mass": [
+            1.343611345022264,
+            34.71085037512944,
+            94.62871314441642,
+            9.316825135431849
+          ]
+        },
+        {
+          "target_month": "2018-12-01",
+          "origin": "2018-12-31",
+          "training_end": "2018-11-01",
+          "training_rows": 141,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9859131403780017,
+            0.11040306682021683,
+            0.17648246194304454,
+            0.37020434895932974
+          ],
+          "training_state_mass": [
+            1.3483892961442117,
+            34.75757898097164,
+            95.64977474920954,
+            9.244256973674691
+          ]
+        },
+        {
+          "target_month": "2019-01-01",
+          "origin": "2019-01-31",
+          "training_end": "2018-12-01",
+          "training_rows": 142,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9857405334822728,
+            0.09766421400044502,
+            0.1777014496194423,
+            0.3745798473333214
+          ],
+          "training_state_mass": [
+            1.349742034071356,
+            32.38704605238148,
+            98.98176806195926,
+            9.281443851587955
+          ]
+        },
+        {
+          "target_month": "2019-02-01",
+          "origin": "2019-02-28",
+          "training_end": "2019-01-01",
+          "training_rows": 143,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.985715691311128,
+            0.08922198080859967,
+            0.1762370789540043,
+            0.37547187161067885
+          ],
+          "training_state_mass": [
+            1.3525804679657694,
+            31.24948215644819,
+            101.10917073285748,
+            9.288766642728596
+          ]
+        },
+        {
+          "target_month": "2019-03-01",
+          "origin": "2019-03-31",
+          "training_end": "2019-02-01",
+          "training_rows": 144,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.985929736805043,
+            0.11621530803804933,
+            0.17647960733531598,
+            0.3652336972177391
+          ],
+          "training_state_mass": [
+            1.3443441466742652,
+            37.44794761391191,
+            96.00215931826972,
+            9.205548921144114
+          ]
+        },
+        {
+          "target_month": "2019-04-01",
+          "origin": "2019-04-30",
+          "training_end": "2019-03-01",
+          "training_rows": 145,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9860030530994619,
+            0.11879780154202388,
+            0.17730840981638613,
+            0.3635630010314357
+          ],
+          "training_state_mass": [
+            1.3412805112983985,
+            37.90775375082707,
+            96.55530615340078,
+            9.195659584473848
+          ]
+        },
+        {
+          "target_month": "2019-05-01",
+          "origin": "2019-05-31",
+          "training_end": "2019-04-01",
+          "training_rows": 146,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9856681447956903,
+            0.10160253515467611,
+            0.17915410912074767,
+            0.37131745797410504
+          ],
+          "training_state_mass": [
+            1.3488359123495994,
+            33.176820889901634,
+            102.30674277981251,
+            9.167600417936326
+          ]
+        },
+        {
+          "target_month": "2019-06-01",
+          "origin": "2019-06-30",
+          "training_end": "2019-05-01",
+          "training_rows": 147,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9858574432874303,
+            0.11505013652322375,
+            0.17798879236156884,
+            0.36540273169752885
+          ],
+          "training_state_mass": [
+            1.3437400335916956,
+            38.114504673352954,
+            98.4459219326747,
+            9.095833360380663
+          ]
+        },
+        {
+          "target_month": "2019-07-01",
+          "origin": "2019-07-31",
+          "training_end": "2019-06-01",
+          "training_rows": 148,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9859364696312336,
+            0.11612061429702739,
+            0.17555642115084352,
+            0.3672014424246549
+          ],
+          "training_state_mass": [
+            1.3468710045041323,
+            38.07713285491994,
+            99.43986377183475,
+            9.136132368741169
+          ]
+        },
+        {
+          "target_month": "2019-08-01",
+          "origin": "2019-08-31",
+          "training_end": "2019-07-01",
+          "training_rows": 149,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9859881594580526,
+            0.1205569034968011,
+            0.1767070614742548,
+            0.3656290245108947
+          ],
+          "training_state_mass": [
+            1.342969201396763,
+            39.923040402545354,
+            98.61913133533847,
+            9.11485906071918
+          ]
+        },
+        {
+          "target_month": "2019-09-01",
+          "origin": "2019-09-30",
+          "training_end": "2019-08-01",
+          "training_rows": 150,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9859431155628209,
+            0.12110591367123047,
+            0.17506014179453538,
+            0.3675469265424243
+          ],
+          "training_state_mass": [
+            1.3476295230965696,
+            40.036914182269115,
+            99.50499211257852,
+            9.110464182055743
+          ]
+        },
+        {
+          "target_month": "2019-10-01",
+          "origin": "2019-10-31",
+          "training_end": "2019-09-01",
+          "training_rows": 151,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.985906363043522,
+            0.1197706864423124,
+            0.17531960355347603,
+            0.36790555742585124
+          ],
+          "training_state_mass": [
+            1.342929469009834,
+            39.901885635446845,
+            100.57645164710263,
+            9.178733248440636
+          ]
+        },
+        {
+          "target_month": "2019-11-01",
+          "origin": "2019-11-30",
+          "training_end": "2019-10-01",
+          "training_rows": 152,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9859258177193886,
+            0.12151903037755814,
+            0.17633201851903474,
+            0.3651930675133833
+          ],
+          "training_state_mass": [
+            1.334156299445569,
+            40.501111076118605,
+            100.9052565783806,
+            9.259476046055235
+          ]
+        },
+        {
+          "target_month": "2019-12-01",
+          "origin": "2019-12-31",
+          "training_end": "2019-11-01",
+          "training_rows": 153,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9859323488342999,
+            0.1227625373161067,
+            0.1762244795413159,
+            0.36669703199559955
+          ],
+          "training_state_mass": [
+            1.3396156692029682,
+            40.44058995297503,
+            102.00947943111544,
+            9.210314946706534
+          ]
+        },
+        {
+          "target_month": "2020-01-01",
+          "origin": "2020-01-31",
+          "training_end": "2019-12-01",
+          "training_rows": 154,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9859249388106621,
+            0.12363041925354196,
+            0.17636330880309287,
+            0.3676043245402062
+          ],
+          "training_state_mass": [
+            1.3399964905289226,
+            40.290789012848705,
+            103.17180268187653,
+            9.197411814745877
+          ]
+        },
+        {
+          "target_month": "2020-02-01",
+          "origin": "2020-02-29",
+          "training_end": "2020-01-01",
+          "training_rows": 155,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9859113991181332,
+            0.12679362597448132,
+            0.1751401066314318,
+            0.3688014841525025
+          ],
+          "training_state_mass": [
+            1.3417308020311391,
+            40.943083130074,
+            103.5296288656684,
+            9.185557202226537
+          ]
+        },
+        {
+          "target_month": "2020-03-01",
+          "origin": "2020-03-31",
+          "training_end": "2020-02-01",
+          "training_rows": 156,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -0.9859294452354114,
+            0.12629372786629134,
+            0.1737749359873747,
+            0.37010977376526977
+          ],
+          "training_state_mass": [
+            1.3443660311379686,
+            41.160843023730706,
+            104.32286568958651,
+            9.171925255544862
+          ]
+        },
+        {
+          "target_month": "2020-04-01",
+          "origin": "2020-04-30",
+          "training_end": "2020-03-01",
+          "training_rows": 157,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -1.2015119913962145,
+            0.1289557663734381,
+            0.1744841471381292,
+            0.37193995885631925
+          ],
+          "training_state_mass": [
+            2.5692859513112394,
+            41.18201674516342,
+            103.79450413018506,
+            9.454193173340393
+          ]
+        },
+        {
+          "target_month": "2020-05-01",
+          "origin": "2020-05-31",
+          "training_end": "2020-04-01",
+          "training_rows": 158,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -1.1938369292628237,
+            0.12580122199212057,
+            0.1747354174358839,
+            0.382228143770207
+          ],
+          "training_state_mass": [
+            2.6385509518493686,
+            40.106385885978696,
+            104.83649012126327,
+            10.41857304090875
+          ]
+        },
+        {
+          "target_month": "2020-06-01",
+          "origin": "2020-06-30",
+          "training_end": "2020-05-01",
+          "training_rows": 159,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -1.1854960808410477,
+            0.084937679523338,
+            0.18220110245362375,
+            0.3861173721290117
+          ],
+          "training_state_mass": [
+            2.6930838458244644,
+            31.930667380755136,
+            114.06884916811819,
+            10.307399605302095
+          ]
+        },
+        {
+          "target_month": "2020-07-01",
+          "origin": "2020-07-31",
+          "training_end": "2020-06-01",
+          "training_rows": 160,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -1.252223259621056,
+            0.14247688836229572,
+            0.17884938566658143,
+            0.3513456648203017
+          ],
+          "training_state_mass": [
+            2.87553061856928,
+            46.6863416323841,
+            100.24136391412918,
+            10.19676383491735
+          ]
+        },
+        {
+          "target_month": "2020-08-01",
+          "origin": "2020-08-31",
+          "training_end": "2020-07-01",
+          "training_rows": 161,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -1.2183006769198172,
+            0.14935870209995372,
+            0.18787344250614763,
+            0.2923465803552691
+          ],
+          "training_state_mass": [
+            2.605610758962427,
+            54.21003873496733,
+            94.50177393689924,
+            9.6825765691708
+          ]
+        },
+        {
+          "target_month": "2020-09-01",
+          "origin": "2020-09-30",
+          "training_end": "2020-08-01",
+          "training_rows": 162,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -1.1945492991997604,
+            0.14423604097622267,
+            0.1794847094569844,
+            0.3604829787563106
+          ],
+          "training_state_mass": [
+            2.6496901490111524,
+            45.24324363171867,
+            104.05630581678733,
+            10.05076040248261
+          ]
+        },
+        {
+          "target_month": "2020-10-01",
+          "origin": "2020-10-31",
+          "training_end": "2020-09-01",
+          "training_rows": 163,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -1.1943667033364989,
+            0.14667723237333014,
+            0.17823823496799868,
+            0.3641482291105484
+          ],
+          "training_state_mass": [
+            2.6528730950909614,
+            45.23532235087911,
+            105.05014156145586,
+            10.06166299257406
+          ]
+        },
+        {
+          "target_month": "2020-11-01",
+          "origin": "2020-11-30",
+          "training_end": "2020-10-01",
+          "training_rows": 164,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -1.193291144610141,
+            0.14725517902433582,
+            0.1768949826358015,
+            0.3668918740742281
+          ],
+          "training_state_mass": [
+            2.6552582211721436,
+            45.459593556737275,
+            105.80649171548774,
+            10.0786565066028
+          ]
+        },
+        {
+          "target_month": "2020-12-01",
+          "origin": "2020-12-31",
+          "training_end": "2020-11-01",
+          "training_rows": 165,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -1.1927326143690093,
+            0.14731470155591184,
+            0.1774882455579532,
+            0.3668736487973043
+          ],
+          "training_state_mass": [
+            2.6577945438808515,
+            45.6357151966163,
+            106.59528909280036,
+            10.111201166702584
+          ]
+        },
+        {
+          "target_month": "2021-01-01",
+          "origin": "2021-01-31",
+          "training_end": "2020-12-01",
+          "training_rows": 166,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -1.197228517037405,
+            0.14870242456152313,
+            0.18043136573385854,
+            0.3541924613351702
+          ],
+          "training_state_mass": [
+            2.6369411598546164,
+            46.780115416807085,
+            106.37120268718027,
+            10.211740736157846
+          ]
+        },
+        {
+          "target_month": "2021-02-01",
+          "origin": "2021-02-28",
+          "training_end": "2021-01-01",
+          "training_rows": 167,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -1.1962064545710278,
+            0.15171654745621171,
+            0.17855826325490998,
+            0.3591139027280622
+          ],
+          "training_state_mass": [
+            2.6438610936168336,
+            46.94819805835115,
+            107.21946977577002,
+            10.18847107226215
+          ]
+        },
+        {
+          "target_month": "2021-03-01",
+          "origin": "2021-03-31",
+          "training_end": "2021-02-01",
+          "training_rows": 168,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -1.1955877657220995,
+            0.1529548524242078,
+            0.1801734512604857,
+            0.3542635469715389
+          ],
+          "training_state_mass": [
+            2.6438603835685193,
+            47.77439085772383,
+            107.43418544302338,
+            10.147563315684302
+          ]
+        },
+        {
+          "target_month": "2021-04-01",
+          "origin": "2021-04-30",
+          "training_end": "2021-03-01",
+          "training_rows": 169,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -1.2225198787380045,
+            0.1548442683170544,
+            0.18945526484727804,
+            0.28739950540683984
+          ],
+          "training_state_mass": [
+            2.582525347940255,
+            53.176980875783016,
+            103.14123804572776,
+            10.099255730549187
+          ]
+        },
+        {
+          "target_month": "2021-05-01",
+          "origin": "2021-05-31",
+          "training_end": "2021-04-01",
+          "training_rows": 170,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -1.2248639338030347,
+            0.15154361823752427,
+            0.19297965566148362,
+            0.27864951209010913
+          ],
+          "training_state_mass": [
+            2.5810934492292157,
+            51.32063938092372,
+            106.06428836371902,
+            10.033978806127891
+          ]
+        },
+        {
+          "target_month": "2021-06-01",
+          "origin": "2021-06-30",
+          "training_end": "2021-05-01",
+          "training_rows": 171,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -1.2135333485490352,
+            0.14321386557430943,
+            0.19439200210164334,
+            0.2980457683400107
+          ],
+          "training_state_mass": [
+            2.608323909903645,
+            46.15717846963424,
+            112.55598667621925,
+            9.678510944242884
+          ]
+        },
+        {
+          "target_month": "2021-07-01",
+          "origin": "2021-07-31",
+          "training_end": "2021-06-01",
+          "training_rows": 172,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -1.2267984148378248,
+            0.14173185908637775,
+            0.20071774522967542,
+            0.26477920501133884
+          ],
+          "training_state_mass": [
+            2.585026722985935,
+            46.81102528496963,
+            112.99543391182169,
+            9.608514080222715
+          ]
+        },
+        {
+          "target_month": "2021-08-01",
+          "origin": "2021-08-31",
+          "training_end": "2021-07-01",
+          "training_rows": 173,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -1.2113533716275369,
+            0.1323433902103618,
+            0.19688011288306764,
+            0.3005367853762977
+          ],
+          "training_state_mass": [
+            2.614748596548706,
+            40.81760884775484,
+            120.17248738502929,
+            9.395155170667126
+          ]
+        },
+        {
+          "target_month": "2021-09-01",
+          "origin": "2021-09-30",
+          "training_end": "2021-08-01",
+          "training_rows": 174,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -1.2007074344733217,
+            0.13060208700198195,
+            0.19300041292464323,
+            0.33574722212518726
+          ],
+          "training_state_mass": [
+            2.631199738761785,
+            38.28666465761489,
+            123.55304209456226,
+            9.529093509061035
+          ]
+        },
+        {
+          "target_month": "2021-10-01",
+          "origin": "2021-10-31",
+          "training_end": "2021-09-01",
+          "training_rows": 175,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -1.2144320732444505,
+            0.1340183921737384,
+            0.19781876092975165,
+            0.2945745925180762
+          ],
+          "training_state_mass": [
+            2.607812405097442,
+            40.59824374301313,
+            122.3581860850907,
+            9.435757766798815
+          ]
+        },
+        {
+          "target_month": "2021-11-01",
+          "origin": "2021-11-30",
+          "training_end": "2021-10-01",
+          "training_rows": 176,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -1.229837933011394,
+            0.12921143707306995,
+            0.19350136364144044,
+            0.32485787574370895
+          ],
+          "training_state_mass": [
+            2.4850094874418662,
+            37.770766199846655,
+            123.6618573979432,
+            12.082366914768357
+          ]
+        },
+        {
+          "target_month": "2021-12-01",
+          "origin": "2021-12-31",
+          "training_end": "2021-11-01",
+          "training_rows": 177,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -1.2320109849549232,
+            0.1354213074126414,
+            0.19832729270578842,
+            0.29284295806253485
+          ],
+          "training_state_mass": [
+            2.481486977653005,
+            41.82247840242282,
+            120.93375547977865,
+            11.76227914014558
+          ]
+        },
+        {
+          "target_month": "2022-01-01",
+          "origin": "2022-01-31",
+          "training_end": "2021-12-01",
+          "training_rows": 178,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -1.2251209022437608,
+            0.1276646882883522,
+            0.19821020031892161,
+            0.3057478250321983
+          ],
+          "training_state_mass": [
+            2.4957760288040287,
+            38.660785670666556,
+            125.23997345749767,
+            11.603464843031947
+          ]
+        },
+        {
+          "target_month": "2022-02-01",
+          "origin": "2022-02-28",
+          "training_end": "2022-01-01",
+          "training_rows": 179,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -1.2198817021437705,
+            0.11984580901800228,
+            0.1983412507969311,
+            0.3169899381849659
+          ],
+          "training_state_mass": [
+            2.5080452287299098,
+            36.049727322910826,
+            128.9198235675515,
+            11.522403880807813
+          ]
+        },
+        {
+          "target_month": "2022-03-01",
+          "origin": "2022-03-31",
+          "training_end": "2022-02-01",
+          "training_rows": 180,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -1.2211908424838103,
+            0.11605008428376339,
+            0.2006667674769722,
+            0.3143512430131742
+          ],
+          "training_state_mass": [
+            2.5080064883239936,
+            35.23556074008091,
+            130.90495335716125,
+            11.351479414434017
+          ]
+        },
+        {
+          "target_month": "2022-04-01",
+          "origin": "2022-04-30",
+          "training_end": "2022-03-01",
+          "training_rows": 181,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            1,
+            2
+          ],
+          "reference_state_levels": [
+            -1.27810492979014,
+            0.12947574463587141,
+            0.15614869393171538,
+            0.20632496836117598
+          ],
+          "training_state_mass": [
+            2.372048015972172,
+            40.69487426787885,
+            20.446064052956842,
+            117.48701366319261
+          ]
+        },
+        {
+          "target_month": "2022-05-01",
+          "origin": "2022-05-31",
+          "training_end": "2022-04-01",
+          "training_rows": 182,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            1,
+            3,
+            2
+          ],
+          "reference_state_levels": [
+            -1.30505289605792,
+            0.1373180682284013,
+            0.14702879266274504,
+            0.20921689554791428
+          ],
+          "training_state_mass": [
+            2.2869897739135894,
+            20.18939903709255,
+            50.40907319616427,
+            109.11453799282975
+          ]
+        },
+        {
+          "target_month": "2022-06-01",
+          "origin": "2022-06-30",
+          "training_end": "2022-05-01",
+          "training_rows": 183,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            3,
+            2,
+            1
+          ],
+          "reference_state_levels": [
+            -1.516967105037408,
+            0.1345748905782995,
+            0.1983801854116822,
+            0.21288692963809874
+          ],
+          "training_state_mass": [
+            2.125833955755072,
+            38.5936092375593,
+            123.70462853813584,
+            18.57592826854976
+          ]
+        },
+        {
+          "target_month": "2022-07-01",
+          "origin": "2022-07-31",
+          "training_end": "2022-06-01",
+          "training_rows": 184,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            1,
+            3,
+            2
+          ],
+          "reference_state_levels": [
+            -1.296147756098835,
+            0.06122225710078755,
+            0.14828758064249667,
+            0.23852406192155026
+          ],
+          "training_state_mass": [
+            2.3524211918023785,
+            32.309892820720506,
+            58.93548680177126,
+            90.40219918570565
+          ]
+        },
+        {
+          "target_month": "2022-08-01",
+          "origin": "2022-08-31",
+          "training_end": "2022-07-01",
+          "training_rows": 185,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            1,
+            3,
+            2
+          ],
+          "reference_state_levels": [
+            -1.2951667861723817,
+            0.059098980680109214,
+            0.14628657156727062,
+            0.2393514850177254
+          ],
+          "training_state_mass": [
+            2.365776120608662,
+            33.772684148553,
+            59.01262263811098,
+            89.84891709272759
+          ]
+        },
+        {
+          "target_month": "2022-09-01",
+          "origin": "2022-09-30",
+          "training_end": "2022-08-01",
+          "training_rows": 186,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            1,
+            3,
+            2
+          ],
+          "reference_state_levels": [
+            -1.2948001388702368,
+            0.05964964361819758,
+            0.14649179953166985,
+            0.23796532737365167
+          ],
+          "training_state_mass": [
+            2.3686291413119136,
+            33.58295901762369,
+            58.972375316005994,
+            91.07603652505836
+          ]
+        },
+        {
+          "target_month": "2022-10-01",
+          "origin": "2022-10-31",
+          "training_end": "2022-09-01",
+          "training_rows": 187,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            1,
+            3,
+            2
+          ],
+          "reference_state_levels": [
+            -1.2973931770134186,
+            0.06876773290197438,
+            0.15296991464125584,
+            0.2340229165293988
+          ],
+          "training_state_mass": [
+            2.3382782740344306,
+            30.23515440844037,
+            59.80125101897594,
+            94.6253162985492
+          ]
+        },
+        {
+          "target_month": "2022-11-01",
+          "origin": "2022-11-30",
+          "training_end": "2022-10-01",
+          "training_rows": 188,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            1,
+            3,
+            2
+          ],
+          "reference_state_levels": [
+            -1.2979180972849946,
+            0.06288105590204804,
+            0.1537619373898258,
+            0.23818080597364788
+          ],
+          "training_state_mass": [
+            2.3414475887240664,
+            31.849572894697175,
+            60.88888792011643,
+            92.92009159646219
+          ]
+        },
+        {
+          "target_month": "2022-12-01",
+          "origin": "2022-12-31",
+          "training_end": "2022-11-01",
+          "training_rows": 189,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            1,
+            3,
+            2
+          ],
+          "reference_state_levels": [
+            -1.3006813008051707,
+            0.06543458045631623,
+            0.15625914326718443,
+            0.23689715888735785
+          ],
+          "training_state_mass": [
+            2.325966116531398,
+            30.238384925454177,
+            63.14164671580011,
+            93.29400224221419
+          ]
+        },
+        {
+          "target_month": "2023-01-01",
+          "origin": "2023-01-31",
+          "training_end": "2022-12-01",
+          "training_rows": 190,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            1,
+            3,
+            2
+          ],
+          "reference_state_levels": [
+            -1.2988053157049835,
+            0.07326647474887996,
+            0.15443639164941872,
+            0.2299036108043575
+          ],
+          "training_state_mass": [
+            2.318458395903974,
+            28.913017588247527,
+            60.508766230160376,
+            98.25975778568821
+          ]
+        },
+        {
+          "target_month": "2023-02-01",
+          "origin": "2023-02-28",
+          "training_end": "2023-01-01",
+          "training_rows": 191,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            1,
+            3,
+            2
+          ],
+          "reference_state_levels": [
+            -1.3027017510982069,
+            0.072887949020908,
+            0.15945878129243657,
+            0.23182210225255717
+          ],
+          "training_state_mass": [
+            2.2976954156373224,
+            28.481923511224572,
+            61.549517549448794,
+            98.67086352368975
+          ]
+        },
+        {
+          "target_month": "2023-03-01",
+          "origin": "2023-03-31",
+          "training_end": "2023-02-01",
+          "training_rows": 192,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            1,
+            3,
+            2
+          ],
+          "reference_state_levels": [
+            -1.3037879750899406,
+            0.0718775679430819,
+            0.16447873842925276,
+            0.23019065013321588
+          ],
+          "training_state_mass": [
+            2.2912298588581805,
+            28.18201805277498,
+            63.93440955037217,
+            97.59234253799458
+          ]
+        },
+        {
+          "target_month": "2023-04-01",
+          "origin": "2023-04-30",
+          "training_end": "2023-03-01",
+          "training_rows": 193,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            1,
+            3,
+            2
+          ],
+          "reference_state_levels": [
+            -1.305989601384716,
+            0.06856265995266309,
+            0.16576793998274647,
+            0.23009500175198463
+          ],
+          "training_state_mass": [
+            2.286784867377905,
+            28.271612778665517,
+            66.18241553919026,
+            96.25918681476645
+          ]
+        },
+        {
+          "target_month": "2023-05-01",
+          "origin": "2023-05-31",
+          "training_end": "2023-04-01",
+          "training_rows": 194,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            1,
+            3,
+            2
+          ],
+          "reference_state_levels": [
+            -1.3069693622235652,
+            0.06750978357889753,
+            0.16671475977255218,
+            0.23190935074929356
+          ],
+          "training_state_mass": [
+            2.286575552196022,
+            28.40999442333736,
+            67.05318946681385,
+            96.2502405576526
+          ]
+        },
+        {
+          "target_month": "2023-06-01",
+          "origin": "2023-06-30",
+          "training_end": "2023-05-01",
+          "training_rows": 195,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            1,
+            3,
+            2
+          ],
+          "reference_state_levels": [
+            -1.3085043965530647,
+            0.0652233646911626,
+            0.16705890426043338,
+            0.23190461390497963
+          ],
+          "training_state_mass": [
+            2.283319013254262,
+            28.43160591561533,
+            68.33221910071887,
+            95.95285597041129
+          ]
+        },
+        {
+          "target_month": "2023-07-01",
+          "origin": "2023-07-31",
+          "training_end": "2023-06-01",
+          "training_rows": 196,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            1,
+            3,
+            2
+          ],
+          "reference_state_levels": [
+            -1.308748451623608,
+            0.06546342029219629,
+            0.16728153467481427,
+            0.23184464310645375
+          ],
+          "training_state_mass": [
+            2.2856327644454204,
+            28.46459915637998,
+            68.55633446984038,
+            96.69343360933425
+          ]
+        },
+        {
+          "target_month": "2023-08-01",
+          "origin": "2023-08-31",
+          "training_end": "2023-07-01",
+          "training_rows": 197,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            1,
+            3,
+            2
+          ],
+          "reference_state_levels": [
+            -1.3085976289561545,
+            0.06552776899293059,
+            0.16763091600570293,
+            0.23163167595072154
+          ],
+          "training_state_mass": [
+            2.285038412230917,
+            28.718006477996532,
+            69.07097008868703,
+            96.92598502108527
+          ]
+        },
+        {
+          "target_month": "2023-09-01",
+          "origin": "2023-09-30",
+          "training_end": "2023-08-01",
+          "training_rows": 198,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            1,
+            3,
+            2
+          ],
+          "reference_state_levels": [
+            -1.310873198622143,
+            0.06504723658008574,
+            0.16828931288329024,
+            0.23465886569853978
+          ],
+          "training_state_mass": [
+            2.2784959400406786,
+            28.67365382023557,
+            70.03664206224221,
+            97.01120817748175
+          ]
+        },
+        {
+          "target_month": "2023-10-01",
+          "origin": "2023-10-31",
+          "training_end": "2023-09-01",
+          "training_rows": 199,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            1,
+            3,
+            2
+          ],
+          "reference_state_levels": [
+            -1.3125698148725067,
+            0.0633883906861776,
+            0.17026114889738447,
+            0.2335133435040666
+          ],
+          "training_state_mass": [
+            2.274889056820215,
+            28.89928741284239,
+            69.8822858901969,
+            97.94353764014048
+          ]
+        },
+        {
+          "target_month": "2023-11-01",
+          "origin": "2023-11-30",
+          "training_end": "2023-10-01",
+          "training_rows": 200,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            1,
+            3,
+            2
+          ],
+          "reference_state_levels": [
+            -1.3093575156090531,
+            0.06423917658752284,
+            0.1700487588217239,
+            0.2314825012826788
+          ],
+          "training_state_mass": [
+            2.2768078673103456,
+            28.66069906920125,
+            69.96555075446972,
+            99.09694230901881
+          ]
+        },
+        {
+          "target_month": "2023-12-01",
+          "origin": "2023-12-31",
+          "training_end": "2023-11-01",
+          "training_rows": 201,
+          "converged": true,
+          "raw_state_order": [
+            0,
+            1,
+            3,
+            2
+          ],
+          "reference_state_levels": [
+            -1.309941617045302,
+            0.06562564189866368,
+            0.17000859708200683,
+            0.2306454454953903
+          ],
+          "training_state_mass": [
+            2.27709301311911,
+            28.59455319688923,
+            70.17520984934993,
+            99.95314394064181
+          ]
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "experiment": "controlled_lag1_state_counts",
+    "state_counts": [
+      2,
+      3,
+      4
+    ],
+    "features": [
+      "Inflation_Lag1"
+    ],
+    "target": "Inflation_MoM",
+    "timing": "Existing expanding month-end convention",
+    "source_bundles": [
+      "arhmm_three_states",
+      "arhmm_four_states"
+    ]
+  }
+}
