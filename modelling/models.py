@@ -129,6 +129,23 @@ def _normal_density(value: float, means: np.ndarray, variance: float) -> np.ndar
     )
 
 
+def _filtered_probability_update(
+    actual: float,
+    state_forecasts: np.ndarray,
+    variance: float,
+    predicted_probabilities: np.ndarray,
+) -> np.ndarray:
+    """Bayes update in log space to avoid all-zero regime likelihoods."""
+    variance = max(float(variance), np.finfo(float).tiny)
+    log_weights = (
+        np.log(np.clip(predicted_probabilities, np.finfo(float).tiny, None))
+        - 0.5 * ((float(actual) - state_forecasts) ** 2) / variance
+        - 0.5 * np.log(2.0 * np.pi * variance)
+    )
+    weights = np.exp(log_weights - np.max(log_weights))
+    return weights / weights.sum()
+
+
 def fit_hmm(
     data: pd.DataFrame,
     *,
@@ -156,8 +173,9 @@ def fit_hmm(
     for actual in test[target].to_numpy():
         predicted_probabilities = transition @ filtered
         forecasts.append(float(predicted_probabilities @ means))
-        filtered = predicted_probabilities * _normal_density(actual, means, variance)
-        filtered /= filtered.sum()
+        filtered = _filtered_probability_update(
+            actual, means, variance, predicted_probabilities
+        )
 
     output = pd.DataFrame({"Date": test["Date"], "Actual": test[target], "Forecast": forecasts})
     output["Error"] = output["Actual"] - output["Forecast"]
@@ -187,15 +205,16 @@ def fit_ar_hmm(
     train, test = chronological_split(
         data, target=target, features=features, test_start=test_start
     )
-    np.random.seed(random_seed)
-    fitted = sm.tsa.MarkovRegression(
+    model = sm.tsa.MarkovRegression(
         train[target],
         k_regimes=n_states,
         trend="c",
         exog=train[list(features)],
         switching_exog=True,
         switching_variance=False,
-    ).fit(disp=False, maxiter=maxiter, search_reps=search_reps)
+    )
+    np.random.seed(random_seed)
+    fitted = model.fit(disp=False, maxiter=maxiter, search_reps=search_reps)
 
     constants = np.array([fitted.params[f"const[{state}]"] for state in range(n_states)])
     coefficients = np.array([
@@ -205,23 +224,52 @@ def fit_ar_hmm(
     variance = float(fitted.params["sigma2"])
     transition = np.asarray(fitted.regime_transition[:, :, 0])
     filtered = np.asarray(fitted.filtered_marginal_probabilities.iloc[-1], dtype=float)
-    forecasts = []
+    reference_features = train[list(features)].mean().to_numpy(dtype=float)
+    reference_levels = constants + coefficients @ reference_features
+    order = np.argsort(reference_levels, kind="stable")
+    regime_labels = (["Low", "Moderate", "High", "Crisis"] if n_states == 4
+                     else [f"Level {i + 1}" for i in range(n_states)])
+    rows = []
     for (_, row), actual in zip(test.iterrows(), test[target].to_numpy()):
         predicted_probabilities = transition @ filtered
         state_forecasts = constants + coefficients @ row[list(features)].to_numpy(dtype=float)
-        forecasts.append(float(predicted_probabilities @ state_forecasts))
-        filtered = predicted_probabilities * _normal_density(actual, state_forecasts, variance)
-        filtered /= filtered.sum()
+        ordered_probabilities = predicted_probabilities[order]
+        forecast = float(predicted_probabilities @ state_forecasts)
+        rows.append({
+            "Date": row["Date"],
+            "Actual": float(actual),
+            "Forecast": forecast,
+            "Error": float(actual) - forecast,
+            "PredictedRegime": regime_labels[int(ordered_probabilities.argmax())],
+            **{f"Probability_{label}": float(probability)
+               for label, probability in zip(regime_labels, ordered_probabilities)},
+        })
+        filtered = _filtered_probability_update(
+            actual, state_forecasts, variance, predicted_probabilities
+        )
 
-    output = pd.DataFrame({"Date": test["Date"], "Actual": test[target], "Forecast": forecasts})
-    output["Error"] = output["Actual"] - output["Forecast"]
+    output = pd.DataFrame(rows)
+    if output.empty or not np.isfinite(output[["Actual", "Forecast"]].to_numpy()).all():
+        raise RuntimeError(f"Static AR-HMM produced nonfinite forecasts for {name}.")
     parameters = {
+        "features": list(features),
+        "estimator": f"static-coefficient {n_states}-state AR-HMM",
+        "n_states": n_states,
         "state_constants": constants.tolist(),
         "state_coefficients": {
             feature: coefficients[:, index].tolist() for index, feature in enumerate(features)
         },
         "variance": variance,
         "transition_matrix": transition.tolist(),
+        "regime_labels": regime_labels,
+        "regime_label_rule": "ascending conditional inflation at initial-training mean predictors",
+        "regime_reference_features": dict(zip(features, reference_features.tolist())),
+        "reference_state_levels": reference_levels[order].tolist(),
+        "raw_state_order": order.tolist(),
+        "probability_timing": "predicted before observing the target month inflation",
+        "converged": bool(fitted.mle_retvals.get("converged", False)),
+        "initialization": "original seeded static fit",
+        "random_seed": random_seed,
     }
     return ForecastResult(name, output.reset_index(drop=True), parameters, fitted)
 
@@ -291,25 +339,29 @@ def fit_expanding_ar_hmm(
             switching_exog=True,
             switching_variance=False,
         )
-        np.random.seed(random_seed)
-        if start_params is None:
-            fitted = model.fit(
-                disp=False, maxiter=maxiter, search_reps=search_reps
-            )
-        else:
-            fitted = model.fit(
-                start_params=start_params,
-                disp=False,
-                maxiter=maxiter,
-                search_reps=0,
-            )
-            if not fitted.mle_retvals.get("converged", False):
-                np.random.seed(random_seed)
-                fitted = model.fit(
-                    disp=False, maxiter=maxiter, search_reps=search_reps
+        # Boundary transition probabilities can make a warm start impossible to
+        # untransform. Retry a fresh initialization using this training window only.
+        attempts = ([('warm', random_seed)] if start_params is not None else [])
+        attempts += [('fresh', random_seed + offset) for offset in range(3)]
+        attempts += [('fresh-lbfgs', random_seed), ('fresh-powell', random_seed)]
+        fitted = None
+        for initialization, seed in attempts:
+            np.random.seed(seed)
+            try:
+                candidate = model.fit(
+                    disp=False, maxiter=maxiter,
+                    method=('lbfgs' if initialization == 'fresh-lbfgs' else
+                            'powell' if initialization == 'fresh-powell' else 'bfgs'),
+                    search_reps=0 if initialization == 'warm' else search_reps,
+                    **({'start_params': start_params} if initialization == 'warm' else {}),
                 )
-        if not fitted.mle_retvals.get("converged", False):
-            raise RuntimeError(f"AR-HMM did not converge for {name} at {target_date.date()}.")
+            except (ValueError, np.linalg.LinAlgError, RuntimeError):
+                continue
+            if candidate.mle_retvals.get('converged', False) and np.isfinite(candidate.params).all():
+                fitted = candidate
+                break
+        if fitted is None:
+            raise RuntimeError(f"AR-HMM did not converge for {name} at {target_date.date()} after fresh starts.")
         start_params = np.asarray(fitted.params)
 
         constants = np.array([
@@ -348,6 +400,8 @@ def fit_expanding_ar_hmm(
             "training_end": str(train["Date"].max().date()),
             "training_rows": int(len(train)),
             "converged": True,
+            "initialization": initialization,
+            "random_seed": seed,
             "raw_state_order": order.tolist(),
             "reference_state_levels": reference_levels[order].tolist(),
             "training_state_mass": np.asarray(
@@ -395,7 +449,7 @@ def fit_lasso(
         {"lasso__alpha": np.logspace(-4, 0, 60)},
         cv=TimeSeriesSplit(n_splits=5),
         scoring="neg_mean_squared_error",
-        n_jobs=-1,
+        n_jobs=1,
     ).fit(train[list(features)], train[target])
     forecasts = fitted.predict(test[list(features)])
     output = pd.DataFrame({"Date": test["Date"], "Actual": test[target], "Forecast": forecasts})

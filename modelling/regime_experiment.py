@@ -2,375 +2,231 @@
 from pathlib import Path
 from itertools import combinations
 import json
+import hashlib
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from modelling.data_pipeline import load_macro_benchmark_snapshot, MACRO_BENCHMARK_FEATURES
+from modelling.data_pipeline import MACRO_BENCHMARK_FEATURES
 from modelling.models import ForecastResult, fit_expanding_ar_hmm, fit_expanding_macro
-from modelling.evaluation import save_result_bundle
 
 
-def run_lag_order_experiment(
-    dataset,
-    output_dir,
-    *,
-    lag_orders=range(1, 7),
-    test_start="2017-01-01",
-    test_end="2023-12-01",
-):
-    """Compare expanding AR(p) and two-state AR-HMM(p) on one sample."""
-    lag_orders = tuple(sorted(set(lag_orders)))
-    if not lag_orders or lag_orders[0] < 1:
-        raise ValueError("lag_orders must contain positive integers.")
+def run_notebook_results(dataset, cache_path, *, test_start='2022-01-01',
+                         test_end='2025-11-01', rerun=False):
+    """Run every notebook comparison with one input and one resumable results file."""
+    from modelling.models import fit_ols_forecast, fit_hmm, fit_ar_hmm, fit_lasso
+    from modelling.evaluation import forecast_metrics
 
-    data, _, _ = load_macro_benchmark_snapshot(Path(dataset))
-    lag_columns = [f"Inflation_Lag{lag}" for lag in range(1, max(lag_orders) + 1)]
-    sample = data[["Date", "Inflation_MoM"]].copy()
-    for lag, column in enumerate(lag_columns, start=1):
-        sample[column] = sample["Inflation_MoM"].shift(lag)
-    sample = sample.dropna().loc[lambda x: x["Date"].le(test_end)].copy()
-    sample["TargetAssumedAvailableBy"] = sample["Date"] + pd.offsets.MonthEnd(2)
-
-    dates = sample.loc[sample["Date"].between(test_start, test_end), "Date"]
-    if not pd.DatetimeIndex(dates).equals(pd.date_range(test_start, test_end, freq="MS")):
-        raise ValueError("Incomplete evaluation period.")
-    schedule = pd.DataFrame({
-        "TargetMonth": dates,
-        "ForecastOrigin": dates + pd.offsets.MonthEnd(0),
-    })
-
-    results = {}
-    for order in lag_orders:
-        features = lag_columns[:order]
-        ar_name = f"AR({order})"
-        arhmm_name = f"AR-HMM(2 states, p={order})"
-        results[ar_name] = fit_expanding_macro(
-            sample, schedule, features=features, name=ar_name,
-        )
-        print(f"Fitting {arhmm_name}", flush=True)
-        results[arhmm_name] = fit_expanding_ar_hmm(
-            sample, schedule, features=features, name=arhmm_name, n_states=2,
-        )
-
-    output_dir = Path(output_dir)
-    metrics = save_result_bundle(results, output_dir, metadata={
-        "experiment": "controlled_ar_vs_two_state_arhmm_lag_order",
-        "lag_orders": list(lag_orders),
-        "n_states": 2,
-        "test_start": test_start,
-        "test_end": test_end,
-        "common_sample_max_lag": max(lag_orders),
-        "timing": "Existing expanding month-end convention",
-    })
-    metrics["family"] = metrics["model"].str.extract(r"^(AR-HMM|AR)")
-    metrics["lag_order"] = metrics["model"].str.extract(r"(?:p=|AR\()(\d+)")[0].astype(int)
-    ar_rmse = metrics.loc[metrics["family"].eq("AR")].set_index("lag_order")["rmse"]
-    metrics["rmse_difference_vs_ar"] = metrics.apply(
-        lambda row: (
-            row["rmse"] - ar_rmse[row["lag_order"]]
-            if row["family"] == "AR-HMM" else 0.0
-        ),
-        axis=1,
-    )
-    metrics["arhmm_improvement_over_ar_pct"] = metrics.apply(
-        lambda row: (
-            100 * (ar_rmse[row["lag_order"]] - row["rmse"]) / ar_rmse[row["lag_order"]]
-            if row["family"] == "AR-HMM" else 0.0
-        ),
-        axis=1,
-    )
-    metrics = metrics.sort_values(["lag_order", "family"]).reset_index(drop=True)
-    metrics.to_csv(output_dir / "metrics.csv", index=False)
-    return metrics
-
-
-def run_yoy_lag_order_experiment(
-    dataset,
-    output_dir,
-    *,
-    lag_orders=range(1, 7),
-    test_start="2017-01-01",
-    test_end="2023-12-01",
-):
-    """Compare naive, AR(p), and two-state AR-HMM(p) YoY forecasts."""
-    lag_orders = tuple(sorted(set(lag_orders)))
-    if not lag_orders or lag_orders[0] < 1:
-        raise ValueError("lag_orders must contain positive integers.")
-
-    data, _, _ = load_macro_benchmark_snapshot(Path(dataset))
-    sample = data[["Date", "CPIAUCSL"]].copy()
-    sample["Inflation_YoY"] = sample["CPIAUCSL"].pct_change(12, fill_method=None) * 100
-    lag_columns = [f"Inflation_YoY_Lag{lag}" for lag in range(1, max(lag_orders) + 1)]
-    for lag, column in enumerate(lag_columns, start=1):
-        sample[column] = sample["Inflation_YoY"].shift(lag)
-    sample = sample.dropna().loc[lambda x: x["Date"].le(test_end)].copy()
-    sample["TargetAssumedAvailableBy"] = sample["Date"] + pd.offsets.MonthEnd(2)
-
-    dates = sample.loc[sample["Date"].between(test_start, test_end), "Date"]
-    if not pd.DatetimeIndex(dates).equals(pd.date_range(test_start, test_end, freq="MS")):
-        raise ValueError("Incomplete evaluation period.")
-    schedule = pd.DataFrame({
-        "TargetMonth": dates,
-        "ForecastOrigin": dates + pd.offsets.MonthEnd(0),
-    })
-    test_rows = sample.set_index("Date").loc[dates]
-    naive_name = "Naive YoY(t-1)"
-    naive_forecasts = pd.DataFrame({
-        "Date": dates.to_numpy(),
-        "Actual": test_rows["Inflation_YoY"].to_numpy(),
-        "Forecast": test_rows["Inflation_YoY_Lag1"].to_numpy(),
-    })
-    naive_forecasts["Error"] = naive_forecasts["Actual"] - naive_forecasts["Forecast"]
-    results = {
-        naive_name: ForecastResult(
-            naive_name,
-            naive_forecasts,
-            {"features": ["Inflation_YoY_Lag1"], "estimator": "last observed YoY"},
-        )
-    }
-
-    for order in lag_orders:
-        features = lag_columns[:order]
-        ar_name = f"YoY AR({order})"
-        arhmm_name = f"YoY AR-HMM(2 states, p={order})"
-        results[ar_name] = fit_expanding_macro(
-            sample,
-            schedule,
-            features=features,
-            name=ar_name,
-            target="Inflation_YoY",
-        )
-        print(f"Fitting {arhmm_name}", flush=True)
-        results[arhmm_name] = fit_expanding_ar_hmm(
-            sample,
-            schedule,
-            features=features,
-            name=arhmm_name,
-            target="Inflation_YoY",
-            n_states=2,
-        )
-
-    output_dir = Path(output_dir)
-    metrics = save_result_bundle(results, output_dir, metadata={
-        "experiment": "yoy_ar_vs_two_state_arhmm_lag_order",
-        "target": "Inflation_YoY",
-        "target_definition": "100 * (CPI_t / CPI_t-12 - 1)",
-        "lag_orders": list(lag_orders),
-        "n_states": 2,
-        "test_start": test_start,
-        "test_end": test_end,
-        "common_sample_max_lag": max(lag_orders),
-        "timing": "Existing expanding month-end convention",
-    })
-    metrics["family"] = metrics["model"].str.extract(r"(AR-HMM|AR)")
-    metrics["lag_order"] = pd.to_numeric(
-        metrics["model"].str.extract(r"(?:p=|AR\()(\d+)")[0], errors="coerce"
-    ).astype("Int64")
-    ar_rmse = metrics.loc[metrics["family"].eq("AR")].set_index("lag_order")["rmse"]
-    metrics["rmse_difference_vs_ar"] = metrics.apply(
-        lambda row: (
-            row["rmse"] - ar_rmse[row["lag_order"]]
-            if row["family"] == "AR-HMM" else 0.0
-        ),
-        axis=1,
-    )
-    metrics["arhmm_improvement_over_ar_pct"] = metrics.apply(
-        lambda row: (
-            100 * (ar_rmse[row["lag_order"]] - row["rmse"]) / ar_rmse[row["lag_order"]]
-            if row["family"] == "AR-HMM" else 0.0
-        ),
-        axis=1,
-    )
-    metrics.to_csv(output_dir / "metrics.csv", index=False)
-    return metrics.sort_values("rmse").reset_index(drop=True)
-
-
-def run_yoy_macro_sentiment_experiment(
-    dataset,
-    macro_output_dir,
-    sentiment_output_dir,
-    *,
-    lag_order=2,
-    test_start="2017-01-01",
-    test_end="2023-12-01",
-):
-    """Run YoY AR and two-state AR-HMM macro and sentiment comparisons."""
-    data, _, _ = load_macro_benchmark_snapshot(Path(dataset))
+    dataset, cache_path = Path(dataset), Path(cache_path)
+    frame = pd.read_csv(dataset, parse_dates=['Date']).sort_values('Date').reset_index(drop=True)
+    if frame.Date.duplicated().any() or not pd.DatetimeIndex(frame.Date).equals(
+        pd.date_range(frame.Date.min(), frame.Date.max(), freq='MS')
+    ):
+        raise ValueError('The input must contain one row per calendar month.')
+    for target in ['Inflation_MoM', 'Inflation_YoY']:
+        for lag in range(1, 7):
+            frame[f'{target}_Lag{lag}'] = frame[target].shift(lag)
+    for lag in range(1, 7):
+        frame[f'Sentiment_Lag{lag}'] = frame.News_Sentiment.shift(lag)
     macro_columns = list(MACRO_BENCHMARK_FEATURES[1:])
-    labels = ["Oil", "Unemployment", "Industry", "Fed rate"]
-    sample = data[["Date", "CPIAUCSL", "News_Sentiment", *macro_columns]].copy()
-    sample["Inflation_YoY"] = sample["CPIAUCSL"].pct_change(12, fill_method=None) * 100
-    lag_columns = [f"Inflation_YoY_Lag{lag}" for lag in range(1, lag_order + 1)]
-    for lag, column in enumerate(lag_columns, start=1):
-        sample[column] = sample["Inflation_YoY"].shift(lag)
-    sample = sample.dropna().loc[lambda x: x["Date"].le(test_end)].copy()
-    sample["TargetAssumedAvailableBy"] = sample["Date"] + pd.offsets.MonthEnd(2)
-
-    dates = sample.loc[sample["Date"].between(test_start, test_end), "Date"]
-    if not pd.DatetimeIndex(dates).equals(pd.date_range(test_start, test_end, freq="MS")):
-        raise ValueError("Incomplete evaluation period.")
-    schedule = pd.DataFrame({
-        "TargetMonth": dates,
-        "ForecastOrigin": dates + pd.offsets.MonthEnd(0),
-    })
-
-    macro_results = {}
-    family_by_name, specification_by_name, count_by_name = {}, {}, {}
-    for size in range(len(macro_columns) + 1):
-        for subset in combinations(range(len(macro_columns)), size):
-            suffix = " + ".join(labels[index] for index in subset)
-            specification = suffix or "Inflation only"
-            features = [*lag_columns, *[macro_columns[index] for index in subset]]
-            ar_name = f"YoY AR({lag_order})" + (f" + {suffix}" if suffix else "")
-            arhmm_name = f"YoY AR-HMM(2 states, p={lag_order})" + (
-                f" + {suffix}" if suffix else ""
-            )
-            macro_results[ar_name] = fit_expanding_macro(
-                sample, schedule, features=features, name=ar_name, target="Inflation_YoY",
-            )
-            print(f"Fitting {arhmm_name}", flush=True)
-            macro_results[arhmm_name] = fit_expanding_ar_hmm(
-                sample,
-                schedule,
-                features=features,
-                name=arhmm_name,
-                target="Inflation_YoY",
-                n_states=2,
-            )
-            for name, family in ((ar_name, "AR"), (arhmm_name, "AR-HMM")):
-                family_by_name[name] = family
-                specification_by_name[name] = specification
-                count_by_name[name] = size
-
-    macro_metrics = save_result_bundle(macro_results, macro_output_dir, metadata={
-        "experiment": "yoy_macro_ar_vs_two_state_arhmm",
-        "target": "Inflation_YoY",
-        "target_definition": "100 * (CPI_t / CPI_t-12 - 1)",
-        "lag_order": lag_order,
-        "macro_features": macro_columns,
-        "test_start": test_start,
-        "test_end": test_end,
-    })
-    macro_metrics["family"] = macro_metrics["model"].map(family_by_name)
-    macro_metrics["specification"] = macro_metrics["model"].map(specification_by_name)
-    macro_metrics["macro_count"] = macro_metrics["model"].map(count_by_name)
-    ar_by_spec = macro_metrics.loc[macro_metrics["family"].eq("AR")].set_index(
-        "specification"
-    )["rmse"]
-    macro_metrics["arhmm_improvement_over_matching_ar_pct"] = macro_metrics.apply(
-        lambda row: (
-            100 * (ar_by_spec[row["specification"]] - row["rmse"])
-            / ar_by_spec[row["specification"]]
-            if row["family"] == "AR-HMM" else 0.0
-        ),
-        axis=1,
-    )
-    macro_metrics = macro_metrics.sort_values("rmse").reset_index(drop=True)
-    best_ar = macro_metrics.loc[
-        macro_metrics["family"].eq("AR") & macro_metrics["macro_count"].gt(0), "model"
-    ].iloc[0]
-    best_arhmm = macro_metrics.loc[
-        macro_metrics["family"].eq("AR-HMM") & macro_metrics["macro_count"].gt(0), "model"
-    ].iloc[0]
-    macro_metrics.to_csv(Path(macro_output_dir) / "metrics.csv", index=False)
-
-    base_ar = f"YoY AR({lag_order})"
-    base_arhmm = f"YoY AR-HMM(2 states, p={lag_order})"
-    sentiment_results = {
-        base_ar: macro_results[base_ar],
-        best_ar: macro_results[best_ar],
-        base_arhmm: macro_results[base_arhmm],
-        best_arhmm: macro_results[best_arhmm],
+    sentiments = ['News_Sentiment', 'Sentiment_Median', 'Negative_Share', 'Sentiment_Std']
+    common = ['Inflation_MoM', 'Inflation_YoY', *macro_columns, *sentiments,
+              *[f'{target}_Lag{lag}' for target in ['Inflation_MoM', 'Inflation_YoY'] for lag in range(1, 7)],
+              *[f'Sentiment_Lag{lag}' for lag in range(1, 7)]]
+    # Lag on the full calendar first. Never shift across a missing month.
+    sample = frame.loc[frame[common].notna().all(axis=1) & frame.Date.le(test_end)].copy()
+    if not pd.DatetimeIndex(sample.Date).equals(pd.date_range(sample.Date.min(), sample.Date.max(), freq='MS')):
+        raise ValueError('An internal training gap requires a missing-observation state filter.')
+    dates = sample.loc[sample.Date.ge(test_start), 'Date']
+    if dates.empty or not sample.Date.lt(test_start).any():
+        raise ValueError('The requested split must contain training and test observations.')
+    sample['TargetAssumedAvailableBy'] = sample.Date + pd.offsets.MonthEnd(2)
+    schedule = pd.DataFrame({'TargetMonth': dates, 'ForecastOrigin': dates + pd.offsets.MonthEnd(0)})
+    signature = {'dataset_sha256': hashlib.sha256(dataset.read_bytes()).hexdigest(),
+                 'test_start': test_start, 'test_end': test_end, 'version': 3,
+                 'main_estimation': 'static'}
+    saved = json.loads(cache_path.read_text()) if cache_path.exists() and not rerun else {}
+    if saved.get('signature') != signature:
+        saved = {'signature': signature, 'models': {}}
+    saved['groups'] = {}
+    saved['sample'] = {
+        'training_start': str(sample.Date.min().date()),
+        'initial_training_end': str(sample.loc[sample.Date.lt(test_start), 'Date'].max().date()),
+        'scored_start': str(dates.min().date()), 'scored_end': str(dates.max().date()),
+        'scored_months': len(dates),
+        'unavailable_months': pd.date_range(test_start, test_end, freq='MS').difference(dates).strftime('%Y-%m').tolist(),
+        'timing': ('Static coefficients estimated through December 2021. Hidden-state '
+                   'probabilities update during testing; target-month sentiment is a nowcast input.'),
+        'data_vintage': 'Latest revised FRED data, not a real-time vintage backtest.',
     }
-    for base_name in (base_ar, best_ar, base_arhmm, best_arhmm):
-        name = base_name + " + sentiment"
-        features = [*macro_results[base_name].parameters["features"], "News_Sentiment"]
-        fitter = fit_expanding_ar_hmm if family_by_name[base_name] == "AR-HMM" else fit_expanding_macro
-        sentiment_results[name] = fitter(
-            sample,
-            schedule,
-            features=features,
-            name=name,
-            target="Inflation_YoY",
-            **({"n_states": 2} if fitter is fit_expanding_ar_hmm else {}),
-        )
-        print(f"Completed {name}", flush=True)
+    cache_path.parent.mkdir(parents=True, exist_ok=True)
 
-    sentiment_metrics = save_result_bundle(
-        sentiment_results,
-        sentiment_output_dir,
-        metadata={
-            "experiment": "yoy_sentiment_ar_vs_two_state_arhmm",
-            "target": "Inflation_YoY",
-            "lag_order": lag_order,
-            "sentiment_feature": "News_Sentiment",
-            "best_ar_macro_model": best_ar,
-            "best_arhmm_macro_model": best_arhmm,
-            "test_start": test_start,
-            "test_end": test_end,
-        },
-    )
-    sentiment_metrics["family"] = sentiment_metrics["model"].map(
-        lambda name: "AR-HMM" if "AR-HMM" in name else "AR"
-    )
-    sentiment_metrics["sentiment"] = sentiment_metrics["model"].str.endswith(" + sentiment")
-    rmse_by_name = sentiment_metrics.set_index("model")["rmse"]
-    sentiment_metrics["sentiment_improvement_pct"] = sentiment_metrics.apply(
-        lambda row: (
-            100 * (rmse_by_name[row["model"].removesuffix(" + sentiment")] - row["rmse"])
-            / rmse_by_name[row["model"].removesuffix(" + sentiment")]
-            if row["sentiment"] else 0.0
-        ),
-        axis=1,
-    )
-    sentiment_metrics = sentiment_metrics.sort_values("rmse").reset_index(drop=True)
-    sentiment_metrics.to_csv(Path(sentiment_output_dir) / "metrics.csv", index=False)
-    return macro_metrics, sentiment_metrics
+    def checkpoint():
+        temporary = cache_path.with_suffix('.tmp')
+        temporary.write_text(json.dumps(saved, allow_nan=False), encoding='utf-8')
+        temporary.replace(cache_path)
+
+    def fit(group, target, family, features, *, states=2, mode='static', label=None):
+        key = '|'.join([target, family, str(states), mode, *features])
+        saved['groups'].setdefault(group, []).append(key)
+        if key in saved['models']:
+            return key
+        name = label or f'{target.removeprefix("Inflation_")} {family}'
+        print(f'Fitting {name} ({group})', flush=True)
+        if family == 'Naive':
+            test = sample.loc[sample.Date.isin(dates)]
+            result = ForecastResult(name, pd.DataFrame({'Date': test.Date, 'Actual': test[target],
+                'Forecast': test[features[0]]}), {'features': features})
+        elif mode == 'static':
+            if family == 'HMM':
+                result = fit_hmm(sample, target=target, test_start=test_start)
+            elif family == 'AR-HMM':
+                try:
+                    result = fit_ar_hmm(sample, features=features, name=name, target=target,
+                                        test_start=test_start, n_states=states)
+                except RuntimeError:
+                    print(f'Retrying {name} with training-only predictor scaling', flush=True)
+                    training = sample.loc[sample.Date.lt(test_start), features]
+                    center, scale = training.mean(), training.std().replace(0, 1)
+                    scaled_sample = sample.copy()
+                    scaled_sample[features] = (sample[features] - center) / scale
+                    result = fit_ar_hmm(scaled_sample, features=features, name=name,
+                                        target=target, test_start=test_start, n_states=states)
+                    result.parameters['predictor_scaling'] = {
+                        'center': center.to_dict(), 'scale': scale.to_dict(),
+                        'policy': 'Fixed initial-training scaling after unscaled convergence failure',
+                    }
+            elif family == 'LASSO':
+                result = fit_lasso(sample, features=features, name=name, target=target, test_start=test_start)
+            else:
+                result = fit_ols_forecast(sample, features=features, name=name, target=target, test_start=test_start)
+        else:
+            fitter = fit_expanding_ar_hmm if family == 'AR-HMM' else fit_expanding_macro
+            try:
+                result = fitter(sample, schedule, features=features, name=name, target=target,
+                                **({'n_states': states} if family == 'AR-HMM' else {}))
+            except RuntimeError:
+                if family != 'AR-HMM':
+                    raise
+                print(f'Retrying {name} with training-only predictor scaling', flush=True)
+                training = sample.loc[sample.Date.lt(test_start), features]
+                center, scale = training.mean(), training.std().replace(0, 1)
+                scaled_sample = sample.copy()
+                scaled_sample[features] = (sample[features] - center) / scale
+                result = fitter(scaled_sample, schedule, features=features, name=name,
+                                target=target, n_states=states)
+                result.parameters['predictor_scaling'] = {
+                    'center': center.to_dict(), 'scale': scale.to_dict(),
+                    'policy': 'Fixed initial-training scaling after unscaled convergence failure',
+                }
+        output = result.forecasts.copy()
+        if not pd.DatetimeIndex(output.Date).equals(pd.DatetimeIndex(dates)):
+            raise ValueError(f'Unexpected forecast dates for {name}.')
+        if not np.isfinite(output[['Actual', 'Forecast']].to_numpy()).all():
+            raise ValueError(f'Nonfinite forecasts for {name}.')
+        output['Date'] = pd.to_datetime(output.Date).dt.strftime('%Y-%m-%d')
+        saved['models'][key] = {'name': name, 'target': target, 'family': family,
+            'features': features, 'states': states if family in ('AR-HMM', 'HMM') else None,
+            'mode': mode, 'metrics': forecast_metrics(output.Actual, output.Forecast),
+            'forecasts': output.to_dict('records'), 'parameters': result.parameters}
+        checkpoint()
+        return key
+
+    mom = 'Inflation_MoM'
+    lag1 = [f'{mom}_Lag1']
+    for family, features, name in [
+        ('AR', lag1, 'Static AR(1)'), ('AR', [*lag1, 'News_Sentiment'], 'Static ARX + sentiment'),
+        ('HMM', [], 'Static HMM'), ('AR-HMM', lag1, 'Static AR-HMM'),
+        ('AR-HMM', [*lag1, 'Sentiment_Lag1'], 'Static AR-HMM + lagged sentiment'),
+        ('LASSO', [f'{mom}_Lag{i}' for i in range(1, 7)], 'Static LASSO'),
+        ('LASSO', [*[f'{mom}_Lag{i}' for i in range(1, 7)], *[f'Sentiment_Lag{i}' for i in range(1, 7)]], 'Static LASSO + sentiment'),
+    ]:
+        fit('Static baselines', mom, family, features, mode='static', label=name)
+
+    for family in ['AR', 'AR-HMM']:
+        for mode in ['static', 'expanding']:
+            fit('Static vs expanding', mom, family, lag1, mode=mode,
+                label=f'{mode.title()} {family}(1)'
+                + (' · 2 states' if family == 'AR-HMM' else ''))
+
+    for target, macro_order in [(mom, 1), ('Inflation_YoY', 2)]:
+        prefix = target.removeprefix('Inflation_')
+        for order in range(1, 7):
+            features = [f'{target}_Lag{i}' for i in range(1, order+1)]
+            for family in ['AR', 'AR-HMM']:
+                fit(f'{prefix} lag orders', target, family, features, mode='static',
+                    label=f'{prefix} {family}({order})' + (' · 2 states' if family == 'AR-HMM' else ''))
+        fit(f'{prefix} lag orders', target, 'Naive', [f'{target}_Lag1'], mode='static',
+            label=f'{prefix} naive')
+        if target == mom:
+            fit('MoM state counts', target, 'AR', lag1, mode='static', label='MoM AR(1)')
+            for count in [2, 3, 4]:
+                fit('MoM state counts', target, 'AR-HMM', lag1, states=count, mode='static',
+                    label=f'MoM AR-HMM(1) · {count} states')
+        base = [f'{target}_Lag{i}' for i in range(1, macro_order+1)]
+        macro_keys = {'AR': [], 'AR-HMM': []}
+        for size in range(5):
+            for subset in combinations(range(4), size):
+                suffix = ' + '.join(['Oil', 'Unemployment', 'Industry', 'Fed rate'][i] for i in subset)
+                features = [*base, *[macro_columns[i] for i in subset]]
+                for family in macro_keys:
+                    key = fit(f'{prefix} macro', target, family, features, mode='static',
+                        label=f'{prefix} {family}({macro_order})' + (f' + {suffix}' if suffix else ''))
+                    if subset:
+                        macro_keys[family].append(key)
+        for family in macro_keys:
+            best_key = min(macro_keys[family], key=lambda key: saved['models'][key]['metrics']['rmse'])
+            best = saved['models'][best_key]
+            for features, name in [(base, f'{prefix} {family}({macro_order})'), (best['features'], best['name'])]:
+                fit(f'{prefix} sentiment', target, family, features, mode='static', label=name)
+                fit(f'{prefix} sentiment', target, family, [*features, 'News_Sentiment'],
+                    mode='static', label=name+' + sentiment')
+        if target == mom:
+            for family in ['AR', 'AR-HMM']:
+                fit('MoM sentiment aggregations', target, family, base, mode='static',
+                    label=f'MoM {family}(1)')
+                for feature in sentiments:
+                    fit('MoM sentiment aggregations', target, family, [*base, feature], mode='static',
+                        label=f'MoM {family}(1) + {feature}')
+    checkpoint()
+    print(f'Completed {len(saved["models"])} model specifications.', flush=True)
+    return saved
 
 
-def run_regime_experiment(dataset, output_dir, *, test_start="2017-01-01",
-                          test_end="2023-12-01", n_states=4):
-    """Change only state count, holding the expanding lag-1 sample fixed."""
-    if n_states not in (2, 3, 4):
-        raise ValueError("n_states must be 2, 3, or 4.")
-    data, _, _ = load_macro_benchmark_snapshot(Path(dataset))
-    required = ["Inflation_MoM", *MACRO_BENCHMARK_FEATURES]
-    sample = data.loc[data[required].notna().all(axis=1) & data.Date.le(test_end)].copy()
-    sample["TargetAssumedAvailableBy"] = sample.Date + pd.offsets.MonthEnd(2)
-    dates = sample.loc[sample.Date.between(test_start, test_end), "Date"]
-    if not pd.DatetimeIndex(dates).equals(pd.date_range(test_start, test_end, freq="MS")):
-        raise ValueError("Incomplete evaluation period.")
-    schedule = pd.DataFrame({"TargetMonth": dates,
-                             "ForecastOrigin": dates + pd.offsets.MonthEnd(0)})
-    results = {}
-    ar = fit_expanding_macro(sample, schedule, features=["Inflation_Lag1"], name="AR(1)")
-    results[ar.name] = ar
-    for count in dict.fromkeys([2, n_states]):
-        name = f"AR-HMM ({count} states)"
-        print(f"Fitting {name} over {len(dates)} months", flush=True)
-        results[name] = fit_expanding_ar_hmm(
-            sample, schedule, features=["Inflation_Lag1"], name=name, n_states=count,
-        )
-    output_dir = Path(output_dir)
-    metrics = save_result_bundle(results, output_dir, metadata={
-        "experiment": "controlled_arhmm_state_count", "n_states": n_states,
-        "features": ["Inflation_Lag1"], "test_start": test_start, "test_end": test_end,
-        "timing": "Existing expanding lag-1 month-end convention; no forecast date shifting",
-        "labels": "Crisis denotes highest conditional inflation, not an independently validated crisis",
-    })
-    regime_result = results[f"AR-HMM ({n_states} states)"]
-    regime_result.forecasts.to_csv(output_dir / "regimes.csv", index=False)
-    fig = plot_predicted_regimes(regime_result.forecasts, regime_result.parameters["regime_labels"])
-    fig.savefig(output_dir / "predicted_regimes.png", dpi=160, bbox_inches="tight")
-    plt.close(fig)
-    forecasts = pd.read_csv(output_dir / "forecasts.csv", parse_dates=["Date"])
-    ax = forecasts.set_index("Date").plot(figsize=(13, 4), ylabel="Monthly inflation (%)",
-                                         title=f"Same inputs and dates: AR(1), 2-state and {n_states}-state AR-HMM")
+def notebook_result_table(results, group):
+    """Present a comparison from the single notebook cache."""
+    return pd.DataFrame([{'key': key, 'model': results['models'][key]['name'],
+        'family': results['models'][key]['family'], 'estimation': results['models'][key]['mode'],
+        **results['models'][key]['metrics']}
+        for key in dict.fromkeys(results['groups'][group])]).sort_values('rmse').reset_index(drop=True)
+
+
+def plot_notebook_forecasts(results, keys, title):
+    """Plot selected models on the requested calendar, including unavailable months."""
+    keys = list(dict.fromkeys(keys))
+    targets = {results['models'][key]['target'] for key in keys}
+    if len(targets) != 1:
+        raise ValueError('Plot monthly and YoY inflation separately.')
+    calendar = pd.date_range(results['signature']['test_start'], results['signature']['test_end'], freq='MS')
+    plotted = pd.DataFrame(index=calendar)
+    for key in keys:
+        model = results['models'][key]
+        frame = pd.DataFrame(model['forecasts']).set_index('Date')
+        frame.index = pd.to_datetime(frame.index)
+        if 'Actual' not in plotted:
+            plotted['Actual'] = frame.Actual
+        plotted[model['name']] = frame.Forecast
+    ax = plotted.plot(figsize=(14, 4), title=title, ylabel='Inflation (%)')
+    unavailable_start = pd.Timestamp(results['sample']['scored_end']) + pd.offsets.MonthBegin(1)
+    if unavailable_start <= calendar.max():
+        ax.axvspan(unavailable_start, calendar.max(), color='#aaaaaa', alpha=.2,
+                   label='Unavailable for common comparison')
+    ax.set_xlim(calendar.min(), calendar.max())
+    ax.legend(fontsize=8)
     ax.grid(alpha=.2)
-    ax.figure.tight_layout()
-    ax.figure.savefig(output_dir / "forecast_comparison.png", dpi=160, bbox_inches="tight")
-    plt.close(ax.figure)
-    return metrics
+    plt.tight_layout()
+    return ax
+
 
 
 def plot_predicted_regimes(frame, labels=("Low", "Moderate", "High", "Crisis")):
@@ -396,40 +252,10 @@ def plot_predicted_regimes(frame, labels=("Low", "Moderate", "High", "Crisis")):
     return fig
 
 
-def compare_state_count_bundles(results_dir):
-    """Combine the lag-1 state-count runs without mixing lag-order samples."""
-    results_dir = Path(results_dir)
-    results = {}
-    for count, folder in [(3, 'arhmm_three_states'), (4, 'arhmm_four_states')]:
-        directory = results_dir / folder
-        details = json.loads((directory / 'parameters.json').read_text(encoding='utf-8'))
-        metadata = details['metadata']
-        if metadata['n_states'] != count or metadata['features'] != ['Inflation_Lag1']:
-            raise ValueError(f'Unexpected state count or inputs in {folder}.')
-        frame = pd.read_csv(directory / 'forecasts.csv', parse_dates=['Date'])
-        names = ['AR(1)', 'AR-HMM (2 states)'] if count == 3 else []
-        for name in [*names, f'AR-HMM ({count} states)']:
-            results[name] = ForecastResult(
-                name, frame[['Date', 'Actual', name]].rename(columns={name: 'Forecast'}),
-                details['models'][name],
-            )
-    output = results_dir / 'arhmm_state_counts'
-    metrics = save_result_bundle(results, output, metadata={
-        'experiment': 'controlled_lag1_state_counts', 'state_counts': [2, 3, 4],
-        'features': ['Inflation_Lag1'], 'target': 'Inflation_MoM',
-        'timing': 'Existing expanding month-end convention',
-        'source_bundles': ['arhmm_three_states', 'arhmm_four_states'],
-    })
-    metrics['rmse_change_vs_2_states_pct'] = 100 * (
-        metrics.rmse / metrics.loc[metrics.model.eq('AR-HMM (2 states)'), 'rmse'].iloc[0] - 1
-    )
-    metrics.to_csv(output / 'metrics.csv', index=False)
-    return metrics
-
 
 if __name__ == "__main__":
     root = Path(__file__).resolve().parents[1]
-    print(run_regime_experiment(
-        root / "data/processed/modelling_datasets/us_nyt_monthly_experiment.csv",
-        root / "data/processed/model_results/arhmm_four_states",
-    ).to_string(index=False))
+    run_notebook_results(
+        root / 'data/processed/modelling_datasets/extended_2025/us_nyt_monthly_experiment.csv',
+        root / 'data/processed/model_results/results_static_2022_2025.json',
+    )

@@ -108,15 +108,24 @@ def normalize_and_filter_docs(docs: list[dict]) -> pd.DataFrame:
 
 
 def _request_month(session, api_key: str, year: int, month: int, timeout: int = 120) -> list[dict]:
+    import requests
     url = NYT_ARCHIVE_URL.format(year=year, month=month)
     for attempt in range(6):
-        response = session.get(url, params={"api-key": api_key}, timeout=timeout)
+        try:
+            response = session.get(url, params={"api-key": api_key}, timeout=timeout)
+        except requests.RequestException:
+            raise RuntimeError(f"NYT request failed for {year}-{month:02d}; check connectivity.") from None
         if response.status_code == 429:
             time.sleep(min(60, 5 * (2 ** attempt)))
             continue
-        response.raise_for_status()
+        if not response.ok:
+            # Requests' default exception includes the URL and its API key.
+            raise RuntimeError(f"NYT returned HTTP {response.status_code} for {year}-{month:02d}.")
         payload = response.json()
-        return payload.get("response", {}).get("docs", [])
+        docs = payload.get("response", {}).get("docs")
+        if not isinstance(docs, list) or not docs:
+            raise RuntimeError(f"NYT archive is empty or malformed for {year}-{month:02d}.")
+        return docs
     raise RuntimeError(f"NYT rate limit persisted for {year}-{month:02d}.")
 
 

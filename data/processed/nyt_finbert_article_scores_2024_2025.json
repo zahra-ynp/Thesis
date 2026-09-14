@@ -1,0 +1,18 @@
+{
+  "model": "ProsusAI/finbert",
+  "loaded_from": "C:/Users/zahra/.cache/huggingface/hub/models--ProsusAI--finbert/snapshots/4556d13015211d73dccd3fdd39d39232506f3e43",
+  "torch_version": "2.14.0+cpu",
+  "transformers_version": "4.57.6",
+  "article_input_sha256": "7e717ded43383e9a2cffe66dc03f7211b3850a820e256eea0e065e21d5e97ec0",
+  "score_output_sha256": "d8609da7644f3d1bd79f8cbab46b92c29eae31242868b7379fcb78e8ab540e43",
+  "max_length": 512,
+  "score_definition": "P(positive) - P(negative)",
+  "completed_at_utc": "2026-09-14T09:06:53.028692+00:00",
+  "local_model_file_hashes": {
+    "config.json": "f6449ddda85eb726207a40be59c0cd3bd4b142ccb27298d5e45f9ae3396b1abe",
+    "pytorch_model.bin": "e15a7b5738df7f17553399b6d94c6e2ff69c89245d066e8e5d183f5803a554e3",
+    "special_tokens_map.json": "303df45a03609e4ead04bc3dc1536d0ab19b5358db685b6f3da123d05ec200e3",
+    "tokenizer_config.json": "ffc7913f6084b138dad68de5a0c2f0ee25ac983709260901e01f53be5796b9d9",
+    "vocab.txt": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3"
+  }
+}

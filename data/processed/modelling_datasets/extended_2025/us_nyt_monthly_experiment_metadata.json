@@ -1,0 +1,131 @@
+{
+  "experiment": "inflation_sentiment_forecasting",
+  "schema_version": 1,
+  "created_at_utc": "2026-09-14T09:07:23.829021+00:00",
+  "region_code": "US",
+  "news_source": {
+    "source_code": "NYT",
+    "source_name": "The New York Times Archive API",
+    "was_active_at_export": true,
+    "selection_rule": "explicit source_code; experiment does not depend on active view"
+  },
+  "coverage": {
+    "row_count": 228,
+    "first_month": "2007-01-01",
+    "last_month": "2025-12-01",
+    "missing_calendar_months": [],
+    "months_with_sentiment": 228,
+    "months_without_sentiment": 0,
+    "article_count_total": 18063,
+    "macro_missing_values": {
+      "CPIAUCSL": 1,
+      "UNRATE": 1,
+      "FEDFUNDS": 0,
+      "INDPRO": 0,
+      "MCOILWTICO": 0
+    }
+  },
+  "target_definitions": {
+    "primary": "Inflation_MoM = 100 * monthly percentage change in CPIAUCSL",
+    "secondary": "Inflation_YoY = 100 * twelve-month percentage change in CPIAUCSL"
+  },
+  "predictor_timing": {
+    "forecast_horizon_months": 1,
+    "policy": "Only lag-1 predictors are used to forecast month t."
+  },
+  "split": {
+    "test_start": "2022-01-01",
+    "train_first_month": "2007-01-01",
+    "train_last_month": "2021-12-01",
+    "test_first_month": "2022-01-01",
+    "test_last_month": "2025-11-01"
+  },
+  "macro_transformations": {
+    "UNRATE": "first difference",
+    "FEDFUNDS": "first difference",
+    "INDPRO": "monthly percentage growth",
+    "MCOILWTICO": "monthly log growth"
+  },
+  "extension": {
+    "historical_dataset_sha256": "130ae816acf665f5028d7c637b052a8f24565b47e32dd173b507d3d013c357a2",
+    "historical_scores_sha256": "df1244bd15f1f5dd8e1366e9aae88432a4242c27f369e7fa98b311e367c48dc6",
+    "new_articles": 1608,
+    "new_scores_sha256": "d8609da7644f3d1bd79f8cbab46b92c29eae31242868b7379fcb78e8ab540e43",
+    "sentiment_model": "ProsusAI/finbert",
+    "historical_articles_rescored": 0,
+    "macro_terms": [
+      "inflation",
+      "consumer price",
+      "producer price",
+      "cost of living",
+      "federal reserve",
+      "interest rate",
+      "monetary policy",
+      "fed funds",
+      "unemployment",
+      "employment",
+      "labor market",
+      "labour market",
+      "jobless",
+      "nonfarm payroll",
+      "wage growth",
+      "gross domestic product",
+      "gdp",
+      "economic growth",
+      "recession",
+      "consumer spending",
+      "retail sales",
+      "industrial production",
+      "supply chain",
+      "energy prices",
+      "oil prices"
+    ],
+    "us_terms": [
+      "united states",
+      "u.s.",
+      " u.s ",
+      "american economy",
+      "federal reserve",
+      "fed funds",
+      "washington",
+      "wall street",
+      "bureau of labor statistics",
+      "commerce department",
+      "treasury department"
+    ],
+    "fred_sources": {
+      "CPIAUCSL": {
+        "sha256": "d467c9b181b03f8c88b840fb7a4c4fce119218f6658d157e7727ae7830ec7d40",
+        "retrieved_at_utc": "2026-09-14T08:57:12.861764+00:00"
+      },
+      "UNRATE": {
+        "sha256": "69f0f72e7d51f30f3236270655f73a369ea0509ac02ef3d1541e2c640310517e",
+        "retrieved_at_utc": "2026-09-14T08:57:13.433593+00:00"
+      },
+      "FEDFUNDS": {
+        "sha256": "e5d8e7e14fa97a912715a3203ca374deed5d09d9d74b36393862e36102191b66",
+        "retrieved_at_utc": "2026-09-14T08:57:13.941824+00:00"
+      },
+      "INDPRO": {
+        "sha256": "2516feeab1baeacf29b38686e47fcc087a7b861cc9d72c6034912d65c2b2b4c1",
+        "retrieved_at_utc": "2026-09-14T08:57:14.491221+00:00"
+      },
+      "MCOILWTICO": {
+        "sha256": "b70578f6dd8247dd4b9955d75aeb72a0451cac64632e9266a38a737b2e86d9d4",
+        "retrieved_at_utc": "2026-09-14T08:57:15.111733+00:00"
+      }
+    },
+    "fred_policy": "Refresh the full macro history consistently; preserve the original experiment separately.",
+    "evaluation_caveat": "Latest revised FRED data, not vintage data available at each historical forecast origin.",
+    "missing_observations": {
+      "CPIAUCSL": [
+        "2025-10"
+      ],
+      "UNRATE": [
+        "2025-10"
+      ]
+    },
+    "missing_data_policy": "Preserve missing values; never impute test actuals.",
+    "missing_data_source": "https://www.bls.gov/bls/2025-lapse-revised-release-dates.htm"
+  }
+}
