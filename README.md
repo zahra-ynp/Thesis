@@ -12,7 +12,7 @@ This project forecasts US inflation and identifies inflation regimes using AR(1)
 
 - **Database:** normalized SQL Server schemas, ingestion scripts, analytics views, and metadata.
 - **NLP:** FinBERT article scoring and monthly sentiment aggregation.
-- **Forecasting:** chronological one-month-ahead experiments with a common 2017–2023 test period.
+- **Forecasting:** chronological one-month-ahead experiments with a common 2017–2025 test period.
 - **Dashboard:** interactive access to the processed data and model results.
 
 ## Data
@@ -32,7 +32,7 @@ FinBERT calculates monthly net sentiment as:
 sentiment = P(positive) - P(negative)
 ```
 
-Each experiment selects a named news source explicitly; FinSen and NYT are not averaged together. Forecasts use only lagged information to prevent look-ahead bias. SQL Server is the primary store, while exported experiment datasets provide auditable, reproducible snapshots.
+Each experiment selects a named news source explicitly; FinSen and NYT are not averaged together. Predictor timing is explicit: lagged inputs support forecasts, while target-month sentiment supports month-end nowcasts. SQL Server is the primary store, while exported experiment datasets provide auditable, reproducible snapshots.
 
 ## Models
 
@@ -49,9 +49,9 @@ Each experiment selects a named news source explicitly; FinSen and NYT are not a
 
 Forecasts are compared on common out-of-sample dates using RMSE, MAE, and mean error. Lower RMSE and MAE are better; mean error indicates systematic underprediction or overprediction.
 
-## Controlled AR-HMM Experiments
+## Historical experiments (2017�2023)
 
-All experiments use expanding-window forecasts for January 2017 through December 2023.
+The following archived results used January 2017 through December 2023. Notebook 02 now runs the 2022�2025 comparison described above.
 
 | Experiment | Result |
 |---|---|
@@ -67,7 +67,7 @@ For YoY inflation, AR-HMM(p=2) improves on AR(2) by 2.12% and also beats the na�
 
 The YoY macro experiment tests all 16 combinations of oil, unemployment, industrial production, and the Fed rate for both AR and two-state AR-HMM. AR-HMM beats AR for some matching inputs, with the largest gain of 1.84% for industry alone, but the best overall model is AR(2) with oil and unemployment. Adding mean FinBERT sentiment does not improve the YoY baseline or best-macro models.
 
-The experiments use their own common training samples, so results should be compared within each experiment. Outputs are stored under `data/processed/model_results/` in `arhmm_four_states/`, `arhmm_lag_orders/`, `arhmm_yoy_lag_orders/`, `yoy_macro/`, and `yoy_sentiment/`, and are displayed in Notebook 02.
+The experiments use their own common training samples, so results should be compared within each experiment. Outputs are stored under `data/processed/model_results/` in `arhmm_four_states/`, `arhmm_lag_orders/`, `arhmm_yoy_lag_orders/`, `yoy_macro/`, and `yoy_sentiment/`, and are retained as historical outputs.
 
 ## Repository Structure
 
