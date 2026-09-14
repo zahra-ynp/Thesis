@@ -43,7 +43,7 @@ def run_notebook_results(dataset, cache_path, *, test_start='2022-01-01',
     sample['TargetAssumedAvailableBy'] = sample.Date + pd.offsets.MonthEnd(2)
     schedule = pd.DataFrame({'TargetMonth': dates, 'ForecastOrigin': dates + pd.offsets.MonthEnd(0)})
     signature = {'dataset_sha256': hashlib.sha256(dataset.read_bytes()).hexdigest(),
-                 'test_start': test_start, 'test_end': test_end, 'version': 3,
+                 'test_start': test_start, 'test_end': test_end, 'version': 5,
                  'main_estimation': 'static'}
     saved = json.loads(cache_path.read_text()) if cache_path.exists() and not rerun else {}
     if saved.get('signature') != signature:
@@ -66,8 +66,18 @@ def run_notebook_results(dataset, cache_path, *, test_start='2022-01-01',
         temporary.write_text(json.dumps(saved, allow_nan=False), encoding='utf-8')
         temporary.replace(cache_path)
 
-    def fit(group, target, family, features, *, states=2, mode='static', label=None):
-        key = '|'.join([target, family, str(states), mode, *features])
+    def fit(group, target, family, features, *, states=2, mode='static', label=None,
+            structure=None, switching_intercept=True, switching_ar=True,
+            switching_variance=False):
+        if family == 'MS-Variance':
+            structure = structure or 'switching-variance-only'
+            switching_intercept = False
+            switching_ar = False
+            switching_variance = True
+        key_parts = [target, family, str(states), mode, *features]
+        if structure:
+            key_parts.append(f'structure={structure}')
+        key = '|'.join(key_parts)
         saved['groups'].setdefault(group, []).append(key)
         if key in saved['models']:
             return key
@@ -80,10 +90,13 @@ def run_notebook_results(dataset, cache_path, *, test_start='2022-01-01',
         elif mode == 'static':
             if family == 'HMM':
                 result = fit_hmm(sample, target=target, test_start=test_start)
-            elif family == 'AR-HMM':
+            elif family in ('AR-HMM', 'MS-Variance'):
                 try:
                     result = fit_ar_hmm(sample, features=features, name=name, target=target,
-                                        test_start=test_start, n_states=states)
+                                        test_start=test_start, n_states=states,
+                                        switching_intercept=switching_intercept,
+                                        switching_ar=switching_ar,
+                                        switching_variance=switching_variance)
                 except RuntimeError:
                     print(f'Retrying {name} with training-only predictor scaling', flush=True)
                     training = sample.loc[sample.Date.lt(test_start), features]
@@ -91,7 +104,10 @@ def run_notebook_results(dataset, cache_path, *, test_start='2022-01-01',
                     scaled_sample = sample.copy()
                     scaled_sample[features] = (sample[features] - center) / scale
                     result = fit_ar_hmm(scaled_sample, features=features, name=name,
-                                        target=target, test_start=test_start, n_states=states)
+                                        target=target, test_start=test_start, n_states=states,
+                                        switching_intercept=switching_intercept,
+                                        switching_ar=switching_ar,
+                                        switching_variance=switching_variance)
                     result.parameters['predictor_scaling'] = {
                         'center': center.to_dict(), 'scale': scale.to_dict(),
                         'policy': 'Fixed initial-training scaling after unscaled convergence failure',
@@ -126,7 +142,7 @@ def run_notebook_results(dataset, cache_path, *, test_start='2022-01-01',
             raise ValueError(f'Nonfinite forecasts for {name}.')
         output['Date'] = pd.to_datetime(output.Date).dt.strftime('%Y-%m-%d')
         saved['models'][key] = {'name': name, 'target': target, 'family': family,
-            'features': features, 'states': states if family in ('AR-HMM', 'HMM') else None,
+            'features': features, 'states': states if family in ('AR-HMM', 'MS-Variance', 'HMM') else None,
             'mode': mode, 'metrics': forecast_metrics(output.Actual, output.Forecast),
             'forecasts': output.to_dict('records'), 'parameters': result.parameters}
         checkpoint()
@@ -153,41 +169,57 @@ def run_notebook_results(dataset, cache_path, *, test_start='2022-01-01',
         prefix = target.removeprefix('Inflation_')
         for order in range(1, 7):
             features = [f'{target}_Lag{i}' for i in range(1, order+1)]
-            for family in ['AR', 'AR-HMM']:
+            for family in ['AR', 'MS-Variance']:
                 fit(f'{prefix} lag orders', target, family, features, mode='static',
-                    label=f'{prefix} {family}({order})' + (' · 2 states' if family == 'AR-HMM' else ''))
+                    label=(f'{prefix} AR({order})' if family == 'AR' else
+                           f'{prefix} MS-Variance AR({order}) · 2 states'))
         fit(f'{prefix} lag orders', target, 'Naive', [f'{target}_Lag1'], mode='static',
             label=f'{prefix} naive')
         if target == mom:
-            fit('MoM state counts', target, 'AR', lag1, mode='static', label='MoM AR(1)')
-            for count in [2, 3, 4]:
-                fit('MoM state counts', target, 'AR-HMM', lag1, states=count, mode='static',
-                    label=f'MoM AR-HMM(1) · {count} states')
+            fit('MoM two-state structures', target, 'AR-HMM', lag1, mode='static',
+                label='Switching intercept + switching AR · common variance')
+            fit('MoM two-state structures', target, 'AR-HMM', lag1, mode='static',
+                structure='switching-intercept-common-ar', switching_ar=False,
+                label='Switching intercept · common AR · common variance')
+            fit('MoM two-state structures', target, 'AR-HMM', lag1, mode='static',
+                structure='switching-intercept-common-ar-switching-variance',
+                switching_ar=False, switching_variance=True,
+                label='Switching intercept + variance · common AR')
+            fit('MoM two-state structures', target, 'AR-HMM', lag1, mode='static',
+                structure='switching-variance-only', switching_intercept=False,
+                switching_ar=False, switching_variance=True,
+                label='Switching variance only · common intercept and AR')
         base = [f'{target}_Lag{i}' for i in range(1, macro_order+1)]
-        macro_keys = {'AR': [], 'AR-HMM': []}
+        macro_keys = {'AR': [], 'MS-Variance': []}
         for size in range(5):
             for subset in combinations(range(4), size):
                 suffix = ' + '.join(['Oil', 'Unemployment', 'Industry', 'Fed rate'][i] for i in subset)
                 features = [*base, *[macro_columns[i] for i in subset]]
                 for family in macro_keys:
+                    family_label = 'AR' if family == 'AR' else 'MS-Variance AR'
                     key = fit(f'{prefix} macro', target, family, features, mode='static',
-                        label=f'{prefix} {family}({macro_order})' + (f' + {suffix}' if suffix else ''))
+                        label=f'{prefix} {family_label}({macro_order})'
+                        + (f' + {suffix}' if suffix else ''))
                     if subset:
                         macro_keys[family].append(key)
         for family in macro_keys:
             best_key = min(macro_keys[family], key=lambda key: saved['models'][key]['metrics']['rmse'])
             best = saved['models'][best_key]
-            for features, name in [(base, f'{prefix} {family}({macro_order})'), (best['features'], best['name'])]:
+            family_label = 'AR' if family == 'AR' else 'MS-Variance AR'
+            for features, name in [(base, f'{prefix} {family_label}({macro_order})'),
+                                   (best['features'], best['name'])]:
                 fit(f'{prefix} sentiment', target, family, features, mode='static', label=name)
                 fit(f'{prefix} sentiment', target, family, [*features, 'News_Sentiment'],
                     mode='static', label=name+' + sentiment')
         if target == mom:
-            for family in ['AR', 'AR-HMM']:
+            for family in ['AR', 'MS-Variance']:
                 fit('MoM sentiment aggregations', target, family, base, mode='static',
-                    label=f'MoM {family}(1)')
+                    label=('MoM AR(1)' if family == 'AR' else
+                           'MoM MS-Variance AR(1) · 2 states'))
                 for feature in sentiments:
                     fit('MoM sentiment aggregations', target, family, [*base, feature], mode='static',
-                        label=f'MoM {family}(1) + {feature}')
+                        label=(f'MoM AR(1) + {feature}' if family == 'AR' else
+                               f'MoM MS-Variance AR(1) + {feature}'))
     checkpoint()
     print(f'Completed {len(saved["models"])} model specifications.', flush=True)
     return saved

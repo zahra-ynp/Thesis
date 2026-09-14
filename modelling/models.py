@@ -132,11 +132,11 @@ def _normal_density(value: float, means: np.ndarray, variance: float) -> np.ndar
 def _filtered_probability_update(
     actual: float,
     state_forecasts: np.ndarray,
-    variance: float,
+    variance: float | np.ndarray,
     predicted_probabilities: np.ndarray,
 ) -> np.ndarray:
     """Bayes update in log space to avoid all-zero regime likelihoods."""
-    variance = max(float(variance), np.finfo(float).tiny)
+    variance = np.maximum(np.asarray(variance, dtype=float), np.finfo(float).tiny)
     log_weights = (
         np.log(np.clip(predicted_probabilities, np.finfo(float).tiny, None))
         - 0.5 * ((float(actual) - state_forecasts) ** 2) / variance
@@ -198,6 +198,9 @@ def fit_ar_hmm(
     maxiter: int = 2000,
     search_reps: int = 30,
     random_seed: int = 42,
+    switching_intercept: bool = True,
+    switching_ar: bool = True,
+    switching_variance: bool = False,
 ) -> ForecastResult:
     """Fit the existing AR-HMM with state-specific predictor coefficients."""
     import statsmodels.api as sm
@@ -210,25 +213,43 @@ def fit_ar_hmm(
         k_regimes=n_states,
         trend="c",
         exog=train[list(features)],
-        switching_exog=True,
-        switching_variance=False,
+        switching_trend=switching_intercept,
+        switching_exog=switching_ar,
+        switching_variance=switching_variance,
     )
     np.random.seed(random_seed)
     fitted = model.fit(disp=False, maxiter=maxiter, search_reps=search_reps)
 
-    constants = np.array([fitted.params[f"const[{state}]"] for state in range(n_states)])
+    constants = (np.array([fitted.params[f"const[{state}]"] for state in range(n_states)])
+                 if switching_intercept
+                 else np.repeat(float(fitted.params["const"]), n_states))
     coefficients = np.array([
-        [fitted.params[f"x{feature_index + 1}[{state}]"] for feature_index in range(len(features))]
+        [
+            (fitted.params[f"x{feature_index + 1}[{state}]"] if switching_ar else
+             fitted.params[next(parameter for parameter in fitted.params.index
+                                if parameter == f"x{feature_index + 1}" or
+                                parameter.startswith(f"x{feature_index + 1}["))])
+            for feature_index in range(len(features))
+        ]
         for state in range(n_states)
     ])
-    variance = float(fitted.params["sigma2"])
+    variances = (np.array([fitted.params[f"sigma2[{state}]"] for state in range(n_states)])
+                 if switching_variance
+                 else np.repeat(float(fitted.params["sigma2"]), n_states))
     transition = np.asarray(fitted.regime_transition[:, :, 0])
     filtered = np.asarray(fitted.filtered_marginal_probabilities.iloc[-1], dtype=float)
     reference_features = train[list(features)].mean().to_numpy(dtype=float)
     reference_levels = constants + coefficients @ reference_features
-    order = np.argsort(reference_levels, kind="stable")
-    regime_labels = (["Low", "Moderate", "High", "Crisis"] if n_states == 4
-                     else [f"Level {i + 1}" for i in range(n_states)])
+    variance_only = (not switching_intercept and not switching_ar and switching_variance)
+    if variance_only and n_states == 2:
+        order = np.argsort(variances, kind="stable")
+        regime_labels = ["Low volatility", "High volatility"]
+        regime_label_rule = "ascending regime-specific innovation variance"
+    else:
+        order = np.argsort(reference_levels, kind="stable")
+        regime_labels = (["Low", "Moderate", "High", "Crisis"] if n_states == 4
+                         else [f"Level {i + 1}" for i in range(n_states)])
+        regime_label_rule = "ascending conditional inflation at initial-training mean predictors"
     rows = []
     for (_, row), actual in zip(test.iterrows(), test[target].to_numpy()):
         predicted_probabilities = transition @ filtered
@@ -245,7 +266,7 @@ def fit_ar_hmm(
                for label, probability in zip(regime_labels, ordered_probabilities)},
         })
         filtered = _filtered_probability_update(
-            actual, state_forecasts, variance, predicted_probabilities
+            actual, state_forecasts, variances, predicted_probabilities
         )
 
     output = pd.DataFrame(rows)
@@ -259,10 +280,16 @@ def fit_ar_hmm(
         "state_coefficients": {
             feature: coefficients[:, index].tolist() for index, feature in enumerate(features)
         },
-        "variance": variance,
+        "state_variances": variances.tolist(),
         "transition_matrix": transition.tolist(),
+        "switching_intercept": switching_intercept,
+        "switching_ar": switching_ar,
+        "switching_variance": switching_variance,
+        "log_likelihood": float(fitted.llf),
+        "aic": float(fitted.aic),
+        "bic": float(fitted.bic),
         "regime_labels": regime_labels,
-        "regime_label_rule": "ascending conditional inflation at initial-training mean predictors",
+        "regime_label_rule": regime_label_rule,
         "regime_reference_features": dict(zip(features, reference_features.tolist())),
         "reference_state_levels": reference_levels[order].tolist(),
         "raw_state_order": order.tolist(),
