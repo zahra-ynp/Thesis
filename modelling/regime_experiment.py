@@ -29,7 +29,11 @@ def run_notebook_results(dataset, cache_path, *, test_start='2022-01-01',
         frame[f'Sentiment_Lag{lag}'] = frame.News_Sentiment.shift(lag)
     macro_columns = list(MACRO_BENCHMARK_FEATURES[1:])
     sentiments = ['News_Sentiment', 'Sentiment_Median', 'Negative_Share', 'Sentiment_Std']
+    subject_risks = ['Geopolitical_Risk', 'Energy_Risk', 'Supply_Chain_Risk']
+    for feature in subject_risks:
+        frame[f'{feature}_Lag1'] = frame[feature].shift(1)
     common = ['Inflation_MoM', 'Inflation_YoY', *macro_columns, *sentiments,
+              *subject_risks, *[f'{feature}_Lag1' for feature in subject_risks],
               *[f'{target}_Lag{lag}' for target in ['Inflation_MoM', 'Inflation_YoY'] for lag in range(1, 7)],
               *[f'Sentiment_Lag{lag}' for lag in range(1, 7)]]
     # Lag on the full calendar first. Never shift across a missing month.
@@ -61,9 +65,7 @@ def run_notebook_results(dataset, cache_path, *, test_start='2022-01-01',
     cache_path.parent.mkdir(parents=True, exist_ok=True)
 
     def checkpoint():
-        temporary = cache_path.with_suffix('.tmp')
-        temporary.write_text(json.dumps(saved, allow_nan=False), encoding='utf-8')
-        temporary.replace(cache_path)
+        cache_path.write_text(json.dumps(saved, allow_nan=False), encoding='utf-8')
 
     def fit(group, target, family, features, *, states=2, mode='static', label=None,
             structure=None, switching_intercept=True, switching_ar=True,
@@ -219,6 +221,17 @@ def run_notebook_results(dataset, cache_path, *, test_start='2022-01-01',
                     fit('MoM sentiment aggregations', target, family, [*base, feature], mode='static',
                         label=(f'MoM AR(1) + {feature}' if family == 'AR' else
                                f'MoM MS-Variance AR(1) + {feature}'))
+            risk_lags = [f'{feature}_Lag1' for feature in subject_risks]
+            for family in ['AR', 'MS-Variance', 'AR-HMM']:
+                family_label = {'AR': 'AR(1)', 'MS-Variance': 'MS-Variance AR(1)',
+                                'AR-HMM': 'AR-HMM(1)'}[family]
+                fit('MoM subject risks', target, family, base, mode='static',
+                    label=f'MoM {family_label}')
+                for feature, lagged in zip(subject_risks, risk_lags):
+                    fit('MoM subject risks', target, family, [*base, lagged], mode='static',
+                        label=f'MoM {family_label} + {feature}')
+                fit('MoM subject risks', target, family, [*base, *risk_lags], mode='static',
+                    label=f'MoM {family_label} + all subject risks')
     checkpoint()
     print(f'Completed {len(saved["models"])} model specifications.', flush=True)
     return saved
@@ -292,5 +305,5 @@ if __name__ == "__main__":
     root = Path(__file__).resolve().parents[1]
     run_notebook_results(
         root / 'data/processed/modelling_datasets/extended_2025/us_nyt_monthly_experiment.csv',
-        root / 'data/processed/model_results/results_static_2022_2025.json',
+        root / 'data/processed/model_results/results_subject_risk_2022_2025.json',
     )

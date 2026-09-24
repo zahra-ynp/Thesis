@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from typing import Any
 
 import pandas as pd
@@ -11,6 +12,22 @@ ALTERNATIVE_FINBERT_FEATURES = (
     "Negative_Share",
     "Sentiment_Std",
 )
+
+SUBJECT_RISK_TERMS = {
+    "Geopolitical_Risk": (
+        "war", "armed conflict", "invasion", "military", "missile", "airstrike",
+        "attack", "sanction", "embargo", "blockade", "geopolitical", "terrorism",
+    ),
+    "Energy_Risk": (
+        "oil", "crude", "petroleum", "gasoline", "diesel", "natural gas", "fuel",
+        "refinery", "pipeline", "opec", "energy supply", "energy prices", "electricity",
+    ),
+    "Supply_Chain_Risk": (
+        "supply chain", "shipping", "freight", "port", "logistics", "container",
+        "cargo", "trade route", "semiconductor", "chip shortage", "suez", "red sea",
+        "bottleneck",
+    ),
+}
 
 
 def aggregate_monthly_sentiment(
@@ -74,6 +91,41 @@ def aggregate_monthly_sentiment(
     return monthly
 
 
+def aggregate_monthly_subject_risk(
+    articles: pd.DataFrame,
+    *,
+    source_code: str,
+    text_column: str = "text_for_finbert",
+) -> pd.DataFrame:
+    required = {"news_date", "prob_negative", text_column}
+    missing = required - set(articles.columns)
+    if missing:
+        raise ValueError(f"Article data are missing required columns: {sorted(missing)}")
+
+    frame = articles.copy()
+    frame["news_date"] = pd.to_datetime(frame["news_date"], errors="coerce")
+    frame["prob_negative"] = pd.to_numeric(frame["prob_negative"], errors="coerce")
+    frame[text_column] = frame[text_column].astype("string").fillna("").str.lower()
+    frame = frame.dropna(subset=["news_date", "prob_negative"])
+    if frame.empty:
+        raise ValueError("No valid dated article probabilities remain after cleaning.")
+    if not frame["prob_negative"].between(0, 1).all():
+        raise ValueError("Negative sentiment probabilities must lie between zero and one.")
+
+    frame["Date"] = frame["news_date"].dt.to_period("M").dt.to_timestamp()
+    monthly = frame[["Date"]].drop_duplicates().sort_values("Date").reset_index(drop=True)
+    total = frame.groupby("Date").size()
+    for feature, terms in SUBJECT_RISK_TERMS.items():
+        pattern = "|".join(re.escape(term) for term in sorted(terms, key=len, reverse=True))
+        match = frame[text_column].str.contains(pattern, regex=True, na=False)
+        weighted = frame["prob_negative"].where(match, 0.0).groupby(frame["Date"]).sum()
+        counts = match.groupby(frame["Date"]).sum()
+        monthly[feature] = monthly["Date"].map(weighted.div(total)).fillna(0.0)
+        monthly[f"{feature}_Articles"] = monthly["Date"].map(counts).fillna(0).astype(int)
+    monthly.insert(1, "News_Source", source_code.upper())
+    return monthly
+
+
 def add_sentiment_lags(
     data: pd.DataFrame,
     *,
@@ -112,5 +164,13 @@ def current_method_catalog() -> list[dict[str, Any]]:
             "forecast_features": list(ALTERNATIVE_FINBERT_FEATURES),
             "status": "implemented",
             "notes": "Mean, median, negative share, and dispersion from the same FinBERT scores.",
+        },
+        {
+            "method": "subject_negative_intensity",
+            "level": "month",
+            "monthly_primary_feature": list(SUBJECT_RISK_TERMS),
+            "forecast_features": [f"{name}_Lag1" for name in SUBJECT_RISK_TERMS],
+            "status": "implemented",
+            "notes": "Subject coverage weighted by article-level FinBERT negative probability.",
         },
     ]

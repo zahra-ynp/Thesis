@@ -18,7 +18,7 @@ from modelling.data_pipeline import (
     build_experiment_metadata, export_experiment_dataset,
 )
 from modelling.news_pipeline import download_nyt_archive, score_with_finbert, MACRO_TERMS, US_TERMS
-from modelling.sentiment import aggregate_monthly_sentiment
+from modelling.sentiment import aggregate_monthly_sentiment, aggregate_monthly_subject_risk
 
 ROOT = Path(__file__).resolve().parents[1]
 OLD = ROOT / 'data/processed/modelling_datasets/us_nyt_monthly_experiment.csv'
@@ -122,6 +122,13 @@ def build_dataset():
         raise ValueError('New sentiment does not cover all 24 test months.')
     # Preserve the original historical monthly sentiment values verbatim.
     monthly = pd.concat([old[list(new_monthly.columns)], new_monthly], ignore_index=True)
+    historical_scored = pd.read_csv(OLD_SCORES, parse_dates=['news_date'])
+    all_scored = pd.concat([historical_scored, scored], ignore_index=True)
+    if all_scored.external_article_id.duplicated().any():
+        raise ValueError('Historical and new article scores overlap.')
+    subject_monthly = aggregate_monthly_subject_risk(all_scored, source_code='NYT')
+    monthly = monthly.merge(subject_monthly.drop(columns='News_Source'), on='Date',
+                            how='left', validate='one_to_one')
     frame = prepare_experiment_frame(macro, monthly, source_code='NYT')
     # Keep calendar rows intact: dropping October before shifting would create false lags.
     coverage = {
@@ -143,7 +150,7 @@ def build_dataset():
         'historical_dataset_sha256': sha256(OLD), 'historical_scores_sha256': sha256(OLD_SCORES),
         'new_articles': len(scored), 'new_scores_sha256': sha256(NEW_SCORES),
         'sentiment_model': 'ProsusAI/finbert', 'historical_articles_rescored': 0,
-        'sentiment_methods': ['generic_finbert'],
+        'sentiment_methods': ['generic_finbert', 'subject_negative_intensity'],
         'macro_terms': list(MACRO_TERMS), 'us_terms': list(US_TERMS),
         'fred_sources': fred_sources,
         'fred_policy': 'Refresh the full macro history consistently; preserve the original experiment separately.',
