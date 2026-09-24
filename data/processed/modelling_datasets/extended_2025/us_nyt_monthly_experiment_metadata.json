@@ -1,7 +1,7 @@
 {
   "experiment": "inflation_sentiment_forecasting",
   "schema_version": 1,
-  "created_at_utc": "2026-09-14T09:07:23.829021+00:00",
+  "created_at_utc": "2026-09-14T14:01:33.254184+00:00",
   "region_code": "US",
   "news_source": {
     "source_code": "NYT",
@@ -53,6 +53,9 @@
     "new_scores_sha256": "d8609da7644f3d1bd79f8cbab46b92c29eae31242868b7379fcb78e8ab540e43",
     "sentiment_model": "ProsusAI/finbert",
     "historical_articles_rescored": 0,
+    "sentiment_methods": [
+      "generic_finbert"
+    ],
     "macro_terms": [
       "inflation",
       "consumer price",

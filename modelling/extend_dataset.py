@@ -143,6 +143,7 @@ def build_dataset():
         'historical_dataset_sha256': sha256(OLD), 'historical_scores_sha256': sha256(OLD_SCORES),
         'new_articles': len(scored), 'new_scores_sha256': sha256(NEW_SCORES),
         'sentiment_model': 'ProsusAI/finbert', 'historical_articles_rescored': 0,
+        'sentiment_methods': ['generic_finbert'],
         'macro_terms': list(MACRO_TERMS), 'us_terms': list(US_TERMS),
         'fred_sources': fred_sources,
         'fred_policy': 'Refresh the full macro history consistently; preserve the original experiment separately.',
@@ -151,8 +152,13 @@ def build_dataset():
         'missing_data_source': 'https://www.bls.gov/bls/2025-lapse-revised-release-dates.htm',
     }
     paths = export_experiment_dataset(frame, metadata, output_dir=OUT)
+    development_path = OUT / 'development_2007_2023.csv'
+    test_path = OUT / 'test_2024_2025.csv'
+    frame.loc[frame.Date.le('2023-12-01')].to_csv(development_path, index=False)
+    frame.loc[frame.Date.ge('2024-01-01')].to_csv(test_path, index=False)
     print(json.dumps({'coverage': coverage, 'new_articles_scored': len(scored),
-                       'files': [str(p) for p in paths]}, indent=2), flush=True)
+                       'files': [str(p) for p in (*paths, development_path, test_path)]},
+                     indent=2), flush=True)
     return frame, metadata
 
 

@@ -5,7 +5,6 @@ import json
 import hashlib
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 
 from modelling.data_pipeline import MACRO_BENCHMARK_FEATURES
 from modelling.models import ForecastResult, fit_expanding_ar_hmm, fit_expanding_macro
@@ -235,6 +234,8 @@ def notebook_result_table(results, group):
 
 def plot_notebook_forecasts(results, keys, title):
     """Plot selected models on the requested calendar, including unavailable months."""
+    import matplotlib.pyplot as plt
+
     keys = list(dict.fromkeys(keys))
     targets = {results['models'][key]['target'] for key in keys}
     if len(targets) != 1:
@@ -263,6 +264,8 @@ def plot_notebook_forecasts(results, keys, title):
 
 def plot_predicted_regimes(frame, labels=("Low", "Moderate", "High", "Crisis")):
     """Plot pre-observation probabilities, never full-sample smoothed regimes."""
+    import matplotlib.pyplot as plt
+
     colors = (["#2878b5", "#23956f", "#e6a128", "#c64747"] if len(labels) == 4
               else [plt.get_cmap('viridis')(i / max(1, len(labels) - 1)) for i in range(len(labels))])
     fig, axes = plt.subplots(2, 1, figsize=(14, 7), sharex=True,
