@@ -39,7 +39,10 @@ data/processed/nyt_macro_articles_*.csv
 data/processed/nyt_finbert_article_scores.csv
 data/processed/nyt_finbert_article_scores_2024_2025.csv
 data/processed/nyt_finbert_checkpoints/
-data/raw/fred
+data/processed/nyt_finbert_articles_scores_2024_2025.json/
+data/raw/
+data/processed/europe/guardian_eu_articles_*.csv
+data/processed/europe/guardian_eu_finbert_scores_*.csv
 
 # Archived notebooks from previous structure
 modelling/notebooks/archive/*
