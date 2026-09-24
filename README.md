@@ -6,13 +6,13 @@
 
 M.Sc. thesis by **Zahra Younes Pour Langaroudi**, University of Trieste.
 
-This project forecasts US inflation and identifies inflation regimes using AR(1), ARX, HMM, AR-HMM, and LASSO. It combines monthly macroeconomic data from FRED with FinBERT sentiment extracted from financial news. Data are managed in SQL Server and exposed through a Streamlit dashboard.
+This project forecasts inflation and identifies inflation regimes using AR, HMM, AR-HMM, and related benchmark models. It combines macroeconomic data with FinBERT sentiment extracted from financial news. The current experiments cover the United States and the European Union.
 
 ## Project Components
 
 - **Database:** normalized SQL Server schemas, ingestion scripts, analytics views, and metadata.
 - **NLP:** FinBERT article scoring and monthly sentiment aggregation.
-- **Forecasting:** chronological one-month-ahead experiments with a common 2017–2025 test period.
+- **Forecasting:** chronological one-month-ahead experiments with separate model-selection and final-test periods.
 - **Dashboard:** interactive access to the processed data and model results.
 
 ## Data
@@ -25,6 +25,8 @@ This project forecasts US inflation and identifies inflation regimes using AR(1)
 | WTI oil (`MCOILWTICO`) | FRED | Future macro extension |
 | FinSen news | Kaggle | Historical sentiment baseline |
 | NYT news | Archive API | Alternative US news source |
+| EU-27 HICP, unemployment, industrial production | Eurostat | European target and macro indicators |
+| Guardian news | Guardian Open Platform | European sentiment and subject-risk indicators |
 
 FinBERT calculates monthly net sentiment as:
 
@@ -49,9 +51,17 @@ Each experiment selects a named news source explicitly; FinSen and NYT are not a
 
 Forecasts are compared on common out-of-sample dates using RMSE, MAE, and mean error. Lower RMSE and MAE are better; mean error indicates systematic underprediction or overprediction.
 
-## Historical experiments (2017�2023)
+## Current Status
 
-The following archived results used January 2017 through December 2023. Notebook 02 now runs the 2022�2025 comparison described above.
+- The US experiments compare standard AR and regime-switching models with generic and subject-specific news sentiment.
+- The European replication covers 2007–2025 using EU-27 Eurostat data and 29,080 Guardian articles.
+- European lag and state selection uses 2017–2021; the final evaluation uses 2022–2025.
+- The selected European model is a two-state AR-HMM(1). Its RMSE is 0.4658 without news risks and 0.4522 with geopolitical, energy, and supply-chain risks.
+- The next step is to test a small set of macroeconomic and sentiment additions on this selected model, while retaining naïve and AR(1) benchmarks.
+
+## Historical experiments (2017–2023)
+
+The following archived results used January 2017 through December 2023. Notebook 02 now runs the 2022–2025 comparison described above.
 
 | Experiment | Result |
 |---|---|
@@ -84,13 +94,15 @@ modelling/
   models.py                Shared forecasting implementations
   evaluation.py            Metrics and comparison checks
   run_experiments.py       Repeatable experiment runner
-  notebooks/               Two active thesis notebooks
+  europe_pipeline.py       Guardian and Eurostat replication pipeline
+  notebooks/               Three active thesis notebooks
   notebooks/archive/       Preserved historical notebooks
   streamlit_app.py         Dashboard
 data/
   raw/                     Source data
   processed/modelling_datasets/ Prepared datasets and metadata used by models
-  processed/model_results/ baseline/ and macro/ bundles;/
+  processed/model_results/ US model result bundles
+  processed/europe/        European results
 ```
 
 ## Setup
@@ -112,6 +124,7 @@ Copy `.env.example` to `.env` in the project root and set:
 ```text
 FRED_API_KEY=your-fred-key
 NYT_API_KEY=your-nyt-key
+GUARDIAN_API_KEY=your-guardian-key
 DB_SERVER=your-server
 DB_DATABASE=MacroSentimentDB
 DB_DRIVER=ODBC Driver 17 for SQL Server
@@ -119,12 +132,13 @@ DB_DRIVER=ODBC Driver 17 for SQL Server
 
 ## Notebook Order
 
-Use the two active notebooks under `modelling/notebooks/` in this order:
+Use the three active notebooks under `modelling/notebooks/` in this order:
 
 | Part | Notebook | Main output |
 |---:|---|---|
 | 01 | `01_Data_and_Sentiment_Analysis.ipynb` | Data provenance, coverage, and current FinBERT sentiment analysis |
 | 02 | `02_Forecasting_and_Regime_Results.ipynb` | Existing forecast comparison and regime interpretation |
+| 03 | `03_European_Union_Replication.ipynb` | EU-27 Guardian/Eurostat replication and robustness results |
 
 The old learning notebooks are preserved under `modelling/notebooks/archive/`. Reusable logic is no longer defined inside notebooks. To check inputs without fitting anything, run:
 
