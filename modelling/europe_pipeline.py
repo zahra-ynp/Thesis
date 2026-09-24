@@ -295,11 +295,97 @@ def run_models() -> dict:
     return results
 
 
+def run_structure_validation() -> dict:
+    frame = pd.read_csv(DATASET, parse_dates=["Date"]).sort_values("Date")
+    for lag in (2, 3):
+        frame[f"Inflation_MoM_Lag{lag}"] = frame.Inflation_MoM.shift(lag)
+
+    validation = frame.loc[frame.Date.le("2021-12-01")].copy()
+    candidates = []
+
+    def assess(name: str, family: str, features: list[str], **settings) -> None:
+        fitter = fit_ols_forecast if family == "AR" else fit_ar_hmm
+        result = fitter(
+            validation, features=features, name=name, target="Inflation_MoM",
+            test_start="2017-01-01", **settings,
+        )
+        candidates.append({
+            "model": name,
+            "family": family,
+            "features": features,
+            "settings": settings,
+            "metrics": forecast_metrics(result.forecasts.Actual, result.forecasts.Forecast),
+            "converged": result.parameters.get("converged", True),
+        })
+
+    for lag_order in (1, 2, 3):
+        lag_features = [f"Inflation_MoM_Lag{lag}" for lag in range(1, lag_order + 1)]
+        assess(f"AR({lag_order})", "AR", lag_features)
+        for states in (2, 3):
+            assess(
+                f"AR-HMM({lag_order}), {states} states", "AR-HMM", lag_features,
+                n_states=states,
+            )
+
+    hmm_candidates = [item for item in candidates if item["family"] == "AR-HMM"]
+    preliminary = min(hmm_candidates, key=lambda item: item["metrics"]["rmse"])
+    selected_features = preliminary["features"]
+    selected_states = preliminary["settings"]["n_states"]
+    assess(
+        f"AR-HMM({len(selected_features)}), {selected_states} states, common AR",
+        "AR-HMM", selected_features, n_states=selected_states, switching_ar=False,
+    )
+    assess(
+        f"MS-Variance AR({len(selected_features)}), {selected_states} states",
+        "AR-HMM", selected_features, n_states=selected_states,
+        switching_intercept=False, switching_ar=False, switching_variance=True,
+    )
+
+    chosen = min(
+        (item for item in candidates if item["family"] == "AR-HMM"),
+        key=lambda item: item["metrics"]["rmse"],
+    )
+    final_models = []
+    for suffix, extra_features in (
+        ("baseline", []),
+        ("+ all subject risks", [
+            "Geopolitical_Risk_Lag1", "Energy_Risk_Lag1", "Supply_Chain_Risk_Lag1"
+        ]),
+    ):
+        features = [*chosen["features"], *extra_features]
+        name = f"Selected {chosen['model']} {suffix}"
+        fitted = fit_ar_hmm(
+            frame, features=features, name=name, target="Inflation_MoM",
+            test_start="2022-01-01", **chosen["settings"],
+        )
+        final_models.append({
+            "model": name,
+            "features": features,
+            "metrics": forecast_metrics(fitted.forecasts.Actual, fitted.forecasts.Forecast),
+            "parameters": fitted.parameters,
+        })
+
+    output = {
+        "design": {
+            "selection_period": "2017-01 to 2021-12",
+            "final_test_period": "2022-01 to 2025-12",
+            "selection_rule": "lowest validation RMSE; test period not used for selection",
+        },
+        "validation_candidates": candidates,
+        "selected_structure": chosen,
+        "final_test": final_models,
+    }
+    results = json.loads(RESULTS.read_text(encoding="utf-8"))
+    results["structure_validation"] = output
+    RESULTS.write_text(json.dumps(results, allow_nan=False), encoding="utf-8")
+    return output
+
+
 def main() -> None:
     from dotenv import load_dotenv
     load_dotenv(ROOT / ".env")
     parser = argparse.ArgumentParser()
-    parser.add_argument("--stage", choices=["all", "download", "score", "build", "models"], default="all")
+    parser.add_argument("--stage", choices=["all", "download", "score", "build", "models", "structure"], default="all")
     args = parser.parse_args()
     if args.stage in ("all", "download"):
         download_guardian(os.environ.get("GUARDIAN_API_KEY", ""))
@@ -310,6 +396,8 @@ def main() -> None:
         build_dataset()
     if args.stage in ("all", "models"):
         run_models()
+    if args.stage in ("all", "structure"):
+        run_structure_validation()
 
 
 if __name__ == "__main__":
