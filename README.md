@@ -57,7 +57,8 @@ Forecasts are compared on common out-of-sample dates using RMSE, MAE, and mean e
 - The European replication covers 2007–2025 using EU-27 Eurostat data and 29,080 Guardian articles.
 - European model selection uses rolling validation over 2017–2021; the final evaluation remains 2022–2025.
 - The selected European structure is a two-state AR-HMM(1). Seasonal adjustment reduces its RMSE from 0.4658 to 0.4331; adding all subject risks gives 0.4396.
-- Lagged energy indicators do not improve the 2022 shock forecast. In the Guardian month-end nowcast, energy-risk sentiment is selected by rolling validation, but its 2022–2025 error is essentially unchanged from the seasonal AR-HMM baseline.
+- The fixed European comparison selects energy PPI lag 1 in pre-2022 validation, but the seasonal AR-HMM baseline remains best over 2022–2025. Energy-risk sentiment slightly improves 2022 alone but does not improve the full test period or add value when combined with energy PPI.
+- In the matched European machine-learning benchmark, every model uses inflation lag 1. The two-state AR-HMM is essentially tied with linear AR and outperforms Random Forest and gradient boosting; adding macro and sentiment gives AR-HMM the lowest final-period error but not the lowest validation error.
 
 ## Historical experiments (2017–2023)
 
@@ -139,6 +140,7 @@ Use the three active notebooks under `modelling/notebooks/` in this order:
 | 01 | `01_Data_and_Sentiment_Analysis.ipynb` | Data provenance, coverage, and current FinBERT sentiment analysis |
 | 02 | `02_Forecasting_and_Regime_Results.ipynb` | Existing forecast comparison and regime interpretation |
 | 03 | `03_European_Union_Replication.ipynb` | EU-27 Guardian/Eurostat replication and robustness results |
+| 04 | `04_Machine_Learning_Benchmarks.ipynb` | European Random Forest and gradient-boosting benchmarks |
 
 The old learning notebooks are preserved under `modelling/notebooks/archive/`. Reusable logic is no longer defined inside notebooks. To check inputs without fitting anything, run:
 
