@@ -25,7 +25,7 @@ This project forecasts inflation and identifies inflation regimes using AR, HMM,
 | WTI oil (`MCOILWTICO`) | FRED | Future macro extension |
 | FinSen news | Kaggle | Historical sentiment baseline |
 | NYT news | Archive API | Alternative US news source |
-| EU-27 HICP, unemployment, industrial production | Eurostat | European target and macro indicators |
+| EU-27 HICP, energy HICP, energy PPI, unemployment, industrial production | Eurostat | European target and macro indicators |
 | Guardian news | Guardian Open Platform | European sentiment and subject-risk indicators |
 
 FinBERT calculates monthly net sentiment as:
@@ -57,7 +57,7 @@ Forecasts are compared on common out-of-sample dates using RMSE, MAE, and mean e
 - The European replication covers 2007–2025 using EU-27 Eurostat data and 29,080 Guardian articles.
 - European model selection uses rolling validation over 2017–2021; the final evaluation remains 2022–2025.
 - The selected European structure is a two-state AR-HMM(1). Seasonal adjustment reduces its RMSE from 0.4658 to 0.4331; adding all subject risks gives 0.4396.
-- The next step is to test a small set of macroeconomic additions on the seasonally adjusted model, while retaining naïve and AR(1) benchmarks.
+- Lagged energy indicators do not improve the 2022 shock forecast. In the Guardian month-end nowcast, energy-risk sentiment is selected by rolling validation, but its 2022–2025 error is essentially unchanged from the seasonal AR-HMM baseline.
 
 ## Historical experiments (2017–2023)
 
@@ -163,6 +163,13 @@ The dashboard uses the database connection defined in `.env`.
 - [Data lineage](database/metadata/data_lineage.jsonld)
 - [Dataset metadata](database/metadata/dataset_metadata.jsonld)
 - [Entity-Relationship diagram](database/docs/ER.png)
+
+## Selected References
+
+- Chahad, M., Hofmann-Drahonsky, A.-C., Meunier, B., Page, A., and Tirpák, M. (2022). [What explains recent errors in the inflation projections of Eurosystem and ECB staff?](https://www.ecb.europa.eu/press/economic-bulletin/focus/2022/html/ecb.ebbox202203_05~6d1fb8f5b0.en.html)
+- Kuik, F., Adolfsen, J. F., Lis, E. M., and Meyler, A. (2022). [Energy price developments in and out of the COVID-19 pandemic](https://www.ecb.europa.eu/press/economic-bulletin/articles/2022/html/ecb.ebart202204_01~7b32d31b29.en.html)
+- Bańbura, M., Bobeica, E., Giammaria, A., Porqueddu, M., and van Spronsen, J. (2025). [A new model to forecast energy inflation in the euro area](https://www.ecb.europa.eu/pub/pdf/scpwps/ecb.wp3062~abe560353f.en.pdf). ECB Working Paper No. 3062.
+
 ## License
 
 Project code, metadata, and eligible derived outputs are licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). Source datasets remain subject to their providers' terms.

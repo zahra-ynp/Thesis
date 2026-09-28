@@ -8,6 +8,6 @@
   "guardian_query": "(eurozone OR Europe) AND (inflation OR oil OR energy OR unemployment OR war OR sanctions OR supply-chain OR shipping)",
   "article_count": 29080,
   "macro_source": "Eurostat API",
-  "created_at_utc": "2026-09-24T14:45:10.733312+00:00",
+  "created_at_utc": "2026-09-28T09:30:35.598093+00:00",
   "forecast_design": "Train through 2021-12; one-month-lagged predictors; test 2022-01 to 2025-12"
 }
