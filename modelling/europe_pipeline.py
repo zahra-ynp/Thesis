@@ -859,11 +859,132 @@ def run_sentiment_nowcast_experiment() -> dict:
     return output
 
 
+def run_final_europe_comparison() -> dict:
+    frame = pd.read_csv(DATASET, parse_dates=["Date"]).sort_values("Date")
+    results = json.loads(RESULTS.read_text(encoding="utf-8"))
+    macro_results = results["macro_lag_experiment"]
+    sentiment_results = results["sentiment_nowcast_experiment"]
+    selected_macro = min(macro_results["candidates"], key=lambda item: item["metrics"]["rmse"])
+    selected_sentiment_name = sentiment_results["preferred_model"]
+    selected_sentiment = next(
+        item for item in sentiment_results["final_test"]
+        if item["model"] == selected_sentiment_name
+    )
+    macro_feature = selected_macro["features"][1]
+    sentiment_feature = selected_sentiment["features"][1]
+    specs = {
+        "Seasonal AR-HMM(1) baseline": ["Inflation_MoM_Adjusted_Lag1"],
+        f"Seasonal AR-HMM(1) + {selected_macro['indicator']} lag {selected_macro['lag']}": [
+            "Inflation_MoM_Adjusted_Lag1", macro_feature
+        ],
+        "Seasonal AR-HMM(1) + energy-risk sentiment": [
+            "Inflation_MoM_Adjusted_Lag1", sentiment_feature
+        ],
+        "Seasonal AR-HMM(1) + macro and sentiment": [
+            "Inflation_MoM_Adjusted_Lag1", macro_feature, sentiment_feature
+        ],
+    }
+    folds = [
+        ("2007-2016 → 2017-2018", "2016-12-01", "2017-01-01", "2018-12-01"),
+        ("2007-2018 → 2019-2020", "2018-12-01", "2019-01-01", "2020-12-01"),
+        ("2007-2020 → 2021", "2020-12-01", "2021-01-01", "2021-12-01"),
+    ]
+
+    def run_period(training_end: str, test_start: str, test_end: str) -> list[dict]:
+        training = frame.loc[frame.Date.le(training_end)].dropna(subset=["Inflation_MoM"])
+        factors = training.groupby(training.Date.dt.month).Inflation_MoM.mean().to_dict()
+        prepared = frame.loc[frame.Date.le(test_end)].copy()
+        prepared["Seasonal_Factor"] = prepared.Date.dt.month.map(factors)
+        prepared["Inflation_MoM_Adjusted"] = prepared.Inflation_MoM - prepared.Seasonal_Factor
+        prepared["Inflation_MoM_Adjusted_Lag1"] = prepared.Inflation_MoM_Adjusted.shift(1)
+        outputs = []
+        for name, features in specs.items():
+            model_frame = prepared.copy()
+            scale_sample = model_frame.loc[model_frame.Date.le(training_end), features]
+            center = scale_sample.mean()
+            scale = scale_sample.std().replace(0, 1)
+            model_frame[features] = (model_frame[features] - center) / scale
+            fitted = fit_ar_hmm(
+                model_frame, features=features, name=name, target="Inflation_MoM_Adjusted",
+                test_start=test_start, n_states=2,
+            )
+            forecasts = fitted.forecasts.copy()
+            seasonal = forecasts.Date.dt.month.map(factors).to_numpy()
+            forecasts["Actual"] += seasonal
+            forecasts["Forecast"] += seasonal
+            forecasts["Error"] = forecasts.Actual - forecasts.Forecast
+            outputs.append({
+                "model": name,
+                "features": features,
+                "metrics": forecast_metrics(forecasts.Actual, forecasts.Forecast),
+                "forecasts": forecasts.assign(
+                    Date=pd.to_datetime(forecasts.Date).dt.strftime("%Y-%m-%d")
+                ).to_dict("records"),
+                "converged": fitted.parameters["converged"],
+            })
+        return outputs
+
+    combined = {name: [] for name in specs}
+    fold_results = []
+    for label, training_end, test_start, test_end in folds:
+        models = run_period(training_end, test_start, test_end)
+        fold_results.append({
+            "fold": label,
+            "models": [{"model": item["model"], "metrics": item["metrics"],
+                        "converged": item["converged"]} for item in models],
+        })
+        for item in models:
+            combined[item["model"]].extend(item["forecasts"])
+    rolling_models = []
+    for name, forecasts in combined.items():
+        values = pd.DataFrame(forecasts).sort_values("Date")
+        rolling_models.append({
+            "model": name,
+            "metrics": forecast_metrics(values.Actual, values.Forecast),
+            "forecast_months": len(values),
+        })
+
+    final_models = run_period("2021-12-01", "2022-01-01", "2025-12-01")
+    for item in final_models:
+        forecasts = pd.DataFrame(item["forecasts"])
+        dates = pd.to_datetime(forecasts.Date)
+        item["subperiod_metrics"] = {
+            "2022": forecast_metrics(
+                forecasts.loc[dates.dt.year.eq(2022), "Actual"],
+                forecasts.loc[dates.dt.year.eq(2022), "Forecast"],
+            ),
+            "2023-2025": forecast_metrics(
+                forecasts.loc[dates.dt.year.ge(2023), "Actual"],
+                forecasts.loc[dates.dt.year.ge(2023), "Forecast"],
+            ),
+        }
+    output = {
+        "design": {
+            "selection": "macro and sentiment inputs fixed using 2017-2021 rolling validation",
+            "timing": "macro lagged one month; Guardian sentiment observed during the target month",
+            "final_test": "2022-2025, additionally reported as 2022 and 2023-2025",
+        },
+        "selected_inputs": {
+            "macro": {"indicator": selected_macro["indicator"], "lag": selected_macro["lag"],
+                      "feature": macro_feature},
+            "sentiment": {"model": selected_sentiment_name, "feature": sentiment_feature},
+        },
+        "rolling_validation": {"folds": fold_results, "combined_models": rolling_models},
+        "preferred_model": min(
+            rolling_models, key=lambda item: item["metrics"]["rmse"]
+        )["model"],
+        "final_test": final_models,
+    }
+    results["final_europe_comparison"] = output
+    RESULTS.write_text(json.dumps(results, allow_nan=False), encoding="utf-8")
+    return output
+
+
 def main() -> None:
     from dotenv import load_dotenv
     load_dotenv(ROOT / ".env")
     parser = argparse.ArgumentParser()
-    parser.add_argument("--stage", choices=["all", "download", "score", "build", "models", "structure", "seasonal", "macro", "macro-lags", "sentiment-nowcast"], default="all")
+    parser.add_argument("--stage", choices=["all", "download", "score", "build", "models", "structure", "seasonal", "macro", "macro-lags", "sentiment-nowcast", "final-comparison"], default="all")
     args = parser.parse_args()
     if args.stage in ("all", "download"):
         download_guardian(os.environ.get("GUARDIAN_API_KEY", ""))
@@ -884,6 +1005,8 @@ def main() -> None:
         run_macro_lag_experiment()
     if args.stage in ("all", "sentiment-nowcast"):
         run_sentiment_nowcast_experiment()
+    if args.stage in ("all", "final-comparison"):
+        run_final_europe_comparison()
 
 
 if __name__ == "__main__":

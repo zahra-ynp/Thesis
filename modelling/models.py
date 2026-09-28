@@ -217,8 +217,9 @@ def fit_ar_hmm(
         switching_exog=switching_ar,
         switching_variance=switching_variance,
     )
-    np.random.seed(random_seed)
-    fitted = model.fit(disp=False, maxiter=maxiter, search_reps=search_reps)
+    fitted = model.fit(
+        disp=False, maxiter=maxiter, search_reps=search_reps, rng=random_seed
+    )
 
     constants = (np.array([fitted.params[f"const[{state}]"] for state in range(n_states)])
                  if switching_intercept
