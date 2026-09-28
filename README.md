@@ -55,9 +55,9 @@ Forecasts are compared on common out-of-sample dates using RMSE, MAE, and mean e
 
 - The US experiments compare standard AR and regime-switching models with generic and subject-specific news sentiment.
 - The European replication covers 2007–2025 using EU-27 Eurostat data and 29,080 Guardian articles.
-- European lag and state selection uses 2017–2021; the final evaluation uses 2022–2025.
-- The selected European model is a two-state AR-HMM(1). Its RMSE is 0.4658 without news risks and 0.4522 with geopolitical, energy, and supply-chain risks.
-- The next step is to test a small set of macroeconomic and sentiment additions on this selected model, while retaining naïve and AR(1) benchmarks.
+- European model selection uses rolling validation over 2017–2021; the final evaluation remains 2022–2025.
+- The selected European structure is a two-state AR-HMM(1). Seasonal adjustment reduces its RMSE from 0.4658 to 0.4331; adding all subject risks gives 0.4396.
+- The next step is to test a small set of macroeconomic additions on the seasonally adjusted model, while retaining naïve and AR(1) benchmarks.
 
 ## Historical experiments (2017–2023)
 

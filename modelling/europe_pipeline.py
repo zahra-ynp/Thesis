@@ -381,11 +381,116 @@ def run_structure_validation() -> dict:
     return output
 
 
+def run_seasonal_experiment() -> dict:
+    frame = pd.read_csv(DATASET, parse_dates=["Date"]).sort_values("Date")
+    specifications = {
+        "Seasonally adjusted AR(1)": ("AR", ["Inflation_MoM_Adjusted_Lag1"]),
+        "Seasonally adjusted AR-HMM(1)": ("AR-HMM", ["Inflation_MoM_Adjusted_Lag1"]),
+        "Seasonally adjusted AR-HMM(1) + all subject risks": (
+            "AR-HMM", ["Inflation_MoM_Adjusted_Lag1", "Geopolitical_Risk_Lag1",
+                       "Energy_Risk_Lag1", "Supply_Chain_Risk_Lag1"]
+        ),
+    }
+
+    def prepare(training_end: str) -> tuple[pd.DataFrame, dict[int, float]]:
+        training = frame.loc[frame.Date.le(training_end)].dropna(subset=["Inflation_MoM"])
+        factors = training.groupby(training.Date.dt.month).Inflation_MoM.mean().to_dict()
+        adjusted = frame.copy()
+        adjusted["Seasonal_Factor"] = adjusted.Date.dt.month.map(factors)
+        adjusted["Inflation_MoM_Adjusted"] = adjusted.Inflation_MoM - adjusted.Seasonal_Factor
+        adjusted["Inflation_MoM_Adjusted_Lag1"] = adjusted.Inflation_MoM_Adjusted.shift(1)
+        return adjusted, factors
+
+    def run_period(training_end: str, test_start: str, test_end: str) -> tuple[list[dict], dict]:
+        prepared, factors = prepare(training_end)
+        prepared = prepared.loc[prepared.Date.le(test_end)].copy()
+        period_results = []
+        for name, (family, features) in specifications.items():
+            fitter = fit_ols_forecast if family == "AR" else fit_ar_hmm
+            fitted = fitter(
+                prepared, features=features, name=name, target="Inflation_MoM_Adjusted",
+                test_start=test_start, **({"n_states": 2} if family == "AR-HMM" else {}),
+            )
+            forecasts = fitted.forecasts.copy()
+            seasonal = forecasts.Date.dt.month.map(factors).to_numpy()
+            forecasts["Actual"] += seasonal
+            forecasts["Forecast"] += seasonal
+            forecasts["Error"] = forecasts.Actual - forecasts.Forecast
+            period_results.append({
+                "model": name,
+                "family": family,
+                "features": features,
+                "metrics": forecast_metrics(forecasts.Actual, forecasts.Forecast),
+                "forecasts": forecasts.assign(
+                    Date=pd.to_datetime(forecasts.Date).dt.strftime("%Y-%m-%d")
+                ).to_dict("records"),
+                "parameters": fitted.parameters,
+                "converged": fitted.parameters.get("converged", True),
+            })
+        return period_results, {str(month): value for month, value in factors.items()}
+
+    validation, validation_factors = run_period("2016-12-01", "2017-01-01", "2021-12-01")
+    fold_definitions = [
+        ("2007-2016 → 2017-2018", "2016-12-01", "2017-01-01", "2018-12-01"),
+        ("2007-2018 → 2019-2020", "2018-12-01", "2019-01-01", "2020-12-01"),
+        ("2007-2020 → 2021", "2020-12-01", "2021-01-01", "2021-12-01"),
+    ]
+    rolling_folds = []
+    combined_forecasts = {name: [] for name in specifications}
+    for label, training_end, test_start, test_end in fold_definitions:
+        fold_models, _ = run_period(training_end, test_start, test_end)
+        rolling_folds.append({
+            "fold": label,
+            "training_end": training_end,
+            "validation_start": test_start,
+            "validation_end": test_end,
+            "models": [{"model": item["model"], "metrics": item["metrics"],
+                        "converged": item["converged"]} for item in fold_models],
+        })
+        for item in fold_models:
+            combined_forecasts[item["model"]].extend(item["forecasts"])
+    rolling_models = []
+    for name, forecasts in combined_forecasts.items():
+        combined = pd.DataFrame(forecasts).sort_values("Date")
+        rolling_models.append({
+            "model": name,
+            "metrics": forecast_metrics(combined.Actual, combined.Forecast),
+            "forecast_months": len(combined),
+        })
+
+    final_test, final_factors = run_period("2021-12-01", "2022-01-01", "2025-12-01")
+    preferred = min(validation, key=lambda item: item["metrics"]["rmse"])["model"]
+    rolling_preferred = min(rolling_models, key=lambda item: item["metrics"]["rmse"])["model"]
+    output = {
+        "design": {
+            "method": "calendar-month mean removed before fitting and added back to forecasts",
+            "validation_factor_training_end": "2016-12-01",
+            "final_factor_training_end": "2021-12-01",
+            "validation_period": "2017-01 to 2021-12",
+            "final_test_period": "2022-01 to 2025-12",
+        },
+        "validation_seasonal_factors": validation_factors,
+        "final_seasonal_factors": final_factors,
+        "validation_models": validation,
+        "preferred_on_validation": preferred,
+        "rolling_validation": {
+            "folds": rolling_folds,
+            "combined_models": rolling_models,
+            "preferred_model": rolling_preferred,
+        },
+        "final_test": final_test,
+    }
+    results = json.loads(RESULTS.read_text(encoding="utf-8"))
+    results["seasonal_experiment"] = output
+    RESULTS.write_text(json.dumps(results, allow_nan=False), encoding="utf-8")
+    return output
+
+
 def main() -> None:
     from dotenv import load_dotenv
     load_dotenv(ROOT / ".env")
     parser = argparse.ArgumentParser()
-    parser.add_argument("--stage", choices=["all", "download", "score", "build", "models", "structure"], default="all")
+    parser.add_argument("--stage", choices=["all", "download", "score", "build", "models", "structure", "seasonal"], default="all")
     args = parser.parse_args()
     if args.stage in ("all", "download"):
         download_guardian(os.environ.get("GUARDIAN_API_KEY", ""))
@@ -398,6 +503,8 @@ def main() -> None:
         run_models()
     if args.stage in ("all", "structure"):
         run_structure_validation()
+    if args.stage in ("all", "seasonal"):
+        run_seasonal_experiment()
 
 
 if __name__ == "__main__":
