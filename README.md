@@ -166,12 +166,6 @@ The dashboard uses the database connection defined in `.env`.
 - [Dataset metadata](database/metadata/dataset_metadata.jsonld)
 - [Entity-Relationship diagram](database/docs/ER.png)
 
-## Selected References
-
-- Chahad, M., Hofmann-Drahonsky, A.-C., Meunier, B., Page, A., and Tirpák, M. (2022). [What explains recent errors in the inflation projections of Eurosystem and ECB staff?](https://www.ecb.europa.eu/press/economic-bulletin/focus/2022/html/ecb.ebbox202203_05~6d1fb8f5b0.en.html)
-- Kuik, F., Adolfsen, J. F., Lis, E. M., and Meyler, A. (2022). [Energy price developments in and out of the COVID-19 pandemic](https://www.ecb.europa.eu/press/economic-bulletin/articles/2022/html/ecb.ebart202204_01~7b32d31b29.en.html)
-- Bańbura, M., Bobeica, E., Giammaria, A., Porqueddu, M., and van Spronsen, J. (2025). [A new model to forecast energy inflation in the euro area](https://www.ecb.europa.eu/pub/pdf/scpwps/ecb.wp3062~abe560353f.en.pdf). ECB Working Paper No. 3062.
-
 ## License
 
 Project code, metadata, and eligible derived outputs are licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). Source datasets remain subject to their providers' terms.
