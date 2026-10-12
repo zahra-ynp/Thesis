@@ -1,4 +1,4 @@
-# Inflation Regime Forecasting with AR-HMM and News Sentiment
+# European Inflation Regime Forecasting with AR-HMM and News Sentiment
 
 [![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
@@ -6,157 +6,152 @@
 
 M.Sc. thesis by **Zahra Younes Pour Langaroudi**, University of Trieste.
 
-This project forecasts inflation and identifies inflation regimes using AR, HMM, AR-HMM, and related benchmark models. It combines macroeconomic data with FinBERT sentiment extracted from financial news. The current experiments cover the United States and the European Union.
+This project studies monthly inflation in the **European Union (EU-27)** using autoregressive models, hidden inflation regimes, macroeconomic indicators, and financial-news sentiment. It combines Eurostat data with FinBERT scores from **29,080 Guardian articles covering 2007–2025**, and evaluates whether regime switching and news information improve inflation predictions.
 
-## Project Components
+The European results show that a two-state AR-HMM is competitive with linear autoregression. The value of additional predictors depends on the information set: energy-risk sentiment alone does not improve accuracy over the full final period, while a broader macroeconomic and sentiment specification achieves the lowest final-period RMSE in the matched machine-learning comparison. Earlier model and data checks were carried out as exploratory analysis to inform the European study.
 
-- **Database:** normalized SQL Server schemas, ingestion scripts, analytics views, and metadata.
-- **NLP:** FinBERT article scoring and monthly sentiment aggregation.
-- **Forecasting:** chronological one-month-ahead experiments with separate model-selection and final-test periods.
-- **Dashboard:** interactive access to the processed data and model results.
+## Data and Sentiment
 
-## Data
-
-| Input | Source | Use |
+| Input | Source | Role |
 |---|---|---|
-| CPI (`CPIAUCSL`) | FRED | Inflation target |
-| Unemployment (`UNRATE`) | FRED | Future macro extension |
-| Industrial production (`INDPRO`) | FRED | Future macro extension |
-| WTI oil (`MCOILWTICO`) | FRED | Future macro extension |
-| FinSen news | Kaggle | Historical sentiment baseline |
-| NYT news | Archive API | Alternative US news source |
-| EU-27 HICP, energy HICP, energy PPI, unemployment, industrial production | Eurostat | European target and macro indicators |
-| Guardian news | Guardian Open Platform | European sentiment and subject-risk indicators |
+| All-items HICP | Eurostat | EU-27 inflation target |
+| Energy HICP and energy producer price index (PPI) | Eurostat | Energy-price predictors |
+| Unemployment rate and industrial production | Eurostat | Labour-market and activity predictors |
+| News headlines, introductory text, and keyword tags | Guardian Open Platform | Generic sentiment and subject-risk indicators |
 
-FinBERT calculates monthly net sentiment as:
+Monthly inflation is calculated from the HICP index:
 
 ```text
-sentiment = P(positive) - P(negative)
+Inflation_MoM = 100 × (HICP_t / HICP_(t−1) − 1)
 ```
 
-Each experiment selects a named news source explicitly; FinSen and NYT are not averaged together. Predictor timing is explicit: lagged inputs support forecasts, while target-month sentiment supports month-end nowcasts. SQL Server is the primary store, while exported experiment datasets provide auditable, reproducible snapshots.
+FinBERT scores article headlines and introductory text. Monthly net sentiment aggregates `P(positive) − P(negative)`. Subject-risk indicators measure news coverage of **energy, geopolitics, and supply chains**, weighted by each article's negative-sentiment probability. They are text-based indicators rather than direct measures of inflation expectations.
 
-## Models
+The European dataset, source metadata, article scores, and saved results are stored under [`data/processed/europe/`](data/processed/europe/).
 
-| Model | Predictors | Purpose |
-|---|---|---|
-| AR(p) | Inflation lags 1 through p | Forecast baseline; p = 1–6 in the lag experiment |
-| ARX | Inflation lag 1, sentiment lag 1 | Simple sentiment test |
-| HMM | Hidden inflation state | Regime identification and forecast |
-| AR-HMM (2 states) | State-specific AR coefficients | Regime-dependent forecast; p = 1–6 tested |
-| AR-HMM (4 states) | Inflation lag 1 | Low, Moderate, High, and Crisis regime experiment |
-| AR-HMM + sentiment | AR-HMM inputs, sentiment lag 1 | Regime-dependent sentiment test |
-| LASSO | Inflation lags 1–6 | Regularized forecast |
-| LASSO + sentiment | Inflation and sentiment lags 1–6 | Regularized sentiment test |
+## Evaluation Design
 
-Forecasts are compared on common out-of-sample dates using RMSE, MAE, and mean error. Lower RMSE and MAE are better; mean error indicates systematic underprediction or overprediction.
+- **Model selection:** validation over 2017–2021, with rolling folds for the seasonal, macroeconomic, sentiment, and machine-learning comparisons.
+- **Final evaluation:** January 2022–December 2025, with separate reporting for 2022 and 2023–2025.
+- **Final estimation sample:** data through December 2021; model inputs and settings are selected before the final evaluation period.
+- **Seasonality:** calendar-month means are estimated from the relevant training sample, removed before fitting, and added back to predictions. This is a project-specific seasonal adjustment.
+- **Information timing:** inflation and macroeconomic predictors are lagged. Specifications using target-month news are **month-end nowcasts**, because that news is unavailable at the start of the month.
+- **Metrics:** RMSE, MAE, and mean error on common evaluation dates. RMSE and MAE are expressed in percentage points of monthly inflation; lower values indicate better accuracy.
 
-## Current Status
+The macroeconomic experiments use the latest revised Eurostat data, so the evaluation is retrospective rather than a real-time release-vintage exercise. Results from different information sets and experiment configurations should be interpreted separately.
 
-- The US experiments compare standard AR and regime-switching models with generic and subject-specific news sentiment.
-- The European replication covers 2007–2025 using EU-27 Eurostat data and 29,080 Guardian articles.
-- European model selection uses rolling validation over 2017–2021; the final evaluation remains 2022–2025.
-- The selected European structure is a two-state AR-HMM(1). Seasonal adjustment reduces its RMSE from 0.4658 to 0.4331; adding all subject risks gives 0.4396.
-- The fixed European comparison selects energy PPI lag 1 in pre-2022 validation, but the seasonal AR-HMM baseline remains best over 2022–2025. Energy-risk sentiment slightly improves 2022 alone but does not improve the full test period or add value when combined with energy PPI.
-- In the matched European machine-learning benchmark, every model uses inflation lag 1. The two-state AR-HMM is essentially tied with linear AR and outperforms Random Forest and gradient boosting; adding macro and sentiment gives AR-HMM the lowest final-period error but not the lowest validation error.
+## European Results
 
-## Historical experiments (2017–2023)
+### Regime structure and selected inputs
 
-The following archived results used January 2017 through December 2023. Notebook 02 now runs the 2022–2025 comparison described above.
+Pre-2022 validation selects a **two-state AR-HMM with one inflation lag** from the tested regime-switching structures. Macroeconomic lag selection identifies **energy PPI at lag 1**, and the sentiment nowcast comparison selects **energy risk**. The fixed comparison below evaluates those inputs individually and together with the seasonal AR-HMM baseline.
 
-| Experiment | Result |
-|---|---|
-| State count | AR(1): 0.2641 RMSE; 2-state AR-HMM: 0.2766; 4-state AR-HMM: 0.2771 |
-| Lag order | The best 2-state AR-HMM was p=1 with 0.2779 RMSE, versus 0.2645 for AR(1) |
-| YoY robustness | 2-state AR-HMM(p=2): 0.3962 RMSE; AR(2): 0.4047; naïve: 0.4376 |
-| YoY macro | Best AR: p=2 + oil + unemployment, 0.3811 RMSE; best AR-HMM: p=2 + oil, 0.3849 |
-| YoY sentiment | Sentiment increased RMSE in all four tested baseline and best-macro specifications |
+| Specification | RMSE 2022–2025 | MAE 2022–2025 | RMSE 2022 | RMSE 2023–2025 |
+|---|---:|---:|---:|---:|
+| Seasonal AR-HMM(1) baseline | **0.4331** | **0.3263** | 0.6820 | **0.3083** |
+| + Energy PPI, lag 1 | 0.4594 | 0.3570 | 0.7010 | 0.3430 |
+| + Target-month energy-risk sentiment | 0.4337 | 0.3288 | **0.6749** | 0.3145 |
+| + Energy PPI and energy-risk sentiment | 0.4743 | 0.3586 | 0.7428 | 0.3406 |
 
-The four-state specification did not improve on the two-state model. In the lag-order comparison, none of the 2-state AR-HMM models with p = 1–6 beat the matching AR(p) model. For p=1, the absolute RMSE difference is 0.0133 and the AR-HMM improvement over AR is -5.04%. The negative sign means the AR-HMM RMSE is 5.04% higher than the AR RMSE.
+Energy PPI is preferred in rolling validation, but the baseline has the lowest RMSE in this final-period comparison. Energy-risk sentiment slightly reduces RMSE in 2022 alone; it does not improve the full 2022–2025 period or add predictive value when combined with energy PPI. Errors are substantially larger during the 2022 inflation surge than during 2023–2025.
 
-For YoY inflation, AR-HMM(p=2) improves on AR(2) by 2.12% and also beats the naïve previous-month YoY forecast. YoY is calculated directly from CPI as `100 * (CPI_t / CPI_t-12 - 1)`.
+Source: [`final_europe_comparison` in the saved European results](data/processed/europe/eu27_guardian_results_2022_2025.json). Earlier structure and seasonal checks are retained in separate sections of the same file.
 
-The YoY macro experiment tests all 16 combinations of oil, unemployment, industrial production, and the Fed rate for both AR and two-state AR-HMM. AR-HMM beats AR for some matching inputs, with the largest gain of 1.84% for industry alone, but the best overall model is AR(2) with oil and unemployment. Adding mean FinBERT sentiment does not improve the YoY baseline or best-macro models.
+### Matched machine-learning benchmarks
 
-The experiments use their own common training samples, so results should be compared within each experiment. Outputs are stored under `data/processed/model_results/` in `arhmm_four_states/`, `arhmm_lag_orders/`, `arhmm_yoy_lag_orders/`, `yoy_macro/`, and `yoy_sentiment/`, and are retained as historical outputs.
+The benchmark compares linear AR, two-state AR-HMM, Random Forest, and Gradient Boosting using the same inputs within each information set. Every model includes seasonally adjusted inflation at lag 1. The broader information set adds unemployment, industrial production, energy HICP, and energy PPI at validation-selected lags, plus target-month generic sentiment and all three subject-risk indicators.
+
+| Model | Validation RMSE: lag 1 only | Final RMSE: lag 1 only | Validation RMSE: macro + sentiment | Final RMSE: macro + sentiment |
+|---|---:|---:|---:|---:|
+| Linear AR | **0.2414** | **0.4331** | **0.2356** | 0.4556 |
+| Two-state AR-HMM | 0.2416 | **0.4331** | 0.2432 | **0.3959** |
+| Random Forest | 0.2515 | 0.4466 | 0.2476 | 0.4615 |
+| Gradient Boosting | 0.2441 | 0.4523 | 0.2446 | 0.4665 |
+
+Validation covers 2017–2021; final RMSE covers 2022–2025. With inflation lag 1 alone, AR-HMM and linear AR are effectively tied at four decimal places and outperform both tree models. With the broader macroeconomic and sentiment inputs, AR-HMM achieves the lowest final-period RMSE, but linear AR has the lowest validation RMSE. This richer specification is a month-end nowcast and differs from the energy-only comparison above. Its result does not establish that sentiment alone caused the improvement or that AR-HMM is consistently superior across periods.
 
 ## Repository Structure
 
 ```text
 database/
-  scripts/                 SQL Server setup and views
-  docs/                    ER diagram
-  metadata/                Data management and lineage
+  scripts/                 SQL Server schemas, ingestion, and analytics views
+  docs/                    Entity-Relationship diagram
+  metadata/                Data dictionary, management plan, and lineage
 modelling/
   config.py                Environment and database connection
-  data_pipeline.py         Shared experiment data preparation
-  news_pipeline.py         NYT and FinBERT helpers
-  sentiment.py             Shared sentiment features
+  data_pipeline.py         Shared data preparation
+  news_pipeline.py         News acquisition and FinBERT helpers
+  sentiment.py             Monthly sentiment and subject-risk features
   models.py                Shared forecasting implementations
-  evaluation.py            Metrics and comparison checks
-  run_experiments.py       Repeatable experiment runner
-  europe_pipeline.py       Guardian and Eurostat replication pipeline
-  notebooks/               Three active thesis notebooks
-  notebooks/archive/       Preserved historical notebooks
-  streamlit_app.py         Dashboard
+  evaluation.py            Forecast metrics and comparison checks
+  run_experiments.py       Earlier exploratory experiment runner
+  europe_pipeline.py       Eurostat/Guardian preparation and European experiments
+  europe_figures.py        European result visualizations
+  notebooks/               Analysis and presentation notebooks
+  notebooks/archive/       Historical exploratory notebooks
+  streamlit_app.py         Database-backed dashboard
 data/
-  raw/                     Source data
-  processed/modelling_datasets/ Prepared datasets and metadata used by models
-  processed/model_results/ US model result bundles
-  processed/europe/        European results
+  raw/europe/              Cached Eurostat source responses
+  processed/europe/        European dataset, sentiment scores, and results
+  processed/modelling_datasets/ Earlier prepared experiment snapshots
+  processed/model_results/ Earlier exploratory result bundles
 ```
 
-## Setup
+## Setup and Reproduction
 
-### 1. Install dependencies
+Install the project dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Create the database
+The European notebooks read the saved CSV and JSON files directly. Start with notebook 03 to inspect the European analysis and notebook 04 for the matched machine-learning benchmarks.
 
-Create a SQL Server database named `MacroSentimentDB`, then run the files under `database/scripts/` in numerical order.
+| Notebook | Purpose |
+|---|---|
+| [`01_Data_and_Sentiment_Analysis.ipynb`](modelling/notebooks/01_Data_and_Sentiment_Analysis.ipynb) | Earlier exploratory data and sentiment checks |
+| [`02_Forecasting_and_Regime_Results.ipynb`](modelling/notebooks/02_Forecasting_and_Regime_Results.ipynb) | Earlier exploratory forecasting and regime checks |
+| [`03_European_Union_Replication.ipynb`](modelling/notebooks/03_European_Union_Replication.ipynb) | Main EU-27 analysis, validation, and robustness comparisons |
+| [`04_Machine_Learning_Benchmarks.ipynb`](modelling/notebooks/04_Machine_Learning_Benchmarks.ipynb) | Matched European model comparison and broader information sets |
 
-### 3. Configure the environment
+To rebuild the European monthly dataset from saved article scores and cached Eurostat inputs:
 
-Copy `.env.example` to `.env` in the project root and set:
+```bash
+python -m modelling.europe_pipeline --stage build
+```
+
+To re-estimate the European experiments in dependency order:
+
+```bash
+python -m modelling.europe_pipeline --stage models
+python -m modelling.europe_pipeline --stage structure
+python -m modelling.europe_pipeline --stage seasonal
+python -m modelling.europe_pipeline --stage macro
+python -m modelling.europe_pipeline --stage macro-lags
+python -m modelling.europe_pipeline --stage sentiment-nowcast
+python -m modelling.europe_pipeline --stage final-comparison
+```
+
+These commands update the saved European result bundle. Run notebook 04 separately to reproduce its machine-learning tables. Numerical optimization can produce variation between AR-HMM fits.
+
+To collect the news and regenerate article scores, copy `.env.example` to `.env`, add `GUARDIAN_API_KEY`, then run the `download` and `score` stages before `build`. The scoring stage defaults to offline mode and requires the `ProsusAI/finbert` model to be cached locally. Downloads can resume from saved progress when API quotas interrupt collection.
+
+### Database and dashboard
+
+For the database workflow, create a SQL Server database named `MacroSentimentDB`, run the files under `database/scripts/` in numerical order, and configure the database settings in `.env`:
 
 ```text
-FRED_API_KEY=your-fred-key
-NYT_API_KEY=your-nyt-key
-GUARDIAN_API_KEY=your-guardian-key
 DB_SERVER=your-server
 DB_DATABASE=MacroSentimentDB
 DB_DRIVER=ODBC Driver 17 for SQL Server
+DB_AUTH_MODE=trusted
 ```
 
-## Notebook Order
-
-Use the three active notebooks under `modelling/notebooks/` in this order:
-
-| Part | Notebook | Main output |
-|---:|---|---|
-| 01 | `01_Data_and_Sentiment_Analysis.ipynb` | Data provenance, coverage, and current FinBERT sentiment analysis |
-| 02 | `02_Forecasting_and_Regime_Results.ipynb` | Existing forecast comparison and regime interpretation |
-| 03 | `03_European_Union_Replication.ipynb` | EU-27 Guardian/Eurostat replication and robustness results |
-| 04 | `04_Machine_Learning_Benchmarks.ipynb` | European Random Forest and gradient-boosting benchmarks |
-
-The old learning notebooks are preserved under `modelling/notebooks/archive/`. Reusable logic is no longer defined inside notebooks. To check inputs without fitting anything, run:
-
-```bash
-python -m modelling.run_experiments --model all --check-only
-```
-
-To re-estimate all existing models, omit `--check-only`. Results are written as a coherent bundle under `data/processed/model_results/baseline/`.
-
-## Dashboard
+Launch the database-backed dashboard with:
 
 ```bash
 streamlit run modelling/streamlit_app.py
 ```
-
-The dashboard uses the database connection defined in `.env`.
 
 ## Documentation
 
