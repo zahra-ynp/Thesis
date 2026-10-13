@@ -10,6 +10,7 @@ build/
 
 # Virtual environments
 .venv/
+.venv-statistics/
 venv/
 env/
 
@@ -43,6 +44,7 @@ data/processed/nyt_finbert_articles_scores_2024_2025.json/
 data/raw/
 data/processed/europe/guardian_eu_articles_*.csv
 data/processed/europe/guardian_eu_finbert_scores_*.csv
+data/processed/europe/ml_benchmarks
 
 # Archived notebooks from previous structure
 modelling/notebooks/archive/*
