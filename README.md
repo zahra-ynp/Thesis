@@ -89,7 +89,8 @@ modelling/
   europe_figures.py        European result visualizations
   notebooks/               Analysis and presentation notebooks
   notebooks/archive/       Historical exploratory notebooks
-  streamlit_app.py         Database-backed dashboard
+  streamlit_app.py         Local-file research dashboard
+  dashboard_data.py        Europe CSV/JSON and US Excel data access
 data/
   raw/europe/              Cached Eurostat source responses
   processed/europe/        European dataset, sentiment scores, and results
@@ -136,7 +137,19 @@ These commands update the saved European result bundle. Run notebook 04 separate
 
 To collect the news and regenerate article scores, copy `.env.example` to `.env`, add `GUARDIAN_API_KEY`, then run the `download` and `score` stages before `build`. The scoring stage defaults to offline mode and requires the `ProsusAI/finbert` model to be cached locally. Downloads can resume from saved progress when API quotas interrupt collection.
 
-### Database and dashboard
+### Research dashboard
+
+The dashboard reads saved project files directly. It requires no database, login,
+API key, or new model training. Select **Europe** or **US**, choose a period, and
+explore **Historical situation**, **Estimated states**, and **News**.
+
+Install only the dashboard dependencies and launch it from the project root:
+
+```bash
+pip install -r requirements.txt
+streamlit run modelling/streamlit_app.py
+```
+### Optional database workflow
 
 For the database workflow, create a SQL Server database named `MacroSentimentDB`, run the files under `database/scripts/` in numerical order, and configure the database settings in `.env`:
 
@@ -145,12 +158,6 @@ DB_SERVER=your-server
 DB_DATABASE=MacroSentimentDB
 DB_DRIVER=ODBC Driver 17 for SQL Server
 DB_AUTH_MODE=trusted
-```
-
-Launch the database-backed dashboard with:
-
-```bash
-streamlit run modelling/streamlit_app.py
 ```
 
 ## Documentation
