@@ -13,5 +13,6 @@ pyodbc
 python-dotenv
 requests
 jupyter
-streamlit
+streamlit>=1.49
 plotly
+openpyxl>=3.1.5
