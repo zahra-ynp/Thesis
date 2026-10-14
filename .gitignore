@@ -45,8 +45,12 @@ data/raw/
 data/processed/europe/guardian_eu_articles_*.csv
 data/processed/europe/guardian_eu_finbert_scores_*.csv
 data/processed/europe/ml_benchmarks
+data/processed/US/us_dashboard.xlsx
 
 # Archived notebooks from previous structure
 modelling/notebooks/archive/*
+modelling/dashboard.css
+assets
+.streamlit
 
 ARCHITECTURE.md
