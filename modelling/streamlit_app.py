@@ -24,7 +24,7 @@ COLORS = ["#64748B", RED]
 
 @st.cache_data(show_spinner=False, ttl=300)
 def region_data(region):
-    """Load report-aligned Europe inflation and US variance-only state estimates."""
+    """Load the lowest-RMSE saved state estimates for each region."""
     monthly = load_monthly(region)
     states, model = load_states(region)
     news, missing = load_news(region)
@@ -106,14 +106,18 @@ def show_states(states, model, selected_start, selected_end, region):
     state_kind = REGIONS[region]["state_kind"]
     st.subheader(f"Estimated {state_kind} states")
     st.caption(model)
+    st.caption("Retrospective comparison over the full saved evaluation period; "
+               "the selected date range does not change the model. "
+               "Ranking is among models that provide the two states shown here.")
     if region == "US":
         st.caption("State 1: Low volatility · State 2: High volatility. "
-                   "The intercept and AR coefficient are common to both states; "
+                   "The intercept and predictor coefficients are common to both states; "
                    "the states differ in the variance of inflation shocks. "
                    "Probabilities are predicted before observing each month's inflation.")
     else:
         st.caption("State 1 (Level 1): Low inflation · State 2 (Level 2): High inflation. "
-                   "These are the model's lower and higher inflation regimes. "
+                   "States are ordered by conditional inflation at average training inputs; "
+                   "their order can differ at other input values. "
                    "Probabilities are predicted before observing each month's inflation.")
     frame = filter_period(states, selected_start, selected_end)
     if frame.empty:

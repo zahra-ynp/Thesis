@@ -7,6 +7,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 import pandas as pd
+import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data" / "processed"
@@ -54,31 +55,68 @@ def load_monthly(region):
 def load_states(region):
     path = REGIONS[region]["results"]
     if region == "US":
-        frame = pd.read_excel(path, sheet_name="Estimated states")
-        model_name = "Two-state AR-HMM(1) · Switching variance only"
+        reference = normalize_dates(pd.read_excel(path, sheet_name="Estimated states"))
+        candidates = []
+        for result_path in sorted((DATA / "model_results").glob("results*_2022_2025.json")):
+            bundle = json.loads(result_path.read_text(encoding="utf-8"))
+            candidates.extend(
+                (item["name"], pd.DataFrame(item["forecasts"]))
+                for item in bundle["models"].values()
+                if item.get("target") == "Inflation_MoM" and item.get("states") == 2
+                and item.get("parameters", {}).get("converged", True)
+            )
     else:
         bundle = json.loads(path.read_text(encoding="utf-8"))
-        # Use the exact fit plotted by notebook 03 and the report's regime figure.
-        model = next(item for item in bundle["seasonal_experiment"]["final_test"]
-                     if item["model"] == "Seasonally adjusted AR-HMM(1)")
-        frame = pd.DataFrame(model["forecasts"])
-        model_name = model["model"]
-    frame = normalize_dates(frame)
+        reference = normalize_dates(pd.DataFrame(bundle["seasonal_experiment"]["final_test"][0]["forecasts"]))
+        candidates = []
+        groups = [bundle["models"], *[section.get("final_test", [])
+                  for section in bundle.values() if isinstance(section, dict)]]
+        for group in groups:
+            candidates.extend((item["model"], pd.DataFrame(item["forecasts"]))
+                              for item in group if "forecasts" in item and item.get("converged", True))
+        benchmark = pd.read_csv(DATA / "europe" / "ml_benchmarks" / "forecasts.csv")
+        for (family, information), group in benchmark.groupby(["family", "information"]):
+            candidates.append((f"{family} · {information}", group.drop(columns=["family", "information"])))
+    frame, model_name, rmse = best_state_model(candidates, reference, region)
+    model_name += (f" · Lowest saved two-state RMSE: {rmse:.4f} percentage points"
+                   f" · {frame['Date'].min():%b %Y}–{frame['Date'].max():%b %Y}")
+    if region == "Europe" and "sentiment" in model_name.lower():
+        model_name += " · Month-end nowcast using target-month news"
+    return frame, model_name
+
+
+def best_state_model(candidates, reference, region):
+    """Compare saved state models on the full reference period, never the UI slice.
+
+    This is a retrospective RMSE ranking, not pre-test model selection. Require
+    matching dates and actuals so shorter series or other targets cannot win.
+    """
+    eligible = []
     probability_columns = [f"Probability_{label}" for label in STATE_LABELS[region]]
     required = ["Actual", "Forecast", *probability_columns]
-    if frame["Date"].duplicated().any():
-        raise ValueError(f"The {region} state estimates contain duplicate months.")
-    values = frame[required].apply(pd.to_numeric, errors="coerce")
-    probabilities = values[probability_columns]
-    if (values.isna().any().any() or not probabilities.ge(0).all().all()
-            or not probabilities.le(1).all().all()
-            or not probabilities.sum(axis=1).sub(1).abs().lt(1e-6).all()):
-        raise ValueError(f"Invalid saved state probabilities for {region}.")
-    frame[required] = values
-    assigned = probabilities.idxmax(axis=1).str.removeprefix("Probability_")
-    if not assigned.eq(frame["PredictedRegime"]).all():
-        raise ValueError(f"The {region} state labels disagree with their probabilities.")
-    return frame, model_name
+    for name, frame in candidates:
+        if not {"Date", "PredictedRegime", *required}.issubset(frame.columns):
+            continue
+        frame = normalize_dates(frame)
+        if not frame.Date.equals(reference.Date):
+            continue
+        values = frame[required].apply(pd.to_numeric, errors="coerce")
+        probabilities = values[probability_columns]
+        if (frame.Date.duplicated().any() or not np.isfinite(values.to_numpy()).all()
+                or not np.allclose(values.Actual, reference.Actual, atol=1e-10, rtol=0)
+                or not probabilities.ge(0).all().all() or not probabilities.le(1).all().all()
+                or not probabilities.sum(axis=1).sub(1).abs().lt(1e-6).all()):
+            continue
+        assigned = probabilities.idxmax(axis=1).str.removeprefix("Probability_")
+        if not assigned.eq(frame["PredictedRegime"]).all():
+            continue
+        frame[required] = values
+        rmse = float(np.sqrt(((values.Actual - values.Forecast) ** 2).mean()))
+        eligible.append((rmse, name, frame))
+    if not eligible:
+        raise ValueError(f"No valid saved two-state models cover the full {region} comparison period.")
+    rmse, name, frame = min(eligible, key=lambda item: (item[0], item[1]))
+    return frame, name, rmse
 
 
 def load_news(region):
